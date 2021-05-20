@@ -4,7 +4,7 @@ Title: Collection of shiny apps for Agricultural research Data Analysis
 Version: 0.1.0
 Author: Pratheesh P. Gopinath
 Maintainer: Pratheesh P. Gopinath <grapescoa@gmail.com>
-Description: Allows user to have graphical user interface to perform analysis of Agricultural experimental data. On using the functions in this package a Graphical User Interface will pop up. Apps Works by simple uload of files in CSV format.
+Description: Allows user to have graphical user interface to perform analysis of Agricultural experimental data. On using the functions in this package a Graphical User Interface will pop up. Apps Works by simple upload of files in CSV format.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
