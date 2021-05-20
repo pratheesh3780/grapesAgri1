@@ -10,7 +10,7 @@ library(pastecs)
 library(ggpubr)
 library(magrittr)
 library(summarytools)
-
+############################### ui
 ui <- fluidPage(
   setBackgroundColor(
     color = c("#faf1d2", "#ffffff"),
@@ -33,9 +33,7 @@ ui <- fluidPage(
                 ,'summary')
     ,uiOutput('var'),
     tags$br(),
-    conditionalPanel("$('#summaryout').hasClass('recalculating')",
-                     tags$div(tags$b('Loading ...please wait  '), style="color:#da42f5"))
-    ,h5(tags$div(
+    h5(tags$div(
       "Created by:",
       tags$br(),
       tags$b("Dr.Pratheesh P. Gopinath"),
@@ -50,10 +48,8 @@ ui <- fluidPage(
 
   )
   , mainPanel(
-    conditionalPanel("$('#summaryout').hasClass('recalculating')",
-                     tags$div(tags$b('Loading ...please wait'), style="color:#da42f5")),
     htmlOutput('note'),
-    uiOutput('data_set'),
+    uiOutput('data_set'),# for data set download
     tableOutput('summaryout'),
    verbatimTextOutput('nort'),
    htmlOutput('text3'),
@@ -64,6 +60,8 @@ ui <- fluidPage(
     htmlOutput('text')
 )
 )
+
+#################################### SERVER
 server = function(input, output, session) {
 
   csvfile <- reactive({
@@ -225,8 +223,6 @@ output$summaryout = function(){
     if(is.null(input$submit4)){return()}
     if(input$req == 'summary'){
       if(input$submit4 > 0){
-        input$reload
-        Sys.sleep(2)
         y<-subset(csvfile(),select=input$var)
         final<-
           descr(y) %>%
@@ -358,6 +354,8 @@ output$summaryout = function(){
 
   })
 
+
+############################### this note appear on opening
   output$note<- renderUI({
     if(is.null(input$file1$datapath)){return(
       HTML(paste0(" <h4> To perform analysis using your own dataset prepare excel file in csv format by reading instruction below  </h4>
@@ -384,6 +382,7 @@ output$summaryout = function(){
     }
   })
 
+  ########################################## dataset download
   output$data_set<- renderUI({
     if(is.null(input$file1$datapath)){
       list(
@@ -399,7 +398,24 @@ output$summaryout = function(){
       return()
     }
   })
+  datasetInput <- reactive({
+    switch(input$dataset,
+           "iris" = iris,
+           "pressure" = pressure,
+           "cars" = cars)
+  })
 
+  output$downloadData <- downloadHandler(
+    filename = function() {
+      paste(input$dataset, ".csv", sep = "")
+    },
+    content = function(file) {
+      write.csv(datasetInput(), file, row.names = FALSE)
+    }
+  )
+ #######################################################
+
+  ################### download Report
   output$downloadReport <- downloadHandler(
     filename = function() {
       paste("my-report", sep = ".", switch(
@@ -420,23 +436,6 @@ output$summaryout = function(){
       file.rename(out, file)
     }
   )
-
-  datasetInput <- reactive({
-    switch(input$dataset,
-           "iris" = iris,
-           "pressure" = pressure,
-           "cars" = cars)
-  })
-
-  output$downloadData <- downloadHandler(
-    filename = function() {
-      paste(input$dataset, ".csv", sep = "")
-    },
-    content = function(file) {
-      write.csv(datasetInput(), file, row.names = FALSE)
-    }
-  )
-
-
-}
+###########################################
+  }
 shinyApp(ui=ui,server=server)
