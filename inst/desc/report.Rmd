@@ -56,13 +56,9 @@ if(input$req == 'sumbygrp'){
 
 
 
-**Created by:**
+**package: Grapes**
 
-**Pratheesh P. Gopinath, PhD**
+**Author**
 
-**Asst. Professor**
-
-**Agricultural Statistics**
-
-**Kerala Agricultural University**
+**Pratheesh P. Gopinath**
 

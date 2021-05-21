@@ -1,0 +1,83 @@
+---
+title: "Correlation"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(corrplot)
+library(Hmisc)
+```
+## RESULT
+CORRELATION ANALYSIS 
+
+```{r, echo = FALSE}
+csvfile <- reactive({
+    csvfile <- input$file1
+    if (is.null(csvfile)){return(NULL)}
+    dt <- read.csv(csvfile$datapath, header=input$header, sep=",")
+    dt
+  })
+
+#output
+if(input$req1 == 'correlation'){
+       if(input$submit > 0){
+        a<-as.vector(csvfile()[,input$dvar])
+        y<-as.vector(csvfile()[,input$ivar])
+        x<-cor.test(a, y,method=input$req,conf.level = as.numeric(input$ci)
+                    ,alternative = input$alt,exact = FALSE)
+        t_value<-round(x$statistic,3)
+        correlation<-round(x$estimate,3)
+        df<-x$parameter
+        pvalue<-round(x$p.value,3)
+        alt.Hypothesis<-x$alternative
+        result<-cbind(correlation,t_value,df,pvalue,alt.Hypothesis)
+        nam<-x$method
+        rownames(result)<-nam
+        result<-as.data.frame(result)
+          kable(result,caption = "Correlation Analysis")
+        }
+}
+
+ if(input$req1 == 'corrmat'){
+        if(input$submit2 > 0){
+        x<-as.data.frame(csvfile()[,input$selvar])
+        cormat <- rcorr(as.matrix(x),type=input$req)
+        correlmat<-cormat$r
+        row.names(correlmat)<-names(x)
+        kable(round(correlmat,3),caption = "Correlation Matrix")
+      }
+    }
+
+if(input$req1 == 'corrmat'){
+      if(input$submit2 > 0){
+        x<-as.data.frame(csvfile()[,input$selvar])
+        cormat <- rcorr(as.matrix(x),type=input$req)
+        correlmat1<-cormat$P
+        row.names(correlmat1)<-names(x)
+        kable(round(correlmat1,3),caption = "Matrix of P-values")
+      }
+    }
+if(input$req1 == 'corrmat'){
+        if(input$submit2 > 0){
+         x<-c("Correlation between variables is significant at 5% level if P-values are < 0.05")
+         print(x)
+      }
+    }
+```
+
+
+
+
+
+
+
+
+**package: Grapes**
+
+**Author**
+
+**Pratheesh P. Gopinath**
+
