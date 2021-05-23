@@ -18,8 +18,8 @@ devtools::install_github("pratheesh3780/grapes")
 ```
 ## Apps included in the package
 
-| App Title | Function to call |Remark |
-| :----------- | :-----------:|:----------------|
-|Descriptive Statistics and Visualization   | descAPP()      |Summary Statistics, Summary Statistics by Group, Box plot, Histogram, Q-Q plot and Shapiro-Wilk's test|
-|Correlation Analysis   | corrApp()      | Simple correlation, Correlation Matrix, correlogram and scatterplot|
-|Compare Means  | ttApp()      | t-test, Paired t-test, F test|
+|Sl. No.| App Title | Function to call |Remark |
+|:-----:| :----------- | :-----------:|:----------------|
+|1|Descriptive Statistics and Visualization   | descAPP()      |Summary Statistics, Summary Statistics by Group, Box plot, Histogram, Q-Q plot and Shapiro-Wilk's test|
+|2|Correlation Analysis   | corrApp()      | Simple correlation, Correlation Matrix, correlogram and scatterplot|
+|3|Compare Means  | ttApp()      | t-test, Paired t-test, F test|
