@@ -41,7 +41,21 @@ if(input$req1 == 'correlation'){
         }
 }
 
- if(input$req1 == 'corrmat'){
+if(input$req1 == 'correlation'){
+      if(input$submit > 0){
+        a<-as.vector(csvfile()[,input$dvar])
+        y<-as.vector(csvfile()[,input$ivar])
+        x<-cor.test(a, y,method=input$req,conf.level = as.numeric(input$ci)
+                    ,alternative = input$alt,exact = FALSE)
+        ci<-x$conf.int
+        ci_nw = melt(ci, value.name = "Lower Limit and Upper limit")
+        kable(round(ci_nw,3),caption = "Correlation Analysis")
+      }
+    } 
+
+
+
+if(input$req1 == 'corrmat'){
         if(input$submit2 > 0){
         x<-as.data.frame(csvfile()[,input$selvar])
         cormat <- rcorr(as.matrix(x),type=input$req)

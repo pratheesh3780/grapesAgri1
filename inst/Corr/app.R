@@ -5,6 +5,11 @@ library(dplyr)
 library(corrplot)
 library(Hmisc)
 library(knitr)
+library(reshape2)
+library(ggplot2)
+library(gridGraphics)
+library(grid)
+library(RColorBrewer)
 ############################### ui
 
 ui <- fluidPage(
@@ -52,10 +57,14 @@ ui <- fluidPage(
   ,mainPanel(
     htmlOutput('note1'),
     uiOutput('data_set'),# for data set download
+
     tableOutput('correlation'),
     tags$style(  type="text/css", "#correlation th,td {border: medium solid #000000;text-align:center}"),
     tags$style(  type="text/css", "#correlation td {border: medium solid #000000;text-align:center}"),
 
+    tableOutput('ci'),
+    tags$style(  type="text/css", "#ci th,td {border: medium solid #000000;text-align:center}"),
+    tags$style(  type="text/css", "#ci td {border: medium solid #000000;text-align:center}"),
 
     tableOutput('corrmat'),
     tags$style(  type="text/css", "#corrmat th,td {border: medium solid #000000;text-align:center}"),
@@ -69,6 +78,9 @@ ui <- fluidPage(
     tags$br(),
     htmlOutput('note'),
     uiOutput('plot'),
+    tags$br(),
+    tags$br(),
+    uiOutput('image_down'),# for image download
   uiOutput('var1'),
   uiOutput('var2')
    ))
@@ -174,6 +186,27 @@ server = function(input, output, session) {
                           lower = 'lower'
                         )
                         ,'circle'),
+            selectInput('style', 'Please select colour pattern of your choice',
+                        c(style1 = 'BrBG',
+                          style2 = 'PiYG',
+                          style3 = 'PRGn',
+                          style4 = 'PuOr',
+                          style5 = 'RdBu',
+                          style6 = 'RdGy',
+                          style7 = 'RdYlBu',
+                          style8 = 'RdYlGn'
+                          )
+                        ,'BrBG'),
+            selectInput('txcol', 'Please select correlation coefficient colour',
+                        c(Black= '#141413',
+                          No_col='#00141413',
+                          Red = '#ff0d1d',
+                          Blue= '#0d45ff',
+                          Green='#0dff0d',
+                          Yellow='#ffdf0d',
+                          Orange='#ff8a0d'
+
+                        ),'#141413'),
             actionBttn(
               inputId = "submit3",
               label = "SUBMIT!",
@@ -211,7 +244,23 @@ server = function(input, output, session) {
   },rownames = TRUE,bordered = TRUE,align='c',caption=('<b>Simple Correlation </b>'),caption.placement = getOption("xtable.caption.placement", "top")
   )
 
-
+  output$ci<- renderTable({
+    if(is.null(input$file1$datapath)){return()}
+    if(is.null(input$req1)){return()}
+    if(is.null(input$submit)){return()}
+    if(input$req1 == 'correlation'){
+      if(input$submit > 0){
+        a<-as.vector(csvfile()[,input$dvar])
+        y<-as.vector(csvfile()[,input$ivar])
+        x<-cor.test(a, y,method=input$req,conf.level = as.numeric(input$ci)
+                    ,alternative = input$alt,exact = FALSE)
+        ci<-x$conf.int
+        ci_nw = melt(ci, value.name = "Lower Limit and Upper limit")
+        ci_nw
+      }
+    }
+  },rownames = FALSE,bordered = TRUE,align='c',caption=('<b>Confidence Interval</b>'),caption.placement = getOption("xtable.caption.placement", "top")
+  )
 ##################################
 #Correlation Matrix
   output$corrmat<- renderTable({
@@ -257,6 +306,7 @@ server = function(input, output, session) {
     }
   })
 
+
 ###############################PLOTS
   output$plot <- renderUI({
     if(is.null(input$file1$datapath)){return()}
@@ -268,7 +318,7 @@ server = function(input, output, session) {
         if(input$submit1 > 0){
         x<-as.vector(csvfile()[,input$dvar])
         y<-as.vector(csvfile()[,input$ivar])
-        plot(x, y,main = input$main,
+      plot(x, y,main = input$main,
              xlab = input$xlab, ylab = input$ylab,
              pch = 19,col=input$color, frame = FALSE)
         }
@@ -281,7 +331,9 @@ server = function(input, output, session) {
       if(input$submit3 > 0){
         x<-as.data.frame(csvfile()[,input$selvar])
         cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-        corrplot(cormat1, method=input$shape, type=input$layout, tl.col="#2803fc")
+        corrplot(cormat1, method=input$shape,
+                 type=input$layout, tl.col="#000000",
+                 col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol)
       }
     },bg="transparent")
     plotOutput("corrplot")
@@ -353,6 +405,7 @@ server = function(input, output, session) {
 <li>Don't type or delete anything on other cells without data</li>
 <li>You can use any names for your columns. No space is allowed in the Column name. If space is required use underscore ‘_’ or ‘.’ full stop; for example ‘Variable name’ should be written as Variable_name or Variable.name</li>
 <li>Data should be arranged towards upper left corner and row above the data should not be left blank </li>
+<li>Type 'NA' in the cell with no observation</li>
 <li>Don't type and delete anything on other cells without data. If so select those cells, right click and click clear contents </li>
 <li>Give names to all column, Don't add any unnecessary columns that is not required for analysis</li>
 <li>Once all these are done, your file is ready. Now save it as CSV file. </li>
@@ -400,5 +453,87 @@ server = function(input, output, session) {
     }
   )
   #######################################################
+
+  ####################################Download Image
+  output$image_down <- renderUI({
+    if(is.null(input$file1$datapath)){return()}
+    if(is.null(input$req1)){return()}
+
+    if(input$req1 == 'scatplot'){
+      if(is.null(input$submit1)){return()}
+        if(input$submit1 > 0){
+          list(downloadButton("downloadImage1", label="Download ScatterPlot", class = "butt1"))
+        }
+    }
+    else if(input$req1=='corrplot'){
+      if(is.null(input$submit3)){return()}
+      if(input$submit3 > 0){
+        list(downloadButton("downloadImage2", label="Download Correlogram", class = "butt1"))
+      }
+      }
+  })
+  ### plotting
+  plotInput <- reactive({
+    if(is.null(input$file1$datapath)){return()}
+    if(is.null(input$req1)){return()}
+     if(input$req1 == 'scatplot'){
+      if(is.null(input$submit1)){return()}
+        if(input$submit1 > 0){
+          x<-as.vector(csvfile()[,input$dvar])
+          y<-as.vector(csvfile()[,input$ivar])
+          plot(x, y,main = input$main,
+               xlab = input$xlab, ylab = input$ylab,
+               pch = 19,col=input$color, frame = FALSE)
+        }
+    }
+    else if(input$req1=='corrplot'){
+      if(is.null(input$submit3)){return()}
+        if(input$submit3 > 0){
+          x<-as.data.frame(csvfile()[,input$selvar])
+          cormat1 <- cor(x, method = input$req2, use = "complete.obs")
+
+          corrplot(cormat1, method=input$shape,
+                   type=input$layout, tl.col="#000000",
+                   col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol)
+          grid.echo()
+          P1 <- grid.grab()
+
+          grid.draw(P1)
+
+
+           }
+     }
+
+    })
+
+
+
+  ###
+  output$downloadImage1 = downloadHandler(
+    filename = 'scatter.png',
+    content = function(file) {
+      device <- function(..., width, height) {
+        grDevices::png(..., width = width, height = height,
+                       res = 500, units = "in")
+      }
+      ggsave(file, plot = plotInput(), device = device)
+    }
+    )
+
+  output$downloadImage2 = downloadHandler(
+    filename = 'corr.png',
+    content = function(file) {
+      device <- function(..., width, height) {
+        grDevices::png(..., width = width, height = height,
+                       res = 500, units = "in")
+      }
+      ggsave(file, plot = plotInput(), device = device)
+    }
+    )
+
+
+
+  ###########################
+
   }
 shinyApp(ui=ui,server=server)

@@ -1,6 +1,5 @@
 library(shiny)
 library(shinycssloaders)
-library(shinymanager)
 library(shinyWidgets)
 library(rmarkdown)
 library(kableExtra)
@@ -10,6 +9,8 @@ library(pastecs)
 library(ggpubr)
 library(magrittr)
 library(summarytools)
+library(gridGraphics)
+library(grid)
 ############################### ui
 ui <- fluidPage(
   setBackgroundColor(
@@ -57,6 +58,8 @@ ui <- fluidPage(
     uiOutput('var1'),
    uiOutput('var2'),
    uiOutput('plot'),
+   tags$br(),
+   uiOutput('image_down'),
     htmlOutput('text')
 )
 )
@@ -301,7 +304,7 @@ output$summaryout = function(){
           }
     }
   })
-
+##########################################plots
   output$plot <- renderUI({
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$req)){return()}
@@ -437,5 +440,121 @@ output$summaryout = function(){
     }
   )
 ###########################################
+
+  ####################################Download Image
+  output$image_down <- renderUI({
+    if(is.null(input$file1$datapath)){return()}
+    if(is.null(input$req)){return()}
+    if(input$req == 'boxplot'){
+      if(is.null(input$submit1)){return()}
+      if(input$submit1 > 0){
+        list(downloadButton("downloadImage1",
+    label="Download BoxPlot", class = "butt1"))
+      }
+    }
+
+    else if(input$req == 'histogram'){
+      if(is.null(input$submit2)){return()}
+        if(input$submit2 > 0){
+          list(downloadButton("downloadImage2",
+                  label="Download Histogram", class = "butt1"))
+        }
+        }
+    else if(input$req == 'qqplot'){
+      if(is.null(input$submit3)){return()}
+
+        if(input$submit3>0){
+          list(downloadButton("downloadImage3",
+            label="Download Q-Q plot", class = "butt1"))
+        }
+    }
+
+    })
+  ### plotting
+  plotInput <- reactive({
+    if(is.null(input$file1$datapath)){return()}
+    if(is.null(input$req)){return()}
+    if(input$req == 'boxplot'){
+      if(is.null(input$submit1)){return()}
+        if(input$submit1 > 0){
+          boxplot(csvfile()[,input$variable],
+                  xlab=input$xlab,
+                  col=input$colorbox,
+                  border = input$color)
+          grid.echo()
+          P1 <- grid.grab()
+          grid.draw(P1)
+          }
+   }
+    else if(input$req == 'histogram'){
+      if(is.null(input$submit2)){return()}
+            if(input$submit2 > 0){
+          hist(csvfile()[,input$variable],
+               main="Histogram",
+               xlab=input$xlab,
+               col=input$colorbox,
+               border = input$color,
+               freq=TRUE)
+              grid.echo()
+              P1 <- grid.grab()
+              grid.draw(P1)
+        }
+    }
+    else if(input$req == 'qqplot'){
+      if(is.null(input$submit3)){return()}
+        if(input$style == 'Style 1'&& input$submit3>0){
+          qqnorm(csvfile()[,input$variable],
+                 pch = 3,
+                 frame = FALSE)
+          qqline(csvfile()[,input$variable],
+                 col = input$color,
+                 lwd = 2)
+        }
+        else if(input$style == 'Style 2'&& input$submit3>0){
+
+          ggqqplot(csvfile()[,input$variable], color = input$color)
+        }
+    }
+  })
+
+
+
+  ###
+  output$downloadImage1 = downloadHandler(
+    filename = 'boxplot.png',
+    content = function(file) {
+      device <- function(..., width, height) {
+        grDevices::png(..., width = width, height = height,
+                       res = 500, units = "in")
+      }
+      ggsave(file, plot = plotInput(), device = device)
+    }
+  )
+
+  output$downloadImage2 = downloadHandler(
+    filename = 'histogram.png',
+    content = function(file) {
+      device <- function(..., width, height) {
+        grDevices::png(..., width = width, height = height,
+                       res = 500, units = "in")
+      }
+      ggsave(file, plot = plotInput(), device = device)
+    }
+  )
+
+  output$downloadImage3 = downloadHandler(
+    filename = 'qqplot.png',
+    content = function(file) {
+      device <- function(..., width, height) {
+        grDevices::png(..., width = width, height = height,
+                       res = 500, units = "in")
+      }
+      ggsave(file, plot = plotInput(), device = device)
+    }
+  )
+
+  ###########################
+
+
   }
 shinyApp(ui=ui,server=server)
