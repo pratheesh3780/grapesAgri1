@@ -6,10 +6,14 @@ Agricultural experiments demands a wide range of statistical tools for analysis,
 The development version can be installed from github as follows:
 
 ``` r
-# Install development version from Github
+# Install grapes development version from Github using the code below:
 if (!require('devtools')) install.packages('devtools')
 devtools::install_github("pratheesh3780/grapes")
 ```
-## Functions included
-Descriptive Statistics and Visualization using descApp()  
-Correlation Analysis using corrApp()
+## Apps included in the package
+
+| App Title | Function to call |Remark |
+| :----------- | :-----------:|:----------------|
+|Descriptive Statistics and Visualization   | descAPP()      |Summary Statistics, Summary Statistics by Group, Box plot, Histogram, Q-Q plot and Shapiro-Wilk's test|
+|Correlation Analysis   | corrApp()      | Simple correlation, Correlation Matrix, correlogram and scatterplot|
+|Compare Means  | ttApp()      | t-test, Paired t-test, F test|
