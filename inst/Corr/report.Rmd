@@ -37,7 +37,7 @@ if(input$req1 == 'correlation'){
         nam<-x$method
         rownames(result)<-nam
         result<-as.data.frame(result)
-          kable(result,caption = "Correlation Analysis")
+          kable(result,caption = "Correlation Analysis",row.names = FALSE)
         }
 }
 
@@ -49,7 +49,7 @@ if(input$req1 == 'correlation'){
                     ,alternative = input$alt,exact = FALSE)
         ci<-x$conf.int
         ci_nw = melt(ci, value.name = "Lower Limit and Upper limit")
-        kable(round(ci_nw,3),caption = "Correlation Analysis")
+        kable(round(ci_nw,3),caption = "Confidence Interval",row.names = FALSE)
       }
     } 
 

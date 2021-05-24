@@ -1,12 +1,12 @@
 #'@title descAPP for Descriptive statistics and Visualization
 #'@description
-#'descApp() function opens up a shiny app which will allow you to easily
-#'calculate Summary Statistics, Summary Statistics by Group, Box plot,
+#'descApp() function opens up an interactive shiny app which will allow
+#'the user to easily calculate Summary Statistics, Summary Statistics by Group, Box plot,
 #'Histogram, Q-Q plot and Shapiro-Wilk's test by uploading CSV file.
 #' @details
 #' Shiny App for descriptive and exploratory analysis
 #' @keywords
-#' descrpitive statistics
+#' descriptive statistics
 #' histogram
 #' q-q plot
 #' box plot

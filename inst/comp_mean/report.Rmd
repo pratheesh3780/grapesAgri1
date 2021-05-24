@@ -1,0 +1,219 @@
+---
+title: "Compare Means: Small Sample Test"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
+library(shinyWidgets)
+library(shinycssloaders)
+library(rmarkdown)
+library(pastecs)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(PairedData)
+library(reshape2)
+library(knitr)
+
+```
+## RESULT
+
+```{r, echo = FALSE}
+csvfile <- reactive({
+    csvfile <- input$file1
+    if (is.null(csvfile)){return(NULL)}
+    dt <- read.csv(csvfile$datapath, header=input$header, sep=",")
+    dt
+  })
+################# summary
+if(input$req1 == 'ttest'||input$req1 == 'wttest'||input$req1=='ottest'||input$req1=='ftest'||input$req1=='pttest'){
+      if(input$submit1 > 0||input$submit2 > 0||input$submit3 > 0||input$submit4 > 0||input$submit5 > 0){
+      grp1<- subset(csvfile(),select=input$dvar)
+      grp2<- subset(csvfile(),select=input$ivar)
+      final<-cbind(grp1,grp2)
+      res <- stat.desc(final)
+      result<-as.data.frame(res)
+      rownames(result)[rownames(result) == "nbr.val"] <- "Number of Obs."
+      rownames(result)[rownames(result) == "nbr.null"] <- "null values"
+      rownames(result)[rownames(result) == "nbr.na"] <- "NA"
+      round(result,3)
+      kable(result,caption = "Summary Statistics",digits=3)
+      }
+    }
+########## two sample ttest
+ if(input$req1 == 'ttest'){
+      if(input$submit1 > 0){
+        x<-as.vector(csvfile()[,input$dvar])
+        y<-as.vector(csvfile()[,input$ivar])
+        t<-t.test(x, y, alternative = input$alt,
+                  var.equal = TRUE,paired = FALSE,na.omit=TRUE)
+        t_value<-round(t$statistic,3)
+        df<-t$parameter
+        Pvalue<-round(t$p.value,3)
+        alt.Hypothesis<-t$alternative
+        result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
+        result<-as.data.frame(result)
+        result
+         kable(result,caption = "Two sample unpaired t-test",row.names = FALSE)
+      }
+ }
+########## note 1
+  if(input$req1 == 'ttest'){
+      if(input$submit1 > 0){
+        x<-as.vector(csvfile()[,input$dvar])
+        y<-as.vector(csvfile()[,input$ivar])
+        t<-t.test(x, y, alternative = input$alt,
+                  var.equal = TRUE,paired = FALSE, na.omit=TRUE)
+
+        if(t$p.value<=0.05){
+        HTML(paste0("Since P-value is < 0.05 we reject the null hypothesis at 5% level of significance
+                    (here null hypothesis is: Population mean of group A = Population mean of group B) "))
+        }
+       else if(t$p.value>0.05){
+         HTML(paste0("Since P-value is > 0.05 we don't have enough evidence to reject the null hypothesis at 5% level of significance
+(here null hypothesis is: Population mean of group A = Population mean of group B)"))
+         }
+      }
+  }
+#############################################welch ttest
+ if(input$req1 == 'wttest'){
+      if(input$submit2 > 0){
+        x<-as.vector(csvfile()[,input$dvar])
+        y<-as.vector(csvfile()[,input$ivar])
+        t<-t.test(x, y, alternative = input$alt,
+                  var.equal = FALSE,paired = FALSE,na.omit=TRUE)
+        t_value<-round(t$statistic,3)
+        df<-round(t$parameter,2)
+        Pvalue<-round(t$p.value,3)
+        alt.Hypothesis<-t$alternative
+        result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
+        result<-as.data.frame(result)
+        result
+        kable(result,caption = "Welch unpaired t-test",row.names = FALSE)
+      }
+ }
+########### note2
+ if(input$req1 == 'wttest'){
+      if(input$submit2 > 0){
+        x<-as.vector(csvfile()[,input$dvar])
+        y<-as.vector(csvfile()[,input$ivar])
+        t<-t.test(x, y, alternative = input$alt,
+                  var.equal = FALSE,paired = FALSE, na.omit=TRUE)
+
+        if(t$p.value<=0.05){
+      HTML(paste0("Since P-value is < 0.05 we reject the null hypothesis at 5% level of significance
+                    (here null hypothesis is: Population mean of group A = Population mean of group B) "))
+        }
+        else if(t$p.value>0.05){
+          HTML(paste0("Since P-value is > 0.05 we don't have enough evidence to
+                     reject the null hypothesis at 5% level of significance
+                     (here null hypothesis is: Population mean of group A = Population mean of group B)"))
+        }
+      }
+    }
+############### one sample ttest
+if(input$req1 == 'ottest'){
+      if(input$submit3 > 0){
+        x<-as.vector(csvfile()[,input$dvar])
+        t<-t.test(x, y=NULL, alternative = input$alt,
+                  mu = input$mu, na.omit=TRUE)
+        t_value<-round(t$statistic,3)
+        df<-round(t$parameter,2)
+        Pvalue<-round(t$p.value,3)
+        alt.Hypothesis<-t$alternative
+        result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
+        result<-as.data.frame(result)
+        kable(result,caption = "One sample t-test",row.names = FALSE)
+      }
+}
+if(input$req1 == 'ottest'){
+      if(input$submit3 > 0){
+        x<-as.vector(csvfile()[,input$dvar])
+        t<-t.test(x, y=NULL, alternative = input$alt,
+                  mu = input$mu, na.omit=TRUE)
+        mu<-as.numeric(input$mu)
+
+        if(t$p.value<=0.05){
+          HTML(paste0(sprintf("Since P-value is < 0.05 we can reject the null hypothesis at 5 percent level of significance. (Here null hypothesis: Population mean= %s)", mu)))
+        }
+        else if(t$p.value>0.05){
+          HTML(paste0(sprintf("Since P-value is > 0.05 we don't have enough evidence to reject null hypothesis at 5 percent level of significance.(Here null hypothesis: Population mean= %s)",mu)))
+        }
+      }
+    }
+############### F test
+if(input$req1 == 'ftest'){
+      if(input$submit4 > 0){
+        x<-as.vector(csvfile()[,input$dvar])
+        y<-as.vector(csvfile()[,input$ivar])
+        f<-var.test(x, y, ratio = 1,
+                 alternative = input$alt)
+        F_value<-round(f$statistic,3)
+        df<-as.data.frame(f$parameter)
+        Pvalue<-round(f$p.value,3)
+        alt.Hypothesis<-f$alternative
+        result<-cbind(F_value,t(df),Pvalue,alt.Hypothesis)
+        result<-as.data.frame(result)
+         kable(result,caption = "F test for Homogenity of Variance",row.names = FALSE)
+      }
+    }
+##### note 4
+if(input$req1 == 'ftest'){
+      if(input$submit4 > 0){
+        x<-as.vector(csvfile()[,input$dvar])
+        y<-as.vector(csvfile()[,input$ivar])
+        f<-var.test(x, y, ratio = 1,
+                    alternative = input$alt)
+
+        if(f$p.value<=0.05){
+          HTML(paste0("Since P-value is < 0.05 we can reject the null hypothesis at 5 percent level of significance.(Here null hypothesis: Variances are Homogenous)"))
+        }
+        else if(f$p.value>0.05){
+          HTML(paste0("Since P-value is > 0.05 we don't have enough evidence to reject null hypothesis at 5 percent level of significance. Variance is homogenous.(Here null hypothesis: Variances are Homogenous)"))
+        }
+      }
+    }
+############################# Paired t test
+if(input$req1 == 'pttest'){
+      if(input$submit5 > 0){
+      grp1<- subset(csvfile(),select=input$dvar)
+      grp2<- subset(csvfile(),select=input$ivar)
+      final<-cbind(grp1,grp2)
+      ttest <- t.test(final[,1], final[,2], paired = TRUE, alternative = input$alt)
+      tvalue<-ttest$statistic
+      df<-ttest$parameter
+      pvalue<-ttest$p.value
+      meandiff<-ttest$estimate
+      result1<-cbind(tvalue,df,pvalue,meandiff)
+      row.names(result1)<-NULL
+       kable(round(result1,3),caption = "Paired t test",row.names = FALSE)
+      }
+}
+
+ if(input$req1 == 'pttest'){
+      if(input$submit5 > 0){
+        x<-as.vector(csvfile()[,input$dvar])
+        y<-as.vector(csvfile()[,input$ivar])
+        t<-t.test(x, y, alternative = input$alt,
+                  var.equal = FALSE,paired = FALSE, na.omit=TRUE)
+
+        if(t$p.value<=0.05){
+          HTML(paste0("Since P-value is < 0.05 we reject the null hypothesis at 5% level of significance (here null hypothesis is: Population mean of group A = Population mean of group B) "))
+        }
+        else if(t$p.value>0.05){
+          HTML(paste0("Since P-value is > 0.05 we don't have enough evidence to reject the null hypothesis at 5% level of significance (here null hypothesis is: Population mean of group A = Population mean of group B)"))
+        }
+      }
+    }
+
+```
+  
+  
+    
+**Package: grapes**
+
+**Author**
+
+**Pratheesh P. Gopinath**

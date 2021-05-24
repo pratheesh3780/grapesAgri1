@@ -1,7 +1,7 @@
 #'@title corrAPP for correlation Analysis
 #'@description
-#'corrApp() function opens up a shiny app which will allow you to easily
-#'calculate Simple correlation, Correlation Matrix and obtain plots
+#'corrApp() function opens up an interactive shiny app which will
+#'allow the user to easily calculate Simple correlation, Correlation Matrix and obtain plots
 #'like correlogram and scatterplot by uploading CSV file.
 #'@details
 #'Shiny App for correlation Analysis
