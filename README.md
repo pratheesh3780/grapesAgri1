@@ -1,6 +1,6 @@
 # `grapes`: Collection of shiny applications for data analysis in Agriculture <img src="https://github.com/pratheesh3780/inst/extdata/logo.png" align="right" alt="logo" width="173" height = "200" style = "border: none; float: right;">
 ###### Version : 0.1.0; Copyright (C) 2020-2021: [Pratheesh P. Gopinath](https://www.coagrapes.com); License: [GPL-3](https://www.r-project.org/Licenses/)
-##### *Gopinath, P. P.<sup>1</sup>, Parsad, R.<sup>2</sup>, Joseph, B.<sup>3</sup>, Adarsh, v.S.<sup>4</sup>*
+##### *Gopinath, P. P.<sup>1</sup>, Parsad, R.<sup>2</sup>, Joseph, B.<sup>3</sup>, Adarsh, V.S.<sup>4</sup>*
 
 1.  Department of Agricultural Statistics, College of Agriculture, Vellayani, Kerala Agricultural Univesity.
 2.  ICAR-Indian Agricultural Statistics Research Institute,
