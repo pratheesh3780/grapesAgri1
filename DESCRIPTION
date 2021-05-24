@@ -1,6 +1,6 @@
 Package: grapes
 Type: Package
-Title: (General Rshiny based Analysis Plaform Empowered by Statistics) Collection of shiny apps for Agricultural research Data Analysis
+Title: Collection of shiny apps for Agricultural research Data Analysis
 Version: 0.1.0
 Authors@R: c(
     person(given = "Gopinath", family = "Pratheesh P.",
@@ -12,6 +12,9 @@ Authors@R: c(
 		       role = "aut"),
     person(given = "Joseph", family = "Brigit",
            email = "brigit.joseph@kau.in",
+		       role = "aut"),
+		person(given = "V. S.", family = "Adarsh",
+           email = "adarshvs0007@gmail.com",
 		       role = "aut"),
     person("Pratheesh P Gopinath",
            role = c("cph"),
