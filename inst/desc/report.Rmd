@@ -43,7 +43,7 @@ if(input$req == 'sumbygrp'){
         y2<-subset(csvfile(),select=input$group)
         final<-
           stby(y1, y2, descr) %>%
-          tb(order = 3) %>%
+          tb(order = 1) %>%
           kable(digits = 2,caption = "Summary Statistics by Group") %>%
           kable_styling("bordered", full_width = F) %>%
           collapse_rows(columns = 1, valign = "top")
