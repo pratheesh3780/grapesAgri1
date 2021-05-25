@@ -69,12 +69,12 @@ h3("")
 
         if(t$p.value<=0.05){
         
-        cat("Since P-value is < 0.05 we reject the null hypothesis at 5% level of significance. (here null hypothesis is: Population mean of group A = Population mean of group B)\n ")
+        cat("Since P-value is < 0.05 we reject the null hypothesis at 5% level of significance.\n(here null hypothesis is: Population mean of group A = Population mean of group B)\n ")
        
         }
        else if(t$p.value>0.05){
        
-        cat("Since P-value is > 0.05 we don't have enough evidence to reject the null hypothesis at 5% level of significance. (here null hypothesis is: Population mean of group A = Population mean of group B)\n")
+        cat("Since P-value is > 0.05 we don't have enough evidence to reject the null hypothesis at 5% level of significance.\n(here null hypothesis is: Population mean of group A = Population mean of group B)\n")
         
          }
       }
@@ -106,11 +106,11 @@ h3("")
                   var.equal = FALSE,paired = FALSE, na.omit=TRUE)
 
         if(t$p.value<=0.05){
-      cat("Since P-value is < 0.05 we reject the null hypothesis at 5% level of significance. (here null hypothesis is: Population mean of group A = Population mean of group B)\n ")
+      cat("Since P-value is < 0.05 we reject the null hypothesis at 5% level of significance.\n(here null hypothesis is: Population mean of group A = Population mean of group B)\n ")
      
         }
         else if(t$p.value>0.05){
-         cat("Since P-value is > 0.05 we don't have enough evidence to reject the null hypothesis at 5% level of significance.(here null hypothesis is: Population mean of group A = Population mean of group B)\n")
+         cat("Since P-value is > 0.05 we don't have enough evidence to reject the null hypothesis at 5% level of significance.\n(here null hypothesis is: Population mean of group A = Population mean of group B)\n")
         
         }
       }
@@ -141,10 +141,10 @@ if(input$req1 == 'ottest'){
         mu<-as.numeric(input$mu)
 
         if(t$p.value<=0.05){
-          cat("Since P-value is < 0.05 we can reject the null hypothesis at 5 percent level of significance.\n")
+          cat("Since P-value is < 0.05.\nwe can reject the null hypothesis at 5 percent level of significance.\n")
         }
         else if(t$p.value>0.05){
-          cat("Since P-value is > 0.05 we don't have enough evidence to reject null hypothesis at 5 percent level of significance.\n")
+          cat("Since P-value is > 0.05.\nwe don't have enough evidence to reject null hypothesis at 5 percent level of significance.\n")
         }
       }
     }
@@ -174,10 +174,10 @@ if(input$req1 == 'ftest'){
                     alternative = input$alt)
 
         if(f$p.value<=0.05){
-          cat("Since P-value is < 0.05 we can reject the null hypothesis at 5 percent level of significance.(Here null hypothesis: Variances are Homogenous)\n")
+          cat("Since P-value is < 0.05 we can reject the null hypothesis at 5 percent level of significance.\n(Here null hypothesis: Variances are Homogenous)\n")
         }
         else if(f$p.value>0.05){
-          cat("Since P-value is > 0.05 we don't have enough evidence to reject null hypothesis at 5 percent level of significance. Variance is homogenous.(Here null hypothesis: Variances are Homogenous)\n")
+          cat("Since P-value is > 0.05 we don't have enough evidence to reject null hypothesis at 5 percent level of significance. Variance is homogenous.\n(Here null hypothesis: Variances are Homogenous)\n")
           
         }
       }
@@ -207,11 +207,11 @@ h3("")
                   var.equal = FALSE,paired = TRUE, na.omit=TRUE)
 
         if(t$p.value<=0.05){
-          cat("Since P-value is < 0.05 we reject the null hypothesis at 5% level of significance (here null hypothesis is: Population mean of group A = Population mean of group B) \n")
+          cat("Since P-value is < 0.05 we reject the null hypothesis at 5% level of significance.\n(here null hypothesis is: Population mean of group A = Population mean of group B) \n")
           
         }
         else if(t$p.value>0.05){
-         cat("Since P-value is > 0.05 we don't have enough evidence to reject the null hypothesis at 5% level of significance (here null hypothesis is: Population mean of group A = Population mean of group B)\n")
+         cat("Since P-value is > 0.05 we don't have enough evidence to reject the null hypothesis at 5% level of significance.\n(here null hypothesis is: Population mean of group A = Population mean of group B)\n")
           
         }
       }
