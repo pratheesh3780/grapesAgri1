@@ -42,11 +42,11 @@ if(input$req == 'sumbygrp'){
         y1<-subset(csvfile(),select=input$var)
         y2<-subset(csvfile(),select=input$group)
         final<-
-          stby(y1, y2, descr) %>%
-          tb(order = 1) %>%
-          kable(digits = 2,caption = "Summary Statistics by Group") %>%
-          kable_styling("bordered", full_width = F) %>%
-          collapse_rows(columns = 1, valign = "top")
+          summarytools::stby(y1, y2, descr) %>%
+          summarytools::tb(order = 1) %>%
+          knitr::kable(digits = 2,caption = "Summary Statistics by Group") %>%
+          kableExtra::kable_styling("bordered", full_width = F) %>%
+          kableExtra::collapse_rows(columns = 1, valign = "top")
         final
       }
     }
