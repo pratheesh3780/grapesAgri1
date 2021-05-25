@@ -43,4 +43,6 @@ Imports: shiny,
          reshape2,
          gridGraphics,
          grid,
-         RColorBrewer
+         RColorBrewer,
+         Rdpack
+RdMacros: Rdpack

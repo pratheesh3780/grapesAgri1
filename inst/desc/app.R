@@ -1,5 +1,4 @@
 library(shiny)
-library(shinycssloaders)
 library(shinyWidgets)
 library(rmarkdown)
 library(kableExtra)

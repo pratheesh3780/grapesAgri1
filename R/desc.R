@@ -1,8 +1,10 @@
 #'@title descAPP for Descriptive statistics and Visualization
+#'
 #'@description
 #'descApp() function opens up an interactive shiny app which will allow
 #'the user to easily calculate Summary Statistics, Summary Statistics by Group, Box plot,
 #'Histogram, Q-Q plot and Shapiro-Wilk's test by uploading CSV file.
+#'
 #' @details
 #'This app uses \code{descr} and \code{stby} functions of \code{summarytools}
 #'package (Dominic Comtois, 2021) to calculate summary statistics and
@@ -12,6 +14,7 @@
 #'Q-Q plot. \code{hist} and \code{boxplot} of package \code{graphics} were used
 #'to obtain histogram and boxplot respectively. \code{ggqqplot} of package \code{ggpubr} (Alboukadel Kassambara,2020)
 #'is also used to plot Q-Q plot in the app.
+#'
 #' @keywords
 #' descriptive statistics
 #' histogram
@@ -19,14 +22,49 @@
 #' box plot
 #' summary statistics
 #' summary statistics by group
+#'
 #' @usage
 #' descApp()
+#'
+#' @importFrom Rdpack reprompt
+#'
 #' @export
+#'
 #' @examples
 #' \dontrun{
 #' library(grapes)
 #' grapes::descAPP()
 #' }
+#'
+#'
+#'@references
+#'
+#'
+#'
+#'\insertRef{Dominic_Comtois_2021}{grapes}
+#'
+#'\insertRef{Hao_zhu_2021}{grapes}
+#'
+#'\insertRef{Yihui_Xie_2021}{grapes}
+#'
+#'\insertRef{R_2021}{grapes}
+#'
+#'\insertRef{shiny_2021}{grapes}
+#'
+#'\insertRef{sw_2021}{grapes}
+#'
+#'\insertRef{dplyr_2021}{grapes}
+#'
+#'\insertRef{ggpubr_2020}{grapes}
+#'
+#'\insertRef{past_2018}{grapes}
+#'
+#'\insertRef{magi_2020}{grapes}
+#'
+#'\insertRef{gridG_2020}{grapes}
+#'
+
+
 descApp<- function() {
   appDir <- system.file("desc", package = "grapes")
   if (appDir == "") {
