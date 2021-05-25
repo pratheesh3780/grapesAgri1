@@ -9,7 +9,7 @@ ttApp()
 \description{
 ttApp() function opens up an interactive shiny app which will allow
 user to easily perform one sample t-test, unpaired two sample t-test
-Welch t-test, paired t-test, testing homogeneity of variance (F-test),
+unpaired two sample Welch t-test, paired t-test, test for homogeneity of variance (F-test),
 and obtain plots like boxplot and paired plot by uploading CSV file.
 }
 \details{

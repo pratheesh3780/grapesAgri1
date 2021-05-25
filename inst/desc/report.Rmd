@@ -25,13 +25,13 @@ csvfile <- reactive({
 #output
 if(input$req == 'summary'){
       if(input$submit4 > 0){
-        y<-subset(csvfile(),select=input$var)
+         y<-subset(csvfile(),select=input$var)
         final<-
-          descr(y) %>%
-          tb(order = 3) %>%
-          kable( digits = 2,caption = "Summary Statistics") %>%
-          kable_styling("bordered", full_width = F) %>%
-          collapse_rows(columns = 1, valign = "top")
+          summarytools::descr(y) %>%
+          summarytools::tb(order = 3) %>%
+          knitr::kable( digits = 2,caption = "Summary Statistics") %>%
+          kableExtra::kable_styling("bordered", full_width = F) %>%
+          kableExtra::collapse_rows(columns = 1, valign = "top")
         final
 
       }

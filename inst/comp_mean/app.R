@@ -539,16 +539,16 @@ server = function(input, output, session) {
       grp2<- subset(csvfile(),select=input$ivar)
       final<-cbind(grp1,grp2)
       ttest <- t.test(final[,1], final[,2], paired = TRUE, alternative = input$alt)
-      tvalue<-ttest$statistic
+      tvalue<-round(ttest$statistic,3)
       df<-ttest$parameter
-      pvalue<-ttest$p.value
-      meandiff<-ttest$estimate
+      pvalue<-round(ttest$p.value,3)
+      meandiff<-round(ttest$estimate,3)
       result1<-cbind(tvalue,df,pvalue,meandiff)
       row.names(result1)<-NULL
-      round(result1,3)
+     result1
       }
     }
-  },digits= 3,caption=('<b> Paired ttest </b>'),bordered = TRUE,align='c',
+  },caption=('<b> Paired ttest </b>'),bordered = TRUE,align='c',
   caption.placement = getOption("xtable.caption.placement", "top"),rownames = FALSE)
 
   output$note5<- renderUI({
@@ -560,7 +560,7 @@ server = function(input, output, session) {
         x<-as.vector(csvfile()[,input$dvar])
         y<-as.vector(csvfile()[,input$ivar])
         t<-t.test(x, y, alternative = input$alt,
-                  var.equal = FALSE,paired = FALSE, na.omit=TRUE)
+                  var.equal = FALSE,paired = TRUE, na.omit=TRUE)
 
         if(t$p.value<=0.05){
           HTML(paste0("Since P-value is < 0.05 we reject the null hypothesis at 5% level of significance
@@ -588,8 +588,8 @@ server = function(input, output, session) {
         rownames(result)[rownames(result) == "nbr.val"] <- "Number of Obs."
         rownames(result)[rownames(result) == "nbr.null"] <- "null values"
         rownames(result)[rownames(result) == "nbr.na"] <- "NA"
-        round(result,3)
-        final
+        result<-round(result,3)
+        result
       }
     }
   },digits= 3,caption=('<b> Summary Statistics </b>'),

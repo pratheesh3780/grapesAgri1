@@ -59,8 +59,8 @@ ui <- fluidPage(
    uiOutput('var2'),
    uiOutput('plot'),
    tags$br(),
-   uiOutput('image_down'),
-    htmlOutput('text')
+   uiOutput('image_down')
+
 )
 )
 
@@ -219,7 +219,7 @@ server = function(input, output, session) {
       }
   })
 
-
+#############################Summary
 output$summaryout = function(){
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$req)){return()}
@@ -228,17 +228,17 @@ output$summaryout = function(){
       if(input$submit4 > 0){
         y<-subset(csvfile(),select=input$var)
         final<-
-          descr(y) %>%
-          tb(order = 3) %>%
-          kable( digits = 2,caption = "Summary Statistics") %>%
-          kable_styling("bordered", full_width = F) %>%
-          collapse_rows(columns = 1, valign = "top")
+          summarytools::descr(y) %>%
+          summarytools::tb(order = 3) %>%
+          knitr::kable( digits = 2,caption = "Summary Statistics") %>%
+          kableExtra::kable_styling("bordered", full_width = F) %>%
+          kableExtra::collapse_rows(columns = 1, valign = "top")
         final
 
       }
     }
   }
-
+####################################### Shapiro Wilk's Test
   output$nort<- renderPrint({
     if(is.null(input$file1$datapath)){return(invisible())}
     if(is.null(input$req)){return(invisible())}
@@ -248,12 +248,12 @@ output$summaryout = function(){
         y<-subset(csvfile(),select=input$var)
         data<-as.data.frame(y)
         colnames(data)<-"variable_under_study"
-    test<-shapiro.test(data$variable_under_study)
+    test<-stats::shapiro.test(data$variable_under_study)
     test
       }
       }
 })
-
+############################# Summary by group
   output$bygroup= function(){
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$req)){return()}
@@ -263,27 +263,16 @@ output$summaryout = function(){
         y1<-subset(csvfile(),select=input$var)
         y2<-subset(csvfile(),select=input$group)
         final<-
-          stby(y1, y2, descr) %>%
-          tb(order = 1) %>%
-          kable(digits = 2,caption = "Summary Statistics by Group") %>%
-          kable_styling("bordered", full_width = F) %>%
-          collapse_rows(columns = 1, valign = "top")
+          summarytools::stby(y1, y2, descr) %>%
+          summarytools::tb(order = 1) %>%
+          knitr::kable(digits = 2,caption = "Summary Statistics by Group") %>%
+          kableExtra::kable_styling("bordered", full_width = F) %>%
+          kableExtra::collapse_rows(columns = 1, valign = "top")
         final
       }
     }
   }
-
-  output$text<- renderUI({
-    if(is.null(input$file1$datapath)){return()}
-    if(is.null(input$req)){return()}
-   if(is.null(input$submit)){return()}
-    if(input$submit > 0){
-       if(input$req == 'nt'){
-        HTML(paste0(" Shapiro-Wilk normality test: If the<b>p-value > 0.05</b> implying that the distribution of the data are <b>not significantly different from normal distribution</b>. In other words, we can assume the normality."))
-      }
-    }
-  })
-
+###################### text of shapiro wilk's
   output$text3<- renderUI({
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$req)){return()}
@@ -295,10 +284,13 @@ output$summaryout = function(){
         colnames(data)<-"variable_under_study"
         test<-shapiro.test(data$variable_under_study)
         if(test$p.value <=0.05){
-        HTML(paste0(" Here <b>p-value is < 0.05</b>, so we can say that <b>data does not follows a normal distribution</b>at 5% level of significance</b>."))
+        HTML(paste0(" Here <b>p-value is < 0.05</b>; <b>Null hypothesis</b>: data follows a normal distribution is <b>rejected </b> at
+                    5% level of significance. In other words data does not follows normal distribution"))
         }
         else{
-          HTML(paste0(" Here <b>p-value is > 0.05</b>, so we can say that <b>data follows a normal distribution</b>at 5% level of significance</b>."))
+          HTML(paste0(" Here <b>p-value is > 0.05</b>; We don't have enough evidence
+                      to reject the <b>Null hypothesis</b>: Data follows a normal distribution
+                      at 5% level of significance; we assumee that data is normal in this case</b>."))
 
         }
           }
@@ -312,7 +304,7 @@ output$summaryout = function(){
       if(is.null(input$submit1)){return()}
       output$boxplot = renderPlot({
         if(input$submit1 > 0){
-          boxplot(csvfile()[,input$variable],
+          graphics::boxplot(csvfile()[,input$variable],
                   xlab=input$xlab,
                   col=input$colorbox,
                   border = input$color)
@@ -324,7 +316,7 @@ output$summaryout = function(){
       if(is.null(input$submit2)){return()}
       output$histogram = renderPlot({
         if(input$submit2 > 0){
-          hist(csvfile()[,input$variable],
+         graphics::hist(csvfile()[,input$variable],
                main="Histogram",
                xlab=input$xlab,
                col=input$colorbox,
@@ -339,16 +331,16 @@ output$summaryout = function(){
       if(is.null(input$submit3)){return()}
       output$qqplot = renderPlot({
         if(input$style == 'Style 1'&& input$submit3>0){
-          qqnorm(csvfile()[,input$variable],
+          stats::qqnorm(csvfile()[,input$variable],
                  pch = 3,
                  frame = FALSE)
-          qqline(csvfile()[,input$variable],
+          stats::qqline(csvfile()[,input$variable],
                  col = input$color,
                  lwd = 2)
         }
         else if(input$style == 'Style 2'&& input$submit3>0){
 
-          ggqqplot(csvfile()[,input$variable], color = input$color)
+          ggpubr::ggqqplot(csvfile()[,input$variable], color = input$color)
         }
 
       },bg="transparent")
@@ -477,7 +469,7 @@ output$summaryout = function(){
     if(input$req == 'boxplot'){
       if(is.null(input$submit1)){return()}
         if(input$submit1 > 0){
-          boxplot(csvfile()[,input$variable],
+          graphics::boxplot(csvfile()[,input$variable],
                   xlab=input$xlab,
                   col=input$colorbox,
                   border = input$color)
@@ -489,7 +481,7 @@ output$summaryout = function(){
     else if(input$req == 'histogram'){
       if(is.null(input$submit2)){return()}
             if(input$submit2 > 0){
-          hist(csvfile()[,input$variable],
+              graphics::hist(csvfile()[,input$variable],
                main="Histogram",
                xlab=input$xlab,
                col=input$colorbox,
@@ -503,16 +495,16 @@ output$summaryout = function(){
     else if(input$req == 'qqplot'){
       if(is.null(input$submit3)){return()}
         if(input$style == 'Style 1'&& input$submit3>0){
-          qqnorm(csvfile()[,input$variable],
+          stats::qqnorm(csvfile()[,input$variable],
                  pch = 3,
                  frame = FALSE)
-          qqline(csvfile()[,input$variable],
+          stats::qqline(csvfile()[,input$variable],
                  col = input$color,
                  lwd = 2)
         }
         else if(input$style == 'Style 2'&& input$submit3>0){
 
-          ggqqplot(csvfile()[,input$variable], color = input$color)
+          ggpubr::ggqqplot(csvfile()[,input$variable], color = input$color)
         }
     }
   })
