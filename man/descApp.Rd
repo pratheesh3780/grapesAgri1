@@ -51,6 +51,10 @@ grapes::descAPP()
 \insertRef{magi_2020}{grapes}
 
 \insertRef{gridG_2020}{grapes}
+
+\insertRef{gupta1985statistical}{grapes}
+
+\insertRef{tukey1977exploratory}{grapes}
 }
 \keyword{box}
 \keyword{by}

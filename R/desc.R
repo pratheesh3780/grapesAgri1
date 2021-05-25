@@ -1,4 +1,4 @@
-#'@title descAPP for Descriptive statistics and Visualization
+#'@title Descriptive statistics and Visualization
 #'
 #'@description
 #'descApp() function opens up an interactive shiny app which will allow
@@ -63,6 +63,9 @@
 #'
 #'\insertRef{gridG_2020}{grapes}
 #'
+#'\insertRef{gupta1985statistical}{grapes}
+#'
+#'\insertRef{tukey1977exploratory}{grapes}
 
 
 descApp<- function() {
