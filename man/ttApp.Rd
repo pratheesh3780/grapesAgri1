@@ -2,7 +2,7 @@
 % Please edit documentation in R/ttest.R
 \name{ttApp}
 \alias{ttApp}
-\title{test and Paired t-test}
+\title{t-test and Paired t-test}
 \usage{
 ttApp()
 }

@@ -14,14 +14,14 @@ DMRT and Tukey can be performed. Box-pot and Bar-chart with confidence interval
 can be plotted. All these can be achieved by uploading CSV file.
 }
 \details{
-This app uses \code{descr} and \code{stby} functions of \code{summarytools}
-package (Dominic Comtois, 2021) to calculate summary statistics and
-summary statistics by group. \code{knitr} (Yihui Xie,2021) and \code{kableExtra}(Hao Zhu,2021) packages
-were used to produce HTML tables. \code{shapiro.test}, \code{qqnorm} and \code{qqline} functions of
-\code{stats}  package were used for Test of Homogeneity of variance and obtaining
-Q-Q plot. \code{hist} and \code{boxplot} of package \code{graphics} were used
-to obtain histogram and boxplot respectively. \code{ggqqplot} of package \code{ggpubr} (Alboukadel Kassambara,2020)
-is also used to plot Q-Q plot in the app.
+This app uses \code{anova} function of \code{stats} package to
+obtain one-way ANOVA.\code{LSD.test},\code{duncan.test} and
+\code{HSD.test} functions of \code{agricolae} package is used for
+multiple comparison test like LSD,DMRT and Tukey respectively.
+\code{ggboxplot} function of \code{ggpubr} package is used for
+boxplot.'\code{ggplot} function of \code{ggplot2} is used for
+barchart with confidence interval. To download the results in pdf
+one may use \code{tinytex::install_tinytex()} before using the app.
 }
 \examples{
 \dontrun{
@@ -32,12 +32,6 @@ grapes::crdAPP()
 
 }
 \references{
-\insertRef{Dominic_Comtois_2021}{grapes}
-
-\insertRef{Hao_zhu_2021}{grapes}
-
-\insertRef{Yihui_Xie_2021}{grapes}
-
 \insertRef{R_2021}{grapes}
 
 \insertRef{shiny_2021}{grapes}
@@ -48,17 +42,21 @@ grapes::crdAPP()
 
 \insertRef{ggpubr_2020}{grapes}
 
-\insertRef{past_2018}{grapes}
-
-\insertRef{magi_2020}{grapes}
-
-\insertRef{gridG_2020}{grapes}
+\insertRef{ggplot_2016}{grapes}
 
 \insertRef{gupta1985statistical}{grapes}
 
 \insertRef{tukey1977exploratory}{grapes}
 
-\insertRef{ggplot_2016}{grapes}
+\insertRef{hmisc_2021}{grapes}
+
+\insertRef{agricolae_2020}{grapes}
+
+\insertRef{rcol_2014}{grapes}
+
+\insertRef{shinycss_2020}{grapes}
+
+\insertRef{das1979design}{grapes}
 }
 \keyword{ANOVA}
 \keyword{Barchart}

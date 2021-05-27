@@ -21,7 +21,7 @@ Authors@R: c(
 		       comment = c(url = "www.coagrapes.com")))
 Maintainer: Pratheesh P. Gopinath <grapescoa@gmail.com>
 Description: Allows user to have graphical user interface to perform analysis of Agricultural experimental data. On using the functions in this package a Interactive User Interface will pop up. Apps Works by simple upload of files in CSV format.
-License: GPL-3
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

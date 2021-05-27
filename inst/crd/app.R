@@ -20,7 +20,7 @@ ui <- fluidPage(
   ),
 
   ########
-  titlePanel(tags$div(tags$b('One-way Analysis of Variance',style="color:#000000"))),
+  titlePanel(tags$div(tags$b('Completely Randomized Design (One-way ANOVA)',style="color:#000000"))),
 
   sidebarPanel(
     fileInput("file1", "CSV File (upload in csv format)", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
@@ -106,6 +106,7 @@ ui <- fluidPage(
                          uiOutput('varboxplot'),
                          tags$br(),
                          tags$br(),
+                         uiOutput('start_note3'),
                          plotOutput('boxplot')%>% withSpinner(color="#0dc5c1"),
                          tags$br(),
                          tags$br(),
@@ -734,9 +735,7 @@ server = function(input, output, session) {
     if(is.null(input$file1$datapath)){return(
       HTML(paste0(
         "<li> <b>Note</b>: Don’t forget to enter
-        treatment number while doing analysis</li>
-
-"))
+        treatment number while doing analysis</li>"))
     )}
 
     else{
@@ -744,7 +743,18 @@ server = function(input, output, session) {
     }
   })
 
+  output$start_note3<- renderUI({
+    if(is.null(input$file1$datapath)){return(
+      HTML(paste0(
+        "<b>Plots will appear here once you upload the csv file by
+        clicking 'Browse' and click submit</b>
+        "))
+    )}
 
+    else{
+      return()
+    }
+  })
 
 
 }
