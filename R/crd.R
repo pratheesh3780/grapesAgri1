@@ -1,9 +1,11 @@
-#'@title Descriptive statistics and Visualization
+#'@title Completely Randomized Design
 #'
 #'@description
-#'descApp() function opens up an interactive shiny app which will allow
-#'the user to easily calculate Summary Statistics, Summary Statistics by Group, Box plot,
-#'Histogram, Q-Q plot and Shapiro-Wilk's test by uploading CSV file.
+#'crdApp() function opens up an interactive shiny app which will allow
+#'the user to perform analysis of completely randomized design with
+#'equal or unequal replications. Multiple comparison tests like LSD,
+#'DMRT and Tukey can be performed. Box-pot and Bar-chart with confidence interval
+#'can be plotted. All these can be achieved by uploading CSV file.
 #'
 #' @details
 #'This app uses \code{descr} and \code{stby} functions of \code{summarytools}
@@ -16,15 +18,15 @@
 #'is also used to plot Q-Q plot in the app.
 #'
 #' @keywords
-#' descriptive statistics
-#' histogram
-#' q-q plot
-#' box plot
-#' summary statistics
-#' summary statistics by group
+#' One-way ANOVA
+#' Completely Randomized Design
+#' Multiple comparison Tests
+#' LSD, Tukey, DMRT
+#' Box plot
+#' Barchart with confidence Interval
 #'
 #' @usage
-#' descApp()
+#' crdApp()
 #'
 #' @importFrom Rdpack reprompt
 #'
@@ -33,7 +35,7 @@
 #' @examples
 #' \dontrun{
 #' library(grapes)
-#' grapes::descAPP()
+#' grapes::crdAPP()
 #' }
 #'
 #'
@@ -70,8 +72,8 @@
 #'\insertRef{ggplot_2016}{grapes}
 
 
-descApp<- function() {
-  appDir <- system.file("desc", package = "grapes")
+crdApp<- function() {
+  appDir <- system.file("crd", package = "grapes")
   if (appDir == "") {
     stop("Could not find directory. Try re-installing `grapes`.", call. = FALSE)
   }

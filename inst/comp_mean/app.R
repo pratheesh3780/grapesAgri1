@@ -102,14 +102,18 @@ ui <- fluidPage(
 
     uiOutput('plot'),
     tags$br(),
+    uiOutput('slider'),
+    tags$br(),
     uiOutput('image_down'),# for image download
     uiOutput('var1'),
     uiOutput('var2'),
     uiOutput('var3'),
     uiOutput('var4'),
     uiOutput('var5'),
-    uiOutput('data_set')# for data set download
-
+    uiOutput('data_set'),# for data set download
+    tags$br(),
+    tags$br(),
+    tags$br()
     )
 )
 ########################### Server
@@ -617,7 +621,7 @@ server = function(input, output, session) {
         colnames(my_data)<-c("group","obs")
         ggboxplot(my_data, x = "group", y = "obs",
                   color = "group", palette = c(input$col1, input$col2),
-                  ylab = input$ylab, xlab = input$xlab)
+                  ylab = input$ylab, xlab = input$xlab, size = input$size)
       }
         },bg="transparent")
       plotOutput("boxplot")
@@ -636,9 +640,23 @@ server = function(input, output, session) {
       plotOutput("pplot")
     }
 
+})
 
+############ slider input for boxplot
+  output$slider <- renderUI({
+    if(is.null(input$file1$datapath)){return()}
+    if(is.null(input$req1)){return()}
+    if(is.null(input$submit6)){return()}
+    if(input$req1 == 'boxplot'){
+    if(input$submit6 > 0){
+     list(sliderInput("size", "Required width of the line:",
+                  min = 0.5, max = 2, value = 0.5
+      )
+     )
+      }
+    }
+  })
 
-    })
 
 ########################
   ####################################Download Image
@@ -678,7 +696,7 @@ server = function(input, output, session) {
           colnames(my_data)<-c("group","obs")
           ggboxplot(my_data, x = "group", y = "obs",
                     color = "group", palette = c(input$col1, input$col2),
-                    ylab = input$ylab, xlab = input$xlab)
+                    ylab = input$ylab, xlab = input$xlab, size = input$size)
         }
     }
 

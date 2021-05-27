@@ -10,6 +10,7 @@ library(magrittr)
 library(summarytools)
 library(gridGraphics)
 library(grid)
+library(ggplot2)
 ############################### ui
 ui <- fluidPage(
   setBackgroundColor(

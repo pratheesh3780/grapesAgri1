@@ -2,7 +2,7 @@
 % Please edit documentation in R/corr.R
 \name{corrApp}
 \alias{corrApp}
-\title{corrAPP for correlation Analysis}
+\title{Correlation Analysis}
 \usage{
 corrApp()
 }

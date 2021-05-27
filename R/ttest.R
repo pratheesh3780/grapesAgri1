@@ -1,4 +1,4 @@
-#'@title ttAPP for t-test and Paired t-test
+#'@title test and Paired t-test
 #'@description
 #'ttApp() function opens up an interactive shiny app which will allow
 #'user to easily perform one sample t-test, unpaired two sample t-test

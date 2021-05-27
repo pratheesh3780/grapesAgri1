@@ -44,5 +44,8 @@ Imports: shiny,
          gridGraphics,
          grid,
          RColorBrewer,
-         Rdpack
+         Rdpack,
+         devtools
+Suggests:
+        tinytex
 RdMacros: Rdpack

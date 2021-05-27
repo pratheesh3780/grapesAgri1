@@ -1,4 +1,4 @@
-#'@title corrAPP for correlation Analysis
+#'@title Correlation Analysis
 #'@description
 #'corrApp() function opens up an interactive shiny app which will
 #'allow the user to easily calculate Simple correlation, Correlation Matrix and obtain plots
