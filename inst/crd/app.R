@@ -87,9 +87,13 @@ ui <- fluidPage(
                          tags$style(  type="text/css", "#group td {border: medium solid #000000;text-align:center}"),
 
                           uiOutput('var1'),
+                        uiOutput('start_note'),
+                        tags$br(),
                          uiOutput('data_set'),# data set to test,
                          tags$br(),
-                         tags$br()
+                        uiOutput('start_note2'),
+                         tags$br(),
+                        tags$br()
 
                 ),
                 tabPanel("Plots & Graphs",
@@ -508,8 +512,8 @@ server = function(input, output, session) {
                             "Pattern 2"= "Set2",
                             "Pattern 3"= "Set3",
                             "Pattern 4" = "Accent",
-                            "Pattern 5" = "Set1",
-                            "Grey" ="Greys"
+                            "Pattern 5" = "Set1"
+
                           )
                           ,"Dark2"),
               sliderInput("width1", "Required width of the bar:",
@@ -684,8 +688,57 @@ server = function(input, output, session) {
       write.csv(datasetInput(), file, row.names = FALSE)
     }
   )
+######################### end data set download
 
-######################### end data set
+  ############################### this note appear on opening
+  output$start_note<- renderUI({
+    if(is.null(input$file1$datapath)){return(
+      HTML(paste0(
+        " <h4> To perform analysis using your own dataset, prepare excel file in csv format by reading instruction below </h4>
+<p>
+<ui>
+<li>Open a new blank excel file</li>
+<li>Copy and paste observations into a new sheet (use only one sheet) of a new excel file</li>
+<li>Two columns are required Treatment and Response. </li>
+<li>You can use any names for your columns</li>
+<li>You can also add more than one response as columns</li>
+<li>No space is allowed in the treatment name. </li>
+<li>If space is required use underscore ‘_’ or ‘.’ full stop; for example ‘Treatment name’ should be written as Treatment_name or Treatment.name</li>
+<li>No need to add replication column, system will automatically identifies replication. </li>
+<li>Don't type and delete anything on other cells without data. If so select those cells, right click and click clear contents. </li>
+<li>Give names to all column, Don't add any unnecessary columns that is not required for analysis</li>
+<li>Data should be arranged towards upper left corner and row above the data should not be left blank. </li>
+<li>Once all these are done, your file is ready. Now save it as CSV file. </li>
+<li><b>Upload file by clicking browse in the app </b></li>
+</ui>
+</p>
+<b> You can download a model data set from below and test the App  </b>
+
+"))
+    )}
+
+    else{
+      return()
+    }
+  })
+
+  output$start_note2<- renderUI({
+    if(is.null(input$file1$datapath)){return(
+      HTML(paste0(
+        "<li> <b>Note</b>: Don’t forget to enter
+        treatment number while doing analysis</li>
+
+"))
+    )}
+
+    else{
+      return()
+    }
+  })
+
+
+
+
 }
 
 shinyApp(ui=ui,server=server)
