@@ -11,12 +11,17 @@ library(ggpubr)
 
 
 ui <- fluidPage(
+
+  ######## BACKGROUND
   setBackgroundColor(
     color = c("#fffacc", "#ffffff"),
     gradient = "radial",
     direction = c("bottom", "right")
   ),
+
+  ########
   titlePanel(tags$div(tags$b('One-way Analysis of Variance',style="color:#000000"))),
+
   sidebarPanel(
     fileInput("file1", "CSV File (upload in csv format)", accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
     checkboxInput("header", "Header", TRUE),
@@ -160,7 +165,7 @@ server = function(input, output, session) {
     }
   })
 
-###########################################
+################### Trt means
   output$trtmeans<- renderTable({
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$submit)){return()}
@@ -173,8 +178,8 @@ server = function(input, output, session) {
       treatment=d[,input$treatment]
       treatment=factor(treatment)
       anvaTable=lm(response~treatment)
-      result=as.data.frame( anova(anvaTable) )
-      out<-LSD.test(csvfile()[,input$yield], csvfile()[,input$treatment], result[2,1], result[2,3])
+      result=as.data.frame( stats::anova(anvaTable) )
+      out<-agricolae::LSD.test(csvfile()[,input$yield], csvfile()[,input$treatment], result[2,1], result[2,3])
       trtmeans<-out$means
       colnames(trtmeans)[1] <- "Treatment_means"
       drops <- c("r","Q25", "Q50", "Q75")
@@ -182,7 +187,7 @@ server = function(input, output, session) {
     }
   },digits= 3,caption=('<b> Treatment means & other statistics </b>'),bordered = TRUE,align='c',caption.placement = getOption("xtable.caption.placement", "top"),rownames = TRUE)
 
-  #####################################
+  ##################################### ANOVA TABLE
   output$aovSummary<- renderTable({
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$submit)){return()}
@@ -193,14 +198,14 @@ server = function(input, output, session) {
       treatment=d[,input$treatment]
       treatment=factor(treatment)
       anvaTable=lm(response~treatment)
-      result=as.data.frame( anova(anvaTable) )
+      result=as.data.frame( stats::anova(anvaTable) )
       SoV <- c("Treatment","Error")
       final<-cbind(SoV,result)
       final
     }
   },digits=3,caption=('<b> ANOVA TABLE </b>'),bordered = TRUE,align='c',caption.placement = getOption("xtable.caption.placement", "top"))
 
-##########################################
+########################################## SEM CD CV etc
  output$SEM<- renderTable({
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$submit)){return()}
@@ -213,8 +218,8 @@ server = function(input, output, session) {
         treatment=d[,input$treatment]
         treatment=factor(treatment)
         anvaTable=lm(response~treatment)
-        result=as.data.frame( anova(anvaTable) )
-        out<-LSD.test(csvfile()[,input$yield], csvfile()[,input$treatment], result[2,1], result[2,3])
+        result=as.data.frame( stats::anova(anvaTable) )
+        out<-agricolae::LSD.test(csvfile()[,input$yield], csvfile()[,input$treatment], result[2,1], result[2,3])
         colnam<-c("MSE","SE(d)","SE(m)","CV(%)")
         stat<-out$statistics
         repl<-out$means
@@ -242,7 +247,7 @@ server = function(input, output, session) {
       treatment=d[,input$treatment]
       treatment=factor(treatment)
       anvaTable=lm(response~treatment)
-      result=as.data.frame( anova(anvaTable) )
+      result=as.data.frame( stats::anova(anvaTable) )
       if(result[1,5]<= 0.05){
         HTML(paste0("<b>","Since the P-value in ANOVA table is < 0.05, there is a significant difference between atleast
                     a pair of treatments, so multiple comparison is required to identify best treatment(s) ","</b>"))
@@ -262,7 +267,7 @@ server = function(input, output, session) {
       treatment=d[,input$treatment]
       treatment=factor(treatment)
       anvaTable=lm(response~treatment)
-      result=as.data.frame( anova(anvaTable) )
+      result=as.data.frame( stats::anova(anvaTable) )
       if(result[1,5]<= 0.05){
         list (selectInput('req', 'Please select multiple comparison method (alpha =0.05)',
                           c(LSD= 'lsd',
@@ -274,7 +279,7 @@ server = function(input, output, session) {
       else {return()}
     }
   })
-##################################
+################################## MUlTIPLE COMPARISON
   output$multi <- renderTable({
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$submit)){return()}
@@ -289,8 +294,8 @@ server = function(input, output, session) {
           treatment=d[,input$treatment]
           treatment=factor(treatment)
           anvaTable=lm(response~treatment)
-          result=as.data.frame( anova(anvaTable) )
-          out<-LSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3])
+          result=as.data.frame( stats::anova(anvaTable) )
+          out<-agricolae::LSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3])
           out$statistics
         }
         else if(input$req=='dmrt'){
@@ -300,8 +305,8 @@ server = function(input, output, session) {
           treatment=d[,input$treatment]
           treatment=factor(treatment)
           anvaTable=lm(response~treatment)
-          result=as.data.frame( anova(anvaTable) )
-          out<-duncan.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
+          result=as.data.frame( stats::anova(anvaTable) )
+          out<-agricolae::duncan.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
           out$duncan
         }
         else if(input$req=='tukey'){
@@ -311,14 +316,15 @@ server = function(input, output, session) {
           treatment=d[,input$treatment]
           treatment=factor(treatment)
           anvaTable=lm(response~treatment)
-          result=as.data.frame( anova(anvaTable) )
-          out<-HSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
+          result=as.data.frame( stats::anova(anvaTable) )
+          out<-agricolae::HSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
           out$statistics
         }
       }
     }
   },digits=3,caption = "alpha =0.05", bordered = TRUE,align='c',caption.placement = getOption("xtable.caption.placement", "bottom"))
-#############################################
+
+  ############################################# Matrix of CD in case of unequal replication
   output$unequal <- renderTable({
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$submit)){return()}
@@ -333,7 +339,7 @@ server = function(input, output, session) {
           treatment=d[,input$treatment]
           treatment=factor(treatment)
           anvaTable=lm(response~treatment)
-          result=as.data.frame( anova(anvaTable) )
+          result=as.data.frame( stats::anova(anvaTable) )
           count<-table(d[,input$treatment])#count the number of replications of treatment
           t=(result[1,1]+1)#no.of treatments
           repli<-as.data.frame(count)
@@ -362,7 +368,8 @@ server = function(input, output, session) {
     }
   },digits=3,rownames = TRUE,caption = "Matrix of CD values", bordered = TRUE,align='c',caption.placement = getOption("xtable.caption.placement", "top"))
 
-#########################################
+
+  ######################################### Treatment Grouping
   output$group <- renderTable({
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$submit)){return()}
@@ -375,8 +382,8 @@ server = function(input, output, session) {
         treatment=d[,input$treatment]
         treatment=factor(treatment)
         anvaTable=lm(response~treatment)
-        result=as.data.frame( anova(anvaTable) )
-        out<-LSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3])
+        result=as.data.frame( stats::anova(anvaTable) )
+        out<-agricolae::LSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3])
         outgroup<-out$groups
         colnames(outgroup) <- c("trt_mean","grouping")
         outgroup
@@ -388,8 +395,8 @@ server = function(input, output, session) {
         treatment=d[,input$treatment]
         treatment=factor(treatment)
         anvaTable=lm(response~treatment)
-        result=as.data.frame( anova(anvaTable) )
-        out<-duncan.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
+        result=as.data.frame( stats::anova(anvaTable) )
+        out<-agricolae::duncan.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
         outgroup<-out$groups
         colnames(outgroup) <- c("trt_mean","grouping")
         outgroup
@@ -401,8 +408,8 @@ server = function(input, output, session) {
         treatment=d[,input$treatment]
         treatment=factor(treatment)
         anvaTable=lm(response~treatment)
-        result=as.data.frame( anova(anvaTable) )
-        out<-HSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
+        result=as.data.frame( stats::anova(anvaTable) )
+        out<-agricolae::HSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
         outgroup<-out$groups
         colnames(outgroup) <- c("trt_mean","grouping")
         outgroup
@@ -425,7 +432,7 @@ server = function(input, output, session) {
       )
     }
   })
-  ###########################################
+  ########################################### PLOTS
   output$boxplot<- renderPlot({
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$plotreq)){return()}
@@ -444,7 +451,7 @@ server = function(input, output, session) {
           obs = y)
 
         colnames(my_data)<-c("Treatments","obs")
-        ggboxplot(my_data, x = "Treatments", y = "obs",
+        ggpubr::ggboxplot(my_data, x = "Treatments", y = "obs",
                   color = "Treatments", palette = mycolors,
                   ylab = input$ylab, xlab = input$xlab, size = input$size)
         }
@@ -458,7 +465,7 @@ server = function(input, output, session) {
 
           nb.cols <- as.numeric(input$trt)
           mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
-          p<-ggplot(data=d, aes(x=d[,input$treatment],
+          p<-ggplot2::ggplot(data=d, aes(x=d[,input$treatment],
                                 y=d[,input$yield],fill=treatment))+
             stat_summary(fun = mean, geom = "bar",width=input$width1) +
             stat_summary(fun.data = mean_cl_normal,
@@ -472,6 +479,7 @@ server = function(input, output, session) {
 
   }, bg="transparent")
 
+ ############## interactive for plots
   output$varboxplot<- renderUI({
     if(is.null(input$file1$datapath)){return()}
     if(is.null(input$submit)){return()}
@@ -596,7 +604,7 @@ server = function(input, output, session) {
           obs = y)
 
         colnames(my_data)<-c("Treatments","obs")
-        ggboxplot(my_data, x = "Treatments", y = "obs",
+        ggpubr::ggboxplot(my_data, x = "Treatments", y = "obs",
                   color = "Treatments", palette = mycolors,
                   ylab = input$ylab, xlab = input$xlab, size = input$size)
       }
@@ -610,7 +618,7 @@ server = function(input, output, session) {
 
         nb.cols <- as.numeric(input$trt)
         mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
-        p<-ggplot(data=d, aes(x=d[,input$treatment],
+        p<-ggplot2::ggplot(data=d, aes(x=d[,input$treatment],
                               y=d[,input$yield],fill=treatment))+
           stat_summary(fun = mean, geom = "bar",width=input$width1) +
           stat_summary(fun.data = mean_cl_normal,
