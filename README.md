@@ -1,4 +1,5 @@
-# `grapes`: Collection of shiny applications for data analysis in Agriculture <img src="https://github.com/pratheesh3780/inst/extdata/logo.png" align="right" alt="logo" width="173" height = "200" style = "border: none; float: right;">
+# `grapes`: Collection of shiny applications for data analysis in Agriculture <img src="man/figures/logo.png" align="right" alt="logo" width="173" height = "200" style = "border: none; float: right;">
+## General Rshiny based Analysis Platform Empowered by Statistics (GRAPES)
 ###### Version : 0.1.0; Copyright (C) 2020-2021: [Pratheesh P. Gopinath](https://www.coagrapes.com); License: [GPL-3](https://www.r-project.org/Licenses/)
 ##### *Gopinath, P. P.<sup>1</sup>, Parsad, R.<sup>2</sup>, Joseph, B.<sup>3</sup>, Adarsh, V.S.<sup>4</sup>*
 
@@ -24,3 +25,4 @@ devtools::install_github("pratheesh3780/grapes")
 |1|Descriptive Statistics and Visualization   | descAPP()      |Summary Statistics, Summary Statistics by Group, Box plot, Histogram, Q-Q plot and Shapiro-Wilk's test|
 |2|Correlation Analysis   | corrApp()      | Simple correlation, Correlation Matrix, correlogram and scatterplot|
 |3|Compare Means: Small samle tests  | ttApp()      | One sample t-test, Two sample unpaired t-test, paired t-test, Two sample unpaired Welch t-test, F test, Box plot, Paired Plot|
+|4|Completely Randomized Design  | crdApp()      |One-way Analysis of variance (equal and unequal replication, Multiple comparison test), boxplot and barchart with confidence interval|
