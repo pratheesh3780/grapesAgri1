@@ -89,7 +89,7 @@ server = function(input, output, session) {
   csvfile <- reactive({
     csvfile <- input$file1
     if (is.null(csvfile)){return(NULL)}
-    dt <- read.csv(csvfile$datapath, header=input$header, sep=",")
+    dt <- read.csv(csvfile$datapath, header=input$header, sep=",",check.names = FALSE)
     dt
   })
 
@@ -197,9 +197,11 @@ server = function(input, output, session) {
                           style8 = 'RdYlGn'
                           )
                         ,'BrBG'),
+            checkboxInput("remove_corr",
+                          "Don't show correlation coefficient", FALSE),
             selectInput('txcol', 'Please select correlation coefficient colour',
                         c(Black= '#141413',
-                          No_col='#00141413',
+                          Transparent='#00141413',
                           Red = '#ff0d1d',
                           Blue= '#0d45ff',
                           Green='#0dff0d',
@@ -207,7 +209,11 @@ server = function(input, output, session) {
                           Orange='#ff8a0d'
 
                         ),'#141413'),
-            actionBttn(
+            checkboxInput("significance",
+                          "Mark non-significant correlations in the plot", FALSE),
+            radioButtons("sig", "Please pick significance level", choices = c("0.05","0.01")),
+
+              actionBttn(
               inputId = "submit3",
               label = "SUBMIT!",
               color = "danger",
@@ -250,13 +256,15 @@ server = function(input, output, session) {
     if(is.null(input$submit)){return()}
     if(input$req1 == 'correlation'){
       if(input$submit > 0){
+        if(input$req =='pearson'){
         a<-as.vector(csvfile()[,input$dvar])
         y<-as.vector(csvfile()[,input$ivar])
-        x<-cor.test(a, y,method=input$req,conf.level = as.numeric(input$ci)
+        x<-cor.test(a, y,method= 'pearson',conf.level = as.numeric(input$ci)
                     ,alternative = input$alt,exact = FALSE)
         ci<-x$conf.int
         ci_nw = melt(ci, value.name = "Lower Limit and Upper limit")
         ci_nw
+      }
       }
     }
   },rownames = FALSE,bordered = TRUE,align='c',caption=('<b>Confidence Interval</b>'),caption.placement = getOption("xtable.caption.placement", "top")
@@ -334,7 +342,38 @@ server = function(input, output, session) {
         corrplot(cormat1, method=input$shape,
                  type=input$layout, tl.col="#000000",
                  col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol)
+      if(input$significance>0){
+        x<-as.data.frame(csvfile()[,input$selvar])
+        cormat1 <- cor(x, method = input$req2, use = "complete.obs")
+        res1 <- cor.mtest(x)
+        corrplot(cormat1, method=input$shape,
+                 type=input$layout, tl.col="#000000",
+                 col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol,
+                 p.mat = res1$p, sig.level = as.numeric(input$sig))
       }
+        if(input$remove_corr>0){
+          x<-as.data.frame(csvfile()[,input$selvar])
+          cormat1 <- cor(x, method = input$req2, use = "complete.obs")
+          res1 <- cor.mtest(x)
+          corrplot(cormat1, method=input$shape,
+                   type=input$layout, tl.col="#000000",
+                   col=brewer.pal(n=8, name=input$style)
+                    )
+        }
+
+        if(input$remove_corr>0 && input$significance>0){
+          x<-as.data.frame(csvfile()[,input$selvar])
+          cormat1 <- cor(x, method = input$req2, use = "complete.obs")
+          res1 <- cor.mtest(x)
+          corrplot(cormat1, method=input$shape,
+                   type=input$layout, tl.col="#000000",
+                   col=brewer.pal(n=8, name=input$style),
+                   p.mat = res1$p, sig.level = as.numeric(input$sig))
+        }
+
+
+
+        }
     },bg="transparent")
     plotOutput("corrplot")
   }
@@ -350,7 +389,7 @@ server = function(input, output, session) {
     if(is.null(input$submit)){return()}
     if(input$req1 == 'correlation'){
       if(input$submit > 0){
-        list( radioButtons("format", "Download report:", c("HTML","Word"),
+        list( radioButtons("format", "Download report:", c("HTML","Word","PDF"),
                            inline = TRUE
         ),
         downloadButton("downloadReport")
@@ -365,7 +404,7 @@ server = function(input, output, session) {
     if(is.null(input$submit2)){return()}
     if(input$req1 == 'corrmat'){
       if(input$submit2 > 0){
-        list( radioButtons("format", "Download report:", c("HTML","Word"),
+        list( radioButtons("format", "Download report:", c("HTML","Word","PDF"),
                            inline = TRUE
         ),
         downloadButton("downloadReport")
@@ -376,7 +415,7 @@ server = function(input, output, session) {
   output$downloadReport <- downloadHandler(
     filename = function() {
       paste("my-report", sep = ".", switch(
-        input$format, HTML = "html", Word = "docx"
+        input$format, HTML = "html", Word = "docx",PDF = "pdf"
       ))
     },
     content = function(file) {
@@ -386,7 +425,7 @@ server = function(input, output, session) {
       file.copy(src, "report.Rmd", overwrite = TRUE)
       out <- render("report.Rmd", switch(
         input$format,
-         HTML = html_document(), Word = word_document()
+        PDF = pdf_document(),HTML = html_document(), Word = word_document()
       ))
       file.rename(out, file)
     }
@@ -491,10 +530,38 @@ server = function(input, output, session) {
         if(input$submit3 > 0){
           x<-as.data.frame(csvfile()[,input$selvar])
           cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-
           corrplot(cormat1, method=input$shape,
                    type=input$layout, tl.col="#000000",
                    col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol)
+          if(input$significance>0){
+            x<-as.data.frame(csvfile()[,input$selvar])
+            cormat1 <- cor(x, method = input$req2, use = "complete.obs")
+            res1 <- cor.mtest(x)
+            corrplot(cormat1, method=input$shape,
+                     type=input$layout, tl.col="#000000",
+                     col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol,
+                     p.mat = res1$p, sig.level = as.numeric(input$sig))
+          }
+          if(input$remove_corr>0){
+            x<-as.data.frame(csvfile()[,input$selvar])
+            cormat1 <- cor(x, method = input$req2, use = "complete.obs")
+            res1 <- cor.mtest(x)
+            corrplot(cormat1, method=input$shape,
+                     type=input$layout, tl.col="#000000",
+                     col=brewer.pal(n=8, name=input$style)
+            )
+          }
+
+          if(input$remove_corr>0 && input$significance>0){
+            x<-as.data.frame(csvfile()[,input$selvar])
+            cormat1 <- cor(x, method = input$req2, use = "complete.obs")
+            res1 <- cor.mtest(x)
+            corrplot(cormat1, method=input$shape,
+                     type=input$layout, tl.col="#000000",
+                     col=brewer.pal(n=8, name=input$style),
+                     p.mat = res1$p, sig.level = as.numeric(input$sig))
+          }
+
           grid.echo()
           P1 <- grid.grab()
 

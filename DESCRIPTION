@@ -18,7 +18,7 @@ Authors@R: c(
 		       role = "aut"),
     person("Pratheesh P Gopinath",
            role = c("cph"),
-		       comment = c(url = "www.coagrapes.com")))
+		       comment = c(url = "www.kaugrapes.com")))
 Maintainer: Pratheesh P. Gopinath <grapescoa@gmail.com>
 Description: Allows user to have graphical user interface to perform analysis of Agricultural experimental data. On using the functions in this package a Interactive User Interface will pop up. Apps Works by simple upload of files in CSV format.
 License: GPL-3 + file LICENSE
@@ -45,7 +45,9 @@ Imports: shiny,
          grid,
          RColorBrewer,
          Rdpack,
-         devtools
+         devtools,
+         agricolae,
+         desplot
 Suggests:
         tinytex
 RdMacros: Rdpack

@@ -3,5 +3,6 @@
 export(corrApp)
 export(crdApp)
 export(descApp)
+export(layoutApp)
 export(ttApp)
 importFrom(Rdpack,reprompt)

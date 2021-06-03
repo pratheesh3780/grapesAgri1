@@ -17,7 +17,7 @@ CORRELATION ANALYSIS
 csvfile <- reactive({
     csvfile <- input$file1
     if (is.null(csvfile)){return(NULL)}
-    dt <- read.csv(csvfile$datapath, header=input$header, sep=",")
+    dt <- read.csv(csvfile$datapath, header=input$header, sep=",",check.names = FALSE)
     dt
   })
 
@@ -43,6 +43,7 @@ if(input$req1 == 'correlation'){
 
 if(input$req1 == 'correlation'){
       if(input$submit > 0){
+         if(input$req =='pearson'){
         a<-as.vector(csvfile()[,input$dvar])
         y<-as.vector(csvfile()[,input$ivar])
         x<-cor.test(a, y,method=input$req,conf.level = as.numeric(input$ci)
@@ -50,6 +51,7 @@ if(input$req1 == 'correlation'){
         ci<-x$conf.int
         ci_nw = melt(ci, value.name = "Lower Limit and Upper limit")
         kable(round(ci_nw,3),caption = "Confidence Interval",row.names = FALSE)
+         }
       }
     } 
 
@@ -73,13 +75,19 @@ if(input$req1 == 'corrmat'){
         row.names(correlmat1)<-names(x)
         kable(round(correlmat1,3),caption = "Matrix of P-values")
       }
-    }
+}
+h3("")
 if(input$req1 == 'corrmat'){
         if(input$submit2 > 0){
          x<-c("Correlation between variables is significant at 5% level if P-values are < 0.05")
          print(x)
       }
     }
+
+h3("")
+
+
+
 ```
 
 
@@ -89,9 +97,15 @@ if(input$req1 == 'corrmat'){
 
 
 
-**package: Grapes**
+**package: grapes**
 
-**Author**
+**Author(s)**
 
 **Pratheesh P. Gopinath**
+
+**Rajender Parsad**
+
+**Brigit Joseph**
+
+**Adarsh V.S.**
 

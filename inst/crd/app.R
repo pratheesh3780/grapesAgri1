@@ -384,11 +384,13 @@ server = function(input, output, session) {
         treatment=factor(treatment)
         anvaTable=lm(response~treatment)
         result=as.data.frame( stats::anova(anvaTable) )
+        if(result[1,5]<= 0.05){
         out<-agricolae::LSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3])
         outgroup<-out$groups
         colnames(outgroup) <- c("trt_mean","grouping")
         outgroup
-      }
+        }
+       }
       else if(input$req=='dmrt'){
         d=as.data.frame(csvfile())
         t=as.numeric(input$trt)
@@ -397,10 +399,12 @@ server = function(input, output, session) {
         treatment=factor(treatment)
         anvaTable=lm(response~treatment)
         result=as.data.frame( stats::anova(anvaTable) )
+        if(result[1,5]<= 0.05){
         out<-agricolae::duncan.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
         outgroup<-out$groups
         colnames(outgroup) <- c("trt_mean","grouping")
         outgroup
+        }
       }
       else if(input$req=='tukey'){
         d=as.data.frame(csvfile())
@@ -410,10 +414,12 @@ server = function(input, output, session) {
         treatment=factor(treatment)
         anvaTable=lm(response~treatment)
         result=as.data.frame( stats::anova(anvaTable) )
+        if(result[1,5]<= 0.05){
         out<-agricolae::HSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
         outgroup<-out$groups
         colnames(outgroup) <- c("trt_mean","grouping")
         outgroup
+        }
       }
     }
   },digits=3,caption = "Treatments with same letters are not significantly different",bordered = TRUE,align='c', caption.placement = getOption("xtable.caption.placement", "bottom"),rownames = TRUE)
@@ -454,7 +460,10 @@ server = function(input, output, session) {
         colnames(my_data)<-c("Treatments","obs")
         ggpubr::ggboxplot(my_data, x = "Treatments", y = "obs",
                   color = "Treatments", palette = mycolors,
-                  ylab = input$ylab, xlab = input$xlab, size = input$size)
+                  ylab = input$ylab, xlab = input$xlab, size = input$size)+
+           rotate_x_text()+
+          font("x.text", size = input$size1)+
+          font("y.text", size = input$size2)
         }
   }
 
@@ -473,7 +482,10 @@ server = function(input, output, session) {
                          geom = "errorbar", width = input$width2) +
             labs(x = input$xlab, y = input$ylab)+
             ggtitle(input$title)+
-          scale_fill_manual(values = mycolors)+theme_bw()+theme(plot.title = element_text(size=22,hjust = 0.5))
+          scale_fill_manual(values = mycolors)+theme_bw()+
+            theme(plot.title = element_text(size=22,hjust = 0.5),
+                  axis.text.x=element_text(angle = 90, hjust = 1,size = input$width3),
+                  axis.text.y=element_text(size = input$width4))
          p
         }
       }
@@ -499,6 +511,12 @@ server = function(input, output, session) {
                         ,"Dark2"),
            sliderInput("size", "Required width of the line:",
                        min = 0.5, max = 2, value = 0.5
+           ),
+           sliderInput("size1", "X-axis label size:",
+                       min = 10, max = 20, value = 10
+           ),
+           sliderInput("size2", "Y-axis label size:",
+                       min = 10, max = 20, value = 10
            ),
             actionBttn(
               inputId = "submit1",
@@ -531,6 +549,12 @@ server = function(input, output, session) {
               sliderInput("width2", "Required width of error bar:",
                           min = 0.1, max = 1, value = 0.2
               ),
+            sliderInput("width3", "X-axis label size:",
+                        min = 10, max = 20, value = 10
+            ),
+            sliderInput("width4", "Y-axis label size:",
+                        min = 10, max = 20, value = 10
+            ),
               actionBttn(
                 inputId = "submit1",
                 label = "Click here to draw",
@@ -589,6 +613,7 @@ server = function(input, output, session) {
   ### plotting
   plotInput <- reactive({
     if(is.null(input$file1$datapath)){return()}
+    if (is.null(csvfile)){return()}
     if(is.null(input$plotreq)){return()}
     if(is.null(input$submit1)){return()}
 
@@ -607,7 +632,10 @@ server = function(input, output, session) {
         colnames(my_data)<-c("Treatments","obs")
         ggpubr::ggboxplot(my_data, x = "Treatments", y = "obs",
                   color = "Treatments", palette = mycolors,
-                  ylab = input$ylab, xlab = input$xlab, size = input$size)
+                  ylab = input$ylab, xlab = input$xlab, size = input$size)+
+          rotate_x_text()+
+          font("x.text", size = input$size1)+
+          font("y.text", size = input$size2)
       }
     }
 
@@ -626,8 +654,10 @@ server = function(input, output, session) {
                        geom = "errorbar", width = input$width2) +
           labs(x = input$xlab, y = input$ylab)+
           ggtitle(input$title)+
-          scale_fill_manual(values = mycolors)+theme_bw()+theme(plot.title = element_text(size=22,hjust = 0.5))
-        p
+          scale_fill_manual(values = mycolors)+theme_bw()+
+          theme(plot.title = element_text(size=22,hjust = 0.5),axis.text.x=element_text(angle = 90, size = input$width3,hjust = 1),
+                axis.text.y=element_text(size = input$width4))
+          p
       }
     }
 

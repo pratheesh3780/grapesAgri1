@@ -92,10 +92,9 @@ if(input$submit > 0){
       anvaTable=lm(response~treatment)
       result=as.data.frame( anova(anvaTable) )
       if(result[1,5]<= 0.05){
-        HTML(paste0("<b>","Since the P-value in ANOVA table is < 0.05, there is a significant difference between atleast
-                    a pair of treatments, so multiple comparison is required to identify best treatment(s) ","</b>"))
+      cat("Since the P-value in ANOVA table is < 0.05,\nthere is a significant difference between atleast a pair of treatments,\nso multiple comparison is required to identify best treatment(s)")
       }
-      else {HTML(paste0("<b>","Treatment means are not significantly different"))
+      else {cat("Treatment means are not significantly different")
       }
    }
   #########################
@@ -133,7 +132,7 @@ if(input$submit > 0){
           result=as.data.frame( anova(anvaTable) )
           out<-duncan.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
           result<-out$duncan
-           kable(result,caption = "DMRT",digits=3,align = 'c')  
+           kable(result,caption = "DMRT",digits=3,align = 'c',row.names = FALSE)  
         }
         else if(input$req=='tukey'){
           d=as.data.frame(csvfile())
@@ -249,9 +248,25 @@ if(input$submit > 0){
     colnames(outgroup) <- c("trt_mean","grouping")
     outgroup
   }
-  kable(outgroup,caption = "Treatments with same letters are not significantly different",align='c')  
+  kable(outgroup,caption = "Treatment Grouping",align='c')  
 }
-  
+  ##########
+tags$br()  
+############
+  if(input$submit > 0){
+     if(input$req=='tukey'||input$req=='dmrt'||input$req=='lsd'){
+      cat("Treatments with same letters are not significantly different")
+      }
+     
+  else{
+    return()
+    }
+  }
+ ##########
+tags$br()
+   ##########
+
+
 ```
 report generated from:
 **GRAPES**
