@@ -58,111 +58,59 @@ if(input$submit > 0){
  tags$br()
 ######################SEM
 if(input$submit > 0){
-      if(input$filerepli=='equal'){
-      d=as.data.frame(csvfile())
-      t=as.numeric(input$trt)
-      response=d[,input$yield]
-      treatment=d[,input$treatment]
-      treatment=factor(treatment)
-      anvaTable=lm(response~treatment)
-      result=as.data.frame( anova(anvaTable) )
-      out<-LSD.test(csvfile()[,input$yield], csvfile()[,input$treatment], result[2,1], result[2,3]) 
-      colnam<-c("MSE","SE(d)","SE(m)","CV(%)")
-      stat<-out$statistics
-      repl<-out$means
-      r<-repl[1,3]
-      MSE<-stat[1,1]
-      SED<-sqrt((2*MSE)/r)
-      SEM<-sqrt(MSE/r)
-      CV<-stat[1,4]
-      Result<-cbind(MSE,SED,SEM,CV)
-      colnames(Result)<-colnam
-       kable(Result,digits=3,caption = "Other important Statistics",align='c',row.names = FALSE)
-      }
+  if(input$filerepli=='equal'){
+    d=as.data.frame(csvfile())
+    t=as.numeric(input$trt)
+    response=d[,input$yield]
+    treatment=d[,input$treatment]
+    treatment=factor(treatment)
+    anvaTable=lm(response~treatment)
+    result=as.data.frame( anova(anvaTable) )
+    out<-LSD.test(csvfile()[,input$yield], csvfile()[,input$treatment], result[2,1], result[2,3]) 
+    colnam<-c("MSE","SE(d)","SE(m)","CV(%)")
+    stat<-out$statistics
+    repl<-out$means
+    r<-repl[1,3]
+    MSE<-stat[1,1]
+    SED<-sqrt((2*MSE)/r)
+    SEM<-sqrt(MSE/r)
+    CV<-stat[1,4]
+    Result<-cbind(MSE,SED,SEM,CV)
+    colnames(Result)<-colnam
+    kable(Result,digits=3,caption = "Other important Statistics",align='c',row.names = FALSE)
+  }
 }
 ####################################finish
-  tags$br()
-  ########################### TEXT INFERENCE
-   if(input$submit > 0){
-      d=as.data.frame(csvfile())
+tags$br()
+########################### TEXT INFERENCE
+if(input$submit > 0){
+  d=as.data.frame(csvfile())
+  t=as.numeric(input$trt)
+  response=d[,input$yield]
+  treatment=d[,input$treatment]
+  treatment=factor(treatment)
+  anvaTable=lm(response~treatment)
+  result=as.data.frame( anova(anvaTable) )
+  if(result[1,5]<= 0.05){
+    cat("Since the P-value in ANOVA table is < 0.05,\nthere is a significant difference between atleast a pair of treatments,\nso multiple comparison is required to identify best treatment(s)")
+  }
+  if(result[1,5]>0.05){cat("Treatment means are not significantly different")
+  }
+}
+#########################
+tags$br()
+###################################Multi
+if(input$submit > 0){
+  if(input$filerepli=='equal'){
+    d=as.data.frame(csvfile())
       t=as.numeric(input$trt)
       response=d[,input$yield]
       treatment=d[,input$treatment]
       treatment=factor(treatment)
       anvaTable=lm(response~treatment)
       result=as.data.frame( anova(anvaTable) )
-      if(result[1,5]<= 0.05){
-      cat("Since the P-value in ANOVA table is < 0.05,\nthere is a significant difference between atleast a pair of treatments,\nso multiple comparison is required to identify best treatment(s)")
-      }
-      else {cat("Treatment means are not significantly different")
-      }
-   }
-  #########################
-  tags$br()
-###################################Multi
- if(input$submit > 0){
-      if(input$filerepli=='equal'){
-        d=as.data.frame(csvfile())
-          t=as.numeric(input$trt)
-          response=d[,input$yield]
-          treatment=d[,input$treatment]
-          treatment=factor(treatment)
-          anvaTable=lm(response~treatment)
-          result=as.data.frame( anova(anvaTable) )
-        if(result[1,5]>0.05){return()}
-        else if(input$req=='lsd'){
-          d=as.data.frame(csvfile())
-          t=as.numeric(input$trt)
-          response=d[,input$yield]
-          treatment=d[,input$treatment]
-          treatment=factor(treatment)
-          anvaTable=lm(response~treatment)
-          result=as.data.frame( anova(anvaTable) )
-          out<-LSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3]) 
-          result<-out$statistics
-          kable(result,caption = "LSD test",digits=3,align = 'c')  
-        }
-        else if(input$req=='dmrt'){
-          d=as.data.frame(csvfile())
-          t=as.numeric(input$trt)
-          response=d[,input$yield]
-          treatment=d[,input$treatment]
-          treatment=factor(treatment)
-          anvaTable=lm(response~treatment)
-          result=as.data.frame( anova(anvaTable) )
-          out<-duncan.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
-          result<-out$duncan
-           kable(result,caption = "DMRT",digits=3,align = 'c',row.names = FALSE)  
-        }
-        else if(input$req=='tukey'){
-          d=as.data.frame(csvfile())
-          t=as.numeric(input$trt)
-          response=d[,input$yield]
-          treatment=d[,input$treatment]
-          treatment=factor(treatment)
-          anvaTable=lm(response~treatment)
-          result=as.data.frame( anova(anvaTable) )
-          out<-HSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
-          result<-out$statistics
-           kable(result,caption = "Tukey",digits=3,align = 'c')  
-        } 
-      }
-   else {return()}
-   
- }
-##########################finish  
-
-  ##################### CD matrix
-  if(input$submit > 0){
-  if(input$filerepli=='unequal'){
-     d=as.data.frame(csvfile())
-          t=as.numeric(input$trt)
-          response=d[,input$yield]
-          treatment=d[,input$treatment]
-          treatment=factor(treatment)
-          anvaTable=lm(response~treatment)
-          result=as.data.frame( anova(anvaTable) )
-        if(result[1,5]>0.05){return()}
+      if(result[1,5]>0.05){return("Multiple comparison test is not performed")}
+    
     else if(input$req=='lsd'){
       d=as.data.frame(csvfile())
       t=as.numeric(input$trt)
@@ -171,44 +119,101 @@ if(input$submit > 0){
       treatment=factor(treatment)
       anvaTable=lm(response~treatment)
       result=as.data.frame( anova(anvaTable) )
-      count<-table(d[,input$treatment])#count the number of replications of treatment
-      t=(result[1,1]+1)#no.of treatments
-      repli<-as.data.frame(count)
-      reciproc<-1/repli[,2]#1/ri
-      npw<-choose(t,2)#number of pairwise combinations
-      sumres<-as.vector(apply(combn(reciproc,2),2,sum))#all pairwise sum of reciprocals (1/ri+1/rj)
-      ems<-as.vector(replicate(npw,(result[2,3])))
-      SE_D<-sqrt((ems*sumres))#standard error of difference
-      tvalue<-qt(0.975,result[2,1])#tvalue
-      vect<-replicate(npw,tvalue)#vector of t value
-      CD<-vect*SE_D #critical difference
-      means<-aggregate(response,list(treatment),mean)
-      std<-aggregate(response,list(treatment),sd)
-      finalmean<-cbind(means,std[,2])
-      rownames(finalmean)<-NULL
-      colnam<-c("Treatment","mean", "std")
-      colnames(finalmean)<-colnam
-      b<-matrix(0, t, t)
-      b[upper.tri(b, diag=FALSE)]<-CD 
-      name<-finalmean$Treatment
-      colnames(b)<-name
-      row.names(b)<-name
-      kable(b,caption = "LSD test Matrix of CD values",digits=3,align = 'c')    
+        out<-LSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3]) 
+        result1<-out$statistics
+        kable(result1,caption = "LSD test",digits=3,align = 'c')  
+      }
+    
+    
+    else if(input$req=='dmrt'){
+      d=as.data.frame(csvfile())
+      t=as.numeric(input$trt)
+      response=d[,input$yield]
+      treatment=d[,input$treatment]
+      treatment=factor(treatment)
+      anvaTable=lm(response~treatment)
+      result=as.data.frame( anova(anvaTable) )
+        out<-duncan.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
+        result1<-out$duncan
+        kable(result1,caption = "DMRT",digits=3,align = 'c',row.names = FALSE)  
+      }
+    
+    
+    else if(input$req=='tukey'){
+      d=as.data.frame(csvfile())
+      t=as.numeric(input$trt)
+      response=d[,input$yield]
+      treatment=d[,input$treatment]
+      treatment=factor(treatment)
+      anvaTable=lm(response~treatment)
+      result=as.data.frame( anova(anvaTable) )
+        out<-HSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
+        result1<-out$statistics
+        kable(result1,caption = "Tukey",digits=3,align = 'c')  
+    }
+    
+  }
+}
+##########################finish  
+tags$br()
+##################### CD matrix
+if(input$submit > 0){
+  if(input$filerepli=='unequal'){
+    d=as.data.frame(csvfile())
+    t=as.numeric(input$trt)
+    response=d[,input$yield]
+    treatment=d[,input$treatment]
+    treatment=factor(treatment)
+    anvaTable=lm(response~treatment)
+    result=as.data.frame( anova(anvaTable) )
+    if(result[1,5]>0.05){return("Multiple comparison test is not performed")}
+    else if(input$req=='lsd'){
+      d=as.data.frame(csvfile())
+      t=as.numeric(input$trt)
+      response=d[,input$yield]
+      treatment=d[,input$treatment]
+      treatment=factor(treatment)
+      anvaTable=lm(response~treatment)
+      result=as.data.frame( anova(anvaTable) )
+        count<-table(d[,input$treatment])#count the number of replications of treatment
+        t=(result[1,1]+1)#no.of treatments
+        repli<-as.data.frame(count)
+        reciproc<-1/repli[,2]#1/ri
+        npw<-choose(t,2)#number of pairwise combinations
+        sumres<-as.vector(apply(combn(reciproc,2),2,sum))#all pairwise sum of reciprocals (1/ri+1/rj)
+        ems<-as.vector(replicate(npw,(result[2,3])))
+        SE_D<-sqrt((ems*sumres))#standard error of difference
+        tvalue<-qt(0.975,result[2,1])#tvalue
+        vect<-replicate(npw,tvalue)#vector of t value
+        CD<-vect*SE_D #critical difference
+        means<-aggregate(response,list(treatment),mean)
+        std<-aggregate(response,list(treatment),sd)
+        finalmean<-cbind(means,std[,2])
+        rownames(finalmean)<-NULL
+        colnam<-c("Treatment","mean", "std")
+        colnames(finalmean)<-colnam
+        b<-matrix(0, t, t)
+        b[upper.tri(b, diag=FALSE)]<-CD 
+        name<-finalmean$Treatment
+        colnames(b)<-name
+        row.names(b)<-name
+        kable(b,caption = "LSD test Matrix of CD values",digits=3,align = 'c')    
+      }
     }
   }
-  }
-  ###################
-  tags$br()
+###################
+tags$br()
 ###################################group
 if(input$submit > 0){
   d=as.data.frame(csvfile())
-          t=as.numeric(input$trt)
-          response=d[,input$yield]
-          treatment=d[,input$treatment]
-          treatment=factor(treatment)
-          anvaTable=lm(response~treatment)
-          result=as.data.frame( anova(anvaTable) )
-        if(result[1,5]>0.05){return()}
+    t=as.numeric(input$trt)
+    response=d[,input$yield]
+    treatment=d[,input$treatment]
+    treatment=factor(treatment)
+    anvaTable=lm(response~treatment)
+    result=as.data.frame( anova(anvaTable) )
+    if(result[1,5]>0.05){return("")}
+    
   else if(input$req=='lsd'){ 
     d=as.data.frame(csvfile())
     t=as.numeric(input$trt)
@@ -217,11 +222,12 @@ if(input$submit > 0){
     treatment=factor(treatment)
     anvaTable=lm(response~treatment)
     result=as.data.frame( anova(anvaTable) )
-    out<-LSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3]) 
-    outgroup<-out$groups
-    colnames(outgroup) <- c("trt_mean","grouping")
-    outgroup
-  }
+      out<-LSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3]) 
+      outgroup<-out$groups
+      colnames(outgroup) <- c("trt_mean","grouping")
+      kable(outgroup,caption = "Treatment Grouping",align='c') 
+    }
+  
   else if(input$req=='dmrt'){
     d=as.data.frame(csvfile())
     t=as.numeric(input$trt)
@@ -230,11 +236,12 @@ if(input$submit > 0){
     treatment=factor(treatment)
     anvaTable=lm(response~treatment)
     result=as.data.frame( anova(anvaTable) )
-    out<-duncan.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
-    outgroup<-out$groups
-    colnames(outgroup) <- c("trt_mean","grouping")
-    outgroup
-  }
+      out<-duncan.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
+      outgroup<-out$groups
+      colnames(outgroup) <- c("trt_mean","grouping")
+      kable(outgroup,caption = "Treatment Grouping",align='c') 
+    }
+  
   else if(input$req=='tukey'){
     d=as.data.frame(csvfile())
     t=as.numeric(input$trt)
@@ -243,30 +250,31 @@ if(input$submit > 0){
     treatment=factor(treatment)
     anvaTable=lm(response~treatment)
     result=as.data.frame( anova(anvaTable) )
-    out<-HSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
-    outgroup<-out$groups
-    colnames(outgroup) <- c("trt_mean","grouping")
-    outgroup
-  }
-  kable(outgroup,caption = "Treatment Grouping",align='c')  
-}
-  ##########
-tags$br()  
-############
-  if(input$submit > 0){
-     if(input$req=='tukey'||input$req=='dmrt'||input$req=='lsd'){
-      cat("Treatments with same letters are not significantly different")
-      }
-     
-  else{
-    return()
+      out<-HSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
+      outgroup<-out$groups
+      colnames(outgroup) <- c("trt_mean","grouping")
+      outgroup
+      kable(outgroup,caption = "Treatment Grouping",align='c') 
     }
   }
- ##########
 tags$br()
-   ##########
+############
+if(input$submit > 0){
+   d=as.data.frame(csvfile())
+    t=as.numeric(input$trt)
+    response=d[,input$yield]
+    treatment=d[,input$treatment]
+    treatment=factor(treatment)
+    anvaTable=lm(response~treatment)
+    result=as.data.frame( anova(anvaTable) )
+    if(result[1,5]>0.05){return("")}
+  if(input$req=='tukey'||input$req=='dmrt'||input$req=='lsd'){
+    cat("Treatments with same letters are not significantly different")
+  }
+}
 
-
+tags$br()
+tags$br()
 ```
 report generated from:
 **GRAPES**
@@ -274,7 +282,7 @@ report generated from:
 
 **Developed by:**
 
-Pratheesh P. Gopinath
+Dr.Pratheesh P. Gopinath
 
 Asst. Professor
 

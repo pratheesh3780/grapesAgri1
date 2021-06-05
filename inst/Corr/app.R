@@ -199,6 +199,9 @@ server = function(input, output, session) {
                         ,'BrBG'),
             checkboxInput("remove_corr",
                           "Don't show correlation coefficient", FALSE),
+            sliderInput("cex", "Required size of coefficient:",
+                        min = 0.5, max = 3, value = 1
+            ),
             selectInput('txcol', 'Please select correlation coefficient colour',
                         c(Black= '#141413',
                           Transparent='#00141413',
@@ -341,7 +344,7 @@ server = function(input, output, session) {
         cormat1 <- cor(x, method = input$req2, use = "complete.obs")
         corrplot(cormat1, method=input$shape,
                  type=input$layout, tl.col="#000000",
-                 col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol)
+                 col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol,number.cex =input$cex)
       if(input$significance>0){
         x<-as.data.frame(csvfile()[,input$selvar])
         cormat1 <- cor(x, method = input$req2, use = "complete.obs")
@@ -532,7 +535,7 @@ server = function(input, output, session) {
           cormat1 <- cor(x, method = input$req2, use = "complete.obs")
           corrplot(cormat1, method=input$shape,
                    type=input$layout, tl.col="#000000",
-                   col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol)
+                   col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol,number.cex =input$cex)
           if(input$significance>0){
             x<-as.data.frame(csvfile()[,input$selvar])
             cormat1 <- cor(x, method = input$req2, use = "complete.obs")

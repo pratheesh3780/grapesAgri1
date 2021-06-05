@@ -296,8 +296,10 @@ server = function(input, output, session) {
           treatment=factor(treatment)
           anvaTable=lm(response~treatment)
           result=as.data.frame( stats::anova(anvaTable) )
+          if(result[1,5]<= 0.05){
           out<-agricolae::LSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3])
           out$statistics
+          }
         }
         else if(input$req=='dmrt'){
           d=as.data.frame(csvfile())
@@ -307,8 +309,10 @@ server = function(input, output, session) {
           treatment=factor(treatment)
           anvaTable=lm(response~treatment)
           result=as.data.frame( stats::anova(anvaTable) )
+          if(result[1,5]<= 0.05){
           out<-agricolae::duncan.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
           out$duncan
+          }
         }
         else if(input$req=='tukey'){
           d=as.data.frame(csvfile())
@@ -318,8 +322,10 @@ server = function(input, output, session) {
           treatment=factor(treatment)
           anvaTable=lm(response~treatment)
           result=as.data.frame( stats::anova(anvaTable) )
+          if(result[1,5]<= 0.05){
           out<-agricolae::HSD.test(d[,input$yield], d[,input$treatment], result[2,1], result[2,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
           out$statistics
+          }
         }
       }
     }
@@ -341,6 +347,7 @@ server = function(input, output, session) {
           treatment=factor(treatment)
           anvaTable=lm(response~treatment)
           result=as.data.frame( stats::anova(anvaTable) )
+          if(result[1,5]<= 0.05){
           count<-table(d[,input$treatment])#count the number of replications of treatment
           t=(result[1,1]+1)#no.of treatments
           repli<-as.data.frame(count)
@@ -364,6 +371,7 @@ server = function(input, output, session) {
           colnames(b)<-name
           row.names(b)<-name
           b
+          }
         }
       }
     }
@@ -441,56 +449,8 @@ server = function(input, output, session) {
   })
   ########################################### PLOTS
   output$boxplot<- renderPlot({
-    if(is.null(input$file1$datapath)){return()}
-    if(is.null(input$plotreq)){return()}
-    if(is.null(input$submit1)){return()}
-
-  if(input$plotreq=='boxplot'){
-        if(input$submit1 > 0){
-
-        nb.cols <- as.numeric(input$trt)
-        mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
-
-        x<-as.matrix(csvfile()[,input$treatment])
-        y<-as.matrix(csvfile()[,input$yield])
-        my_data <- data.frame(
-          group=x,
-          obs = y)
-
-        colnames(my_data)<-c("Treatments","obs")
-        ggpubr::ggboxplot(my_data, x = "Treatments", y = "obs",
-                  color = "Treatments", palette = mycolors,
-                  ylab = input$ylab, xlab = input$xlab, size = input$size)+
-           rotate_x_text()+
-          font("x.text", size = input$size1)+
-          font("y.text", size = input$size2)
-        }
-  }
-
-      else if(input$plotreq=='barchart'){
-        if(input$submit1 > 0){
-
-          d=as.data.frame(csvfile())
-          treatment<-as.factor(d[,input$treatment])
-
-          nb.cols <- as.numeric(input$trt)
-          mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
-          p<-ggplot2::ggplot(data=d, aes(x=d[,input$treatment],
-                                y=d[,input$yield],fill=treatment))+
-            stat_summary(fun = mean, geom = "bar",width=input$width1) +
-            stat_summary(fun.data = mean_cl_normal,
-                         geom = "errorbar", width = input$width2) +
-            labs(x = input$xlab, y = input$ylab)+
-            ggtitle(input$title)+
-          scale_fill_manual(values = mycolors)+theme_bw()+
-            theme(plot.title = element_text(size=22,hjust = 0.5),
-                  axis.text.x=element_text(angle = 90, hjust = 1,size = input$width3),
-                  axis.text.y=element_text(size = input$width4))
-         p
-        }
-      }
-
-  }, bg="transparent")
+    plotInput()
+}, bg="transparent")
 
  ############## interactive for plots
   output$varboxplot<- renderUI({
@@ -687,6 +647,7 @@ server = function(input, output, session) {
   )
 
 ########################### end image download
+
 ############################## download data set
   output$data_set<- renderUI({
     if(is.null(input$file1$datapath)){
@@ -764,7 +725,7 @@ server = function(input, output, session) {
   output$start_note2<- renderUI({
     if(is.null(input$file1$datapath)){return(
       HTML(paste0(
-        "<li> <b>Note</b>: Don’t forget to enter
+        "<li> <b>Note</b>: Don't forget to enter
         treatment number while doing analysis</li>"))
     )}
 

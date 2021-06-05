@@ -704,8 +704,10 @@ library(knitr)
          if(input$rep_strip> 0){
            if(input$subtrt_strip> 0){
              if(input$submit5>0){
+               rep<-input$rep_strip
                HTML(paste0(tags$b('Main Plot treatment A is applied in rows (shown by corresponding colour) and
-                                  Main Plot treatment B is applied in columns (shown by letters)') ))
+                                  Main Plot treatment B is applied in columns (shown by letters).
+                                  Replications are shown seperately (diagonally)' ) ))
              }
            }
          }
@@ -877,7 +879,8 @@ library(knitr)
                  strip$block2<-strip$block
                  v1 <- do.call(paste, as.data.frame(t(apply(strip[4:5], 1, sort))))
                  strip$row <-  match(v1, unique(v1))
-                 strip<-strip %>% mutate(column = as.integer(factor(main1)))
+                 v2 <- do.call(paste, as.data.frame(t(apply(strip[2:3], 1, sort))))
+                 strip$column <-  match(v2, unique(v2))
                  desplot::desplot(form=main1~ row+column, data=strip,text=main2, out1=column,
                          out2=row,out2.gpar = list(col = "#a83232"),
                          cex=s, main="Layout of Strip-Plot Design",show.key=TRUE)
@@ -1143,7 +1146,8 @@ library(knitr)
          strip$block2<-strip$block
          v1 <- do.call(paste, as.data.frame(t(apply(strip[4:5], 1, sort))))
          strip$row <-  match(v1, unique(v1))
-         strip<-strip %>% mutate(column = as.integer(factor(main1)))
+         v2 <- do.call(paste, as.data.frame(t(apply(strip[2:3], 1, sort))))
+         strip$column <-  match(v2, unique(v2))
          final<-as.data.frame(cbind(Replication=strip$block, Horizontal_row_No.=strip$row
                                     ,Treatment_A=as.character(strip$main1),
                                     Vertical_row_No. = strip$column,
