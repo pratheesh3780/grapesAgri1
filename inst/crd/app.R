@@ -4,6 +4,7 @@ library(shinycssloaders)
 library(rmarkdown)
 library(dplyr)
 library(ggplot2)
+###############
 library(Hmisc)
 library(agricolae)
 library(RColorBrewer)
@@ -30,30 +31,12 @@ ui <- fluidPage(
     conditionalPanel("$('#trtmeans').hasClass('recalculating')",
                      tags$div(tags$b('Loading ...please wait while we are calculating in the background.....please dont press submit button again '), style="color:green")),
     tags$br(),
-    h5(
-      tags$div(
-        tags$br(),
-        "Developed by:",
-        tags$br(),
-        tags$b("Dr.Pratheesh P. Gopinath"),
-        tags$br(),
-        tags$b("Assistant Professor,"),
-        tags$br(),
-        tags$b("Agricultural Statistics,"),
-        tags$br(),
-        tags$b("Kerala Agricultural University"),
-        tags$br(),
-        tags$br(),
-        "Contribution:",
-        tags$br(),
-        tags$b("Adarsh V.S."),
-        tags$br(),
-        tags$b("MSc, Agricultural Statistics"),
-        tags$br(),
-        tags$br(),
-        "post your queries at: pratheesh.pg@kau.in"
-        ,style="color:#343aeb")
-    )
+    h5(tags$div(
+      "Package:",
+      tags$br(),
+      tags$b("grapes, Version 1.0.0"),
+      tags$br()
+    ))
   )
   , mainPanel(
 

@@ -68,7 +68,9 @@
 #'
 #'\insertRef{das1979design}{grapes}
 #'
+
 crdApp<- function() {
+
   appDir <- system.file("crd", package = "grapes")
   if (appDir == "") {
     stop("Could not find directory. Try re-installing `grapes`.", call. = FALSE)

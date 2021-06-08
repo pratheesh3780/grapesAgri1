@@ -2,8 +2,8 @@
 #'
 #'@description
 #'rbdApp() function opens up an interactive shiny app which will allow
-#'the user to perform analysis of randomized Block design. 
-#'Multiple comparison tests like LSD,DMRT and Tukey can be performed. 
+#'the user to perform analysis of randomized Block design.
+#'Multiple comparison tests like LSD,DMRT and Tukey can be performed.
 #'Box-pot and Bar-chart with confidence interval
 #'can be plotted. All these can be achieved by uploading CSV file.
 #'
@@ -67,12 +67,12 @@
 #'\insertRef{shinycss_2020}{grapes}
 #'
 #'\insertRef{das1979design}{grapes}
-#'
+
 rbdApp<- function() {
   appDir <- system.file("RBD", package = "grapes")
   if (appDir == "") {
     stop("Could not find directory. Try re-installing `grapes`.", call. = FALSE)
   }
-  
+
   shiny::runApp(appDir, display.mode = "normal")
 }

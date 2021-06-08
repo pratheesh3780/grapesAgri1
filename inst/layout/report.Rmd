@@ -304,4 +304,9 @@ if(input$design == 'crd'){
       kable(final,caption="Layout of Strip plot design",row.names = FALSE)
     }
   }
-  ```
+  
+```
+**Package: grapes, Version;1.0.0**
+  
+  
+  

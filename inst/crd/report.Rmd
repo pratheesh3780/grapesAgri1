@@ -277,23 +277,6 @@ tags$br()
 tags$br()
 ```
 report generated from:
-**GRAPES**
+**Package: grapes, Version 1.0.0**
 
 
-**Developed by:**
-
-Dr.Pratheesh P. Gopinath
-
-Asst. Professor
-
-Agricultural Statistics
-
-Kerala Agricultural University
-
-**Contribution:**
-
-Adarsh V.S.
-
-M.Sc.(Agricultural Statistics)
-
-College of Agriculture Vellayani

@@ -33,7 +33,7 @@ if(input$req1 == 'ttest'||input$req1 == 'wttest'||input$req1=='ottest'||input$re
       grp1<- subset(csvfile(),select=input$dvar)
       grp2<- subset(csvfile(),select=input$ivar)
       final<-cbind(grp1,grp2)
-      res <- stat.desc(final)
+      res <- pastecs::stat.desc(final)
       result<-as.data.frame(res)
       rownames(result)[rownames(result) == "nbr.val"] <- "Number of Obs."
       rownames(result)[rownames(result) == "nbr.null"] <- "null values"
@@ -221,8 +221,7 @@ h3("")
   
   
     
-**Package: grapes**
+**Package: grapes, Version: 1.0.0**
 
-**Author**
 
-**Pratheesh P. Gopinath**
+

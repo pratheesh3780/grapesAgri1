@@ -258,25 +258,4 @@ if(input$submit > 0){
 tags$br()
 tags$br()
 ```
-Report generated from: **GRAPES**
-
-
-Developed by:
-
-**Dr. Pratheesh P. Gopinath**
-
-**Asst. Professor**
-
-**Agricultural Statistics**
-
-**Kerala Agricultural University**
-
-Contribution:
-
-**Adarsh V. S.**
-
-**PhD. Agricultural Statistics**
-
-**College of Agriculture, Vellayani**
-
-
+Report generated from: **Package: grapes Version 1.0.0**

@@ -5,7 +5,7 @@
 #'the user to easily calculate Summary Statistics, Summary Statistics by Group, Box plot,
 #'Histogram, Q-Q plot and Shapiro-Wilk's test by uploading CSV file.
 #'
-#' @details
+#'@details
 #'This app uses \code{descr} and \code{stby} functions of \code{summarytools}
 #'package (Dominic Comtois, 2021) to calculate summary statistics and
 #'summary statistics by group. \code{knitr} (Yihui Xie,2021) and \code{kableExtra}(Hao Zhu,2021) packages
@@ -79,18 +79,7 @@ descApp<- function() {
     stop("Package \"summarytools\" needed for this function to work. Please install it.",
          call. = FALSE)
   }
-  if (!requireNamespace("pastecs", quietly = TRUE)) {
-    stop("Package \"pastecs\" needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
-  if (!requireNamespace("ggpubr", quietly = TRUE)) {
-    stop("Package \"ggpubr\" needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
-  if (!requireNamespace("ggplot2", quietly = TRUE)) {
-    stop("Package \"ggplot2\" needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
+
 
   appDir <- system.file("desc", package = "grapes")
   if (appDir == "") {

@@ -69,19 +69,11 @@ library(knitr)
     tags$br(),
 
     h5(tags$div(
-      "Developed by:",
+      "Package:",
       tags$br(),
-      tags$b("Pratheesh P. Gopinath"),
-      tags$br(),
-      tags$b("Assistant Professor,"),
-      tags$br(),
-      tags$b("Agricultural Statistics,"),
-      tags$br(),
-      tags$b("Kerala Agricultural University"),
-      tags$br(),
-      "post your queries at: pratheesh.pg@kau.in"
-      ,style="color:#2003ff")
-    )
+      tags$b("grapes, Version 1.0.0"),
+      tags$br()
+    ))
 
   ),
   mainPanel(

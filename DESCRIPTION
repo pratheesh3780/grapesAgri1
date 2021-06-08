@@ -39,15 +39,16 @@ Imports: shiny(>= 1.6.0),
          Rdpack(>= 2.1.2),
          devtools(>= 2.4.1),
          agricolae(>= 1.3.5),
-         desplot(>= 1.8)
+         pastecs(>= 1.3.21),
+         ggpubr(>= 0.4.0),
+         Hmisc(>= 4.5.0),
+         ggplot2(>= 3.3.3)
 Suggests:
         tinytex(>= 0.32),
         kableExtra(>= 1.3.4),
         summarytools(>= 0.9.9),
-        pastecs(>= 1.3.21),
-        ggpubr(>= 0.4.0),
-        Hmisc(>= 4.5.0),
-        corrplot(>= 0.84),
-        ggplot2(>= 3.3.3),
         reshape2(>= 1.4.4),
+        desplot(>= 1.8),
+        corrplot(>= 0.84),
+        PairedData(>= 1.1.1)
 RdMacros: Rdpack

@@ -1,14 +1,16 @@
 library(shiny)
 library(shinyWidgets)
 library(shinycssloaders)
+library(datasets)
 library(rmarkdown)
-library(pastecs)
 library(dplyr)
 library(ggplot2)
+###############
+library(pastecs)
 library(ggpubr)
 library(PairedData)
 library(reshape2)
-library(datasets)
+
 
 ############################### Ui
 
@@ -36,22 +38,12 @@ ui <- fluidPage(
     uiOutput('var'),
     tags$br(),
     tags$br(),
-    h5(
-      tags$div(
-        "Developed by:",
-        tags$br(),
-        tags$b("Dr.Pratheesh P. Gopinath"),
-        tags$br(),
-        tags$b("Assistant Professor,"),
-        tags$br(),
-        tags$b("Agricultural Statistics,"),
-        tags$br(),
-        tags$b("Kerala Agricultural University"),
-        tags$br(),
-        tags$br(),
-        "post your queries at: pratheesh.pg@kau.in"
-        ,style="color:#3705fc")
-    )
+    h5(tags$div(
+      "Package:",
+      tags$br(),
+      tags$b("grapes, Version 1.0.0"),
+      tags$br()
+    ))
   )
   , mainPanel(
     uiOutput('start_note'),
@@ -313,7 +305,7 @@ server = function(input, output, session) {
       grp1<- subset(csvfile(),select=input$dvar)
       grp2<- subset(csvfile(),select=input$ivar)
       final<-cbind(grp1,grp2)
-      res <- stat.desc(final)
+      res <- pastecs::stat.desc(final)
       result<-as.data.frame(res)
       rownames(result)[rownames(result) == "nbr.val"] <- "Number of Obs."
       rownames(result)[rownames(result) == "nbr.null"] <- "null values"
@@ -519,7 +511,7 @@ server = function(input, output, session) {
         grp1<- subset(csvfile(),select=input$dvar)
         grp2<- subset(csvfile(),select=input$ivar)
         final<-cbind(grp1,grp2)
-        res <- stat.desc(final)
+        res <- pastecs::stat.desc(final)
         result<-as.data.frame(res)
         rownames(result)[rownames(result) == "nbr.val"] <- "Number of Obs."
         rownames(result)[rownames(result) == "nbr.null"] <- "null values"
@@ -587,7 +579,7 @@ server = function(input, output, session) {
         grp1<- subset(csvfile(),select=input$dvar)
         grp2<- subset(csvfile(),select=input$ivar)
         final<-cbind(grp1,grp2)
-        res <- stat.desc(final)
+        res <- pastecs::stat.desc(final)
         result<-as.data.frame(res)
         rownames(result)[rownames(result) == "nbr.val"] <- "Number of Obs."
         rownames(result)[rownames(result) == "nbr.null"] <- "null values"
@@ -619,7 +611,7 @@ server = function(input, output, session) {
             obs = c(x,y))
 
         colnames(my_data)<-c("group","obs")
-        ggboxplot(my_data, x = "group", y = "obs",
+        ggpubr::ggboxplot(my_data, x = "group", y = "obs",
                   color = "group", palette = c(input$col1, input$col2),
                   ylab = input$ylab, xlab = input$xlab, size = input$size)
       }
@@ -747,7 +739,7 @@ server = function(input, output, session) {
     if(is.null(input$submit1)){return()}
     if(input$req1 == 'ttest'){
       if(input$submit1 > 0){
-        list( radioButtons("format", "Download report:", c("HTML","Word"),
+        list( radioButtons("format", "Download report:", c("HTML","Word","PDF"),
                            inline = TRUE
         ),
         downloadButton("downloadReport")
@@ -762,7 +754,7 @@ server = function(input, output, session) {
     if(is.null(input$submit2)){return()}
     if(input$req1 == 'wttest'){
       if(input$submit2 > 0){
-        list( radioButtons("format", "Download report:", c("HTML","Word"),
+        list( radioButtons("format", "Download report:", c("HTML","Word","PDF"),
                            inline = TRUE
         ),
         downloadButton("downloadReport")
@@ -777,7 +769,7 @@ server = function(input, output, session) {
     if(is.null(input$submit3)){return()}
     if(input$req1 == 'ottest'){
       if(input$submit3 > 0){
-        list( radioButtons("format", "Download report:", c("HTML","Word"),
+        list( radioButtons("format", "Download report:", c("HTML","Word","PDF"),
                            inline = TRUE
         ),
         downloadButton("downloadReport")
@@ -792,7 +784,7 @@ server = function(input, output, session) {
     if(is.null(input$submit4)){return()}
     if(input$req1 == 'ftest'){
       if(input$submit4 > 0){
-        list( radioButtons("format", "Download report:", c("HTML","Word"),
+        list( radioButtons("format", "Download report:", c("HTML","Word","PDF"),
                            inline = TRUE
         ),
         downloadButton("downloadReport")
@@ -807,7 +799,7 @@ server = function(input, output, session) {
     if(is.null(input$submit5)){return()}
     if(input$req1 == 'pttest'){
       if(input$submit5 > 0){
-        list( radioButtons("format", "Download report:", c("HTML","Word"),
+        list( radioButtons("format", "Download report:", c("HTML","Word","PDF"),
                            inline = TRUE
         ),
         downloadButton("downloadReport")
@@ -819,7 +811,7 @@ server = function(input, output, session) {
   output$downloadReport <- downloadHandler(
     filename = function() {
       paste("my-report", sep = ".", switch(
-        input$format, HTML = "html", Word = "docx"
+        input$format, HTML = "html", Word = "docx",PDF = "pdf"
       ))
     },
     content = function(file) {
@@ -829,7 +821,7 @@ server = function(input, output, session) {
       file.copy(src, "report.Rmd", overwrite = TRUE)
       out <- render("report.Rmd", switch(
         input$format,
-        HTML = html_document(), Word = word_document()
+        PDF = pdf_document(),HTML = html_document(), Word = word_document()
       ))
       file.rename(out, file)
     }

@@ -13,13 +13,35 @@ unpaired two sample Welch t-test, paired t-test, test for homogeneity of varianc
 and obtain plots like boxplot and paired plot by uploading CSV file.
 }
 \details{
-Shiny App for t-test
+This app uses \code{t.test} function to calculate t statistic.Descriptive statistics
+were calculated using \code{stat.desc} function of \code{pastecs} package.
+\code{var.test} function is used for F-test.\code{ggboxplot} function
+of \code{ggpubr} package is used to draw boxplot. Paired plot is obtained
+using \code{paired} function of package \code{PairedData}
 }
 \examples{
 \dontrun{
 library(grapes)
 grapes::ttAPP()
 }
+
+}
+\references{
+\insertRef{R_2021}{grapes}
+
+\insertRef{shiny_2021}{grapes}
+
+\insertRef{sw_2021}{grapes}
+
+\insertRef{dplyr_2021}{grapes}
+
+\insertRef{ggpubr_2020}{grapes}
+
+\insertRef{past_2018}{grapes}
+
+\insertRef{gupta1985statistical}{grapes}
+
+\insertRef{paired_data2018}{grapes}
 }
 \keyword{(F-test),}
 \keyword{Testing}

@@ -8,8 +8,8 @@ rbdApp()
 }
 \description{
 rbdApp() function opens up an interactive shiny app which will allow
-the user to perform analysis of randomized Block design. 
-Multiple comparison tests like LSD,DMRT and Tukey can be performed. 
+the user to perform analysis of randomized Block design.
+Multiple comparison tests like LSD,DMRT and Tukey can be performed.
 Box-pot and Bar-chart with confidence interval
 can be plotted. All these can be achieved by uploading CSV file.
 }

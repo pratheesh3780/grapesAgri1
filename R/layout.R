@@ -62,8 +62,13 @@
 #'\insertRef{gupta1985statistical}{grapes}
 #'
 #'\insertRef{das1979design}{grapes}
-#'
+
 layoutApp<- function() {
+  if (!requireNamespace("desplot", quietly = TRUE)) {
+    stop("Package \"desplot\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+
   appDir <- system.file("layout", package = "grapes")
   if (appDir == "") {
     stop("Could not find directory. Try re-installing `grapes`.", call. = FALSE)
