@@ -2,14 +2,18 @@ library(shinycssloaders)
 library(rmarkdown)
 library(shinyWidgets)
 library(dplyr)
-library(corrplot)
-library(Hmisc)
-library(knitr)
-library(reshape2)
-library(ggplot2)
 library(gridGraphics)
 library(grid)
 library(RColorBrewer)
+library(knitr)
+##############
+library(corrplot)
+library(Hmisc)
+library(reshape2)
+library(ggplot2)
+
+
+
 ############################### ui
 
 ui <- fluidPage(
@@ -36,23 +40,12 @@ ui <- fluidPage(
 
     tags$br(),
 
-    h5(
-      tags$div(
-        tags$br(),
-        "Developed by:",
-        tags$br(),
-        tags$b("Dr.Pratheesh P. Gopinath"),
-        tags$br(),
-        tags$b("Assistant Professor,"),
-        tags$br(),
-        tags$b("Agricultural Statistics,"),
-        tags$br(),
-        tags$b("Kerala Agricultural University"),
-        tags$br(),
-        tags$br(),
-        "post your queries at: pratheesh.pg@kau.in"
-        ,style="color:#343aeb")
-    )
+    h5(tags$div(
+      "Package:",
+      tags$br(),
+      tags$b("grapes, Version 1.0.0"),
+      tags$br()
+    ))
   )
   ,mainPanel(
     htmlOutput('note1'),
@@ -265,7 +258,7 @@ server = function(input, output, session) {
         x<-cor.test(a, y,method= 'pearson',conf.level = as.numeric(input$ci)
                     ,alternative = input$alt,exact = FALSE)
         ci<-x$conf.int
-        ci_nw = melt(ci, value.name = "Lower Limit and Upper limit")
+        ci_nw = reshape2::melt(ci, value.name = "Lower Limit and Upper limit")
         ci_nw
       }
       }
@@ -281,7 +274,7 @@ server = function(input, output, session) {
       if(input$req1 == 'corrmat'){
         if(input$submit2 > 0){
         x<-as.data.frame(csvfile()[,input$selvar])
-        cormat <- rcorr(as.matrix(x),type=input$req)
+        cormat <- Hmisc::rcorr(as.matrix(x),type=input$req)
         correlmat<-cormat$r
         row.names(correlmat)<-names(x)
         correlmat
@@ -297,7 +290,7 @@ server = function(input, output, session) {
     if(input$req1 == 'corrmat'){
       if(input$submit2 > 0){
         x<-as.data.frame(csvfile()[,input$selvar])
-        cormat <- rcorr(as.matrix(x),type=input$req)
+        cormat <- Hmisc::rcorr(as.matrix(x),type=input$req)
         correlmat<-cormat$P
         row.names(correlmat)<-names(x)
         correlmat
@@ -342,14 +335,14 @@ server = function(input, output, session) {
       if(input$submit3 > 0){
         x<-as.data.frame(csvfile()[,input$selvar])
         cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-        corrplot(cormat1, method=input$shape,
+        corrplot::corrplot(cormat1, method=input$shape,
                  type=input$layout, tl.col="#000000",
                  col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol,number.cex =input$cex)
       if(input$significance>0){
         x<-as.data.frame(csvfile()[,input$selvar])
         cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-        res1 <- cor.mtest(x)
-        corrplot(cormat1, method=input$shape,
+        res1 <- corrplot::cor.mtest(x)
+        corrplot::corrplot(cormat1, method=input$shape,
                  type=input$layout, tl.col="#000000",
                  col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol,
                  p.mat = res1$p, sig.level = as.numeric(input$sig))
@@ -357,8 +350,8 @@ server = function(input, output, session) {
         if(input$remove_corr>0){
           x<-as.data.frame(csvfile()[,input$selvar])
           cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-          res1 <- cor.mtest(x)
-          corrplot(cormat1, method=input$shape,
+          res1 <- corrplot::cor.mtest(x)
+          corrplot::corrplot(cormat1, method=input$shape,
                    type=input$layout, tl.col="#000000",
                    col=brewer.pal(n=8, name=input$style)
                     )
@@ -367,8 +360,8 @@ server = function(input, output, session) {
         if(input$remove_corr>0 && input$significance>0){
           x<-as.data.frame(csvfile()[,input$selvar])
           cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-          res1 <- cor.mtest(x)
-          corrplot(cormat1, method=input$shape,
+          res1 <- corrplot::cor.mtest(x)
+          corrplot::corrplot(cormat1, method=input$shape,
                    type=input$layout, tl.col="#000000",
                    col=brewer.pal(n=8, name=input$style),
                    p.mat = res1$p, sig.level = as.numeric(input$sig))
@@ -533,14 +526,14 @@ server = function(input, output, session) {
         if(input$submit3 > 0){
           x<-as.data.frame(csvfile()[,input$selvar])
           cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-          corrplot(cormat1, method=input$shape,
+          corrplot::corrplot(cormat1, method=input$shape,
                    type=input$layout, tl.col="#000000",
                    col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol,number.cex =input$cex)
           if(input$significance>0){
             x<-as.data.frame(csvfile()[,input$selvar])
             cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-            res1 <- cor.mtest(x)
-            corrplot(cormat1, method=input$shape,
+            res1 <- corrplot::cor.mtest(x)
+            corrplot::corrplot(cormat1, method=input$shape,
                      type=input$layout, tl.col="#000000",
                      col=brewer.pal(n=8, name=input$style),addCoef.col = input$txcol,
                      p.mat = res1$p, sig.level = as.numeric(input$sig))
@@ -548,8 +541,8 @@ server = function(input, output, session) {
           if(input$remove_corr>0){
             x<-as.data.frame(csvfile()[,input$selvar])
             cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-            res1 <- cor.mtest(x)
-            corrplot(cormat1, method=input$shape,
+            res1 <- corrplot::cor.mtest(x)
+            corrplot::corrplot(cormat1, method=input$shape,
                      type=input$layout, tl.col="#000000",
                      col=brewer.pal(n=8, name=input$style)
             )
@@ -558,8 +551,8 @@ server = function(input, output, session) {
           if(input$remove_corr>0 && input$significance>0){
             x<-as.data.frame(csvfile()[,input$selvar])
             cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-            res1 <- cor.mtest(x)
-            corrplot(cormat1, method=input$shape,
+            res1 <- corrplot::cor.mtest(x)
+            corrplot::corrplot(cormat1, method=input$shape,
                      type=input$layout, tl.col="#000000",
                      col=brewer.pal(n=8, name=input$style),
                      p.mat = res1$p, sig.level = as.numeric(input$sig))
@@ -586,7 +579,7 @@ server = function(input, output, session) {
         grDevices::png(..., width = width, height = height,
                        res = 500, units = "in")
       }
-      ggsave(file, plot = plotInput(), device = device)
+      ggplot2::ggsave(file, plot = plotInput(), device = device)
     }
     )
 
@@ -597,7 +590,7 @@ server = function(input, output, session) {
         grDevices::png(..., width = width, height = height,
                        res = 500, units = "in")
       }
-      ggsave(file, plot = plotInput(), device = device)
+      ggplot2::ggsave(file, plot = plotInput(), device = device)
     }
     )
 

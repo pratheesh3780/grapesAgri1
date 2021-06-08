@@ -1,15 +1,16 @@
 library(shiny)
 library(shinyWidgets)
 library(rmarkdown)
-library(kableExtra)
 library(knitr)
 library(dplyr)
-library(pastecs)
-library(ggpubr)
 library(magrittr)
-library(summarytools)
 library(gridGraphics)
 library(grid)
+######################
+library(kableExtra)
+library(pastecs)
+library(ggpubr)
+library(summarytools)
 library(ggplot2)
 ############################### ui
 ui <- fluidPage(
@@ -35,17 +36,11 @@ ui <- fluidPage(
     ,uiOutput('var'),
     tags$br(),
     h5(tags$div(
-      "Created by:",
+      "Package:",
       tags$br(),
-      tags$b("Dr.Pratheesh P. Gopinath"),
-      tags$br(),
-      tags$b("Assistant Professor,"),
-      tags$br(),
-      tags$b("Agricultural Statistics,"),
-      tags$br(),
-      tags$b("Kerala Agricultural University"),
-      tags$br(),
-      "post your queries at: pratheesh.pg@kau.in"))
+      tags$b("grapes, Version 1.0.0"),
+      tags$br()
+      ))
 
   )
   , mainPanel(
@@ -519,7 +514,7 @@ output$summaryout = function(){
         grDevices::png(..., width = width, height = height,
                        res = 500, units = "in")
       }
-      ggsave(file, plot = plotInput(), device = device)
+      ggplot2::ggsave(file, plot = plotInput(), device = device)
     }
   )
 
@@ -530,7 +525,7 @@ output$summaryout = function(){
         grDevices::png(..., width = width, height = height,
                        res = 500, units = "in")
       }
-      ggsave(file, plot = plotInput(), device = device)
+      ggplot2::ggsave(file, plot = plotInput(), device = device)
     }
   )
 
@@ -541,7 +536,7 @@ output$summaryout = function(){
         grDevices::png(..., width = width, height = height,
                        res = 500, units = "in")
       }
-      ggsave(file, plot = plotInput(), device = device)
+      ggplot2::ggsave(file, plot = plotInput(), device = device)
     }
   )
 

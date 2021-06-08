@@ -71,6 +71,27 @@
 
 
 descApp<- function() {
+  if (!requireNamespace("kableExtra", quietly = TRUE)) {
+    stop("Package \"kableExtra\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("summarytools", quietly = TRUE)) {
+    stop("Package \"summarytools\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("pastecs", quietly = TRUE)) {
+    stop("Package \"pastecs\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("ggpubr", quietly = TRUE)) {
+    stop("Package \"ggpubr\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Package \"ggplot2\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+
   appDir <- system.file("desc", package = "grapes")
   if (appDir == "") {
     stop("Could not find directory. Try re-installing `grapes`.", call. = FALSE)

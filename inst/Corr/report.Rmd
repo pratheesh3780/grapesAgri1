@@ -97,15 +97,7 @@ h3("")
 
 
 
-**package: grapes**
+**package: grapes, Version; 1.0.0**
 
-**Author(s)**
 
-**Pratheesh P. Gopinath**
-
-**Rajender Parsad**
-
-**Brigit Joseph**
-
-**Adarsh V.S.**
 

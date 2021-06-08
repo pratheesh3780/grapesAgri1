@@ -1,7 +1,7 @@
 Package: grapes
 Type: Package
 Title: Collection of shiny apps for Agricultural research Data Analysis
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: c(
     person(given = "Gopinath", family = "Pratheesh P.",
            email = "pratheesh.pg@kau.in",
@@ -16,38 +16,38 @@ Authors@R: c(
 		person(given = "V. S.", family = "Adarsh",
            email = "adarshvs0007@gmail.com",
 		       role = "aut"),
-    person("Pratheesh P Gopinath",
+    person("Kerala Agricultural University",
            role = c("cph"),
-		       comment = c(url = "www.kaugrapes.com")))
+		       comment = c(url = "http://www.kau.in/")))
 Maintainer: Pratheesh P. Gopinath <grapescoa@gmail.com>
 Description: Allows user to have graphical user interface to perform analysis of Agricultural experimental data. On using the functions in this package a Interactive User Interface will pop up. Apps Works by simple upload of files in CSV format.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
-Imports: shiny,
-         shinycssloaders, 
-         shinyWidgets,
-         rmarkdown, 
-         knitr, 
-         kableExtra, 
-         magrittr, 
-         summarytools,
-         dplyr,
-         pastecs, 
-         ggpubr,
-         Hmisc,
-         datasets,
-         corrplot,
-         ggplot2,
-         reshape2,
-         gridGraphics,
-         grid,
-         RColorBrewer,
-         Rdpack,
-         devtools,
-         agricolae,
-         desplot
+Imports: shiny(>= 1.6.0),
+         shinycssloaders(>= 1.0.0),
+         shinyWidgets(>= 0.6.0),
+         rmarkdown(>= 2.7),
+         knitr(>= 1.31),
+         magrittr(>= 2.0.1),
+         dplyr(>= 1.0.4),
+         datasets(>= 4.0.4),
+         gridGraphics(>= 0.5.1),
+         grid(>= 4.0.4),
+         RColorBrewer(>= 1.1.2),
+         Rdpack(>= 2.1.2),
+         devtools(>= 2.4.1),
+         agricolae(>= 1.3.5),
+         desplot(>= 1.8)
 Suggests:
-        tinytex
+        tinytex(>= 0.32),
+        kableExtra(>= 1.3.4),
+        summarytools(>= 0.9.9),
+        pastecs(>= 1.3.21),
+        ggpubr(>= 0.4.0),
+        Hmisc(>= 4.5.0),
+        corrplot(>= 0.84),
+        ggplot2(>= 3.3.3),
+        reshape2(>= 1.4.4),
 RdMacros: Rdpack

@@ -53,9 +53,7 @@ if(input$req == 'sumbygrp'){
 ```
 
 h3("")
-**package: Grapes**
+**package: grapes, Version 1.0.0**
 
-**Author**
 
-**Pratheesh P. Gopinath**
 

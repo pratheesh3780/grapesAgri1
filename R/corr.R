@@ -19,6 +19,24 @@
 #'grapes::corrAPP()
 #' }
 corrApp<- function() {
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Package \"ggplot2\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("corrplot", quietly = TRUE)) {
+    stop("Package \"corrplot\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("Hmisc", quietly = TRUE)) {
+    stop("Package \"Hmisc\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("reshape2", quietly = TRUE)) {
+    stop("Package \"reshape2\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+
+
   appDir <- system.file("Corr", package = "grapes")
   if (appDir == "") {
     stop("Could not find directory. Try re-installing `grapes`.", call. = FALSE)
