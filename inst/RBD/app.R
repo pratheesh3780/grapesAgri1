@@ -538,7 +538,7 @@ ui <- fluidPage(
       if(input$plotreq=='boxplot'){
         if(input$submit1 > 0){
 
-          nb.cols <- as.numeric(input$trt)
+          nb.cols <- as.numeric(input$trt+2)
           mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
 
           x<-as.matrix(csvfile()[,input$treatment])
@@ -563,7 +563,7 @@ ui <- fluidPage(
           d=as.data.frame(csvfile())
           treatment<-as.factor(d[,input$treatment])
 
-          nb.cols <- as.numeric(input$trt)
+          nb.cols <- as.numeric(input$trt+2)
           mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
           p<-ggplot2::ggplot(data=d, aes(x=d[,input$treatment],
                                          y=d[,input$yield],fill=treatment))+
