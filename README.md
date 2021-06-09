@@ -25,7 +25,7 @@ The development version can be installed from github as follows:
 ``` r
 # Install grapes development version from Github using the code below:
 if (!require('devtools')) install.packages('devtools')
-devtools::install_github("pratheesh3780/grapes")
+devtools::install_github("pratheesh3780/grapesAgri1")
 ```
 ## Apps included in the package
 
