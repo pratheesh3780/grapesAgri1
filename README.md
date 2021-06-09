@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 # `grapesAgri1`: Collection of shiny applications for data analysis in Agriculture-Part 1 <img src="man/figures/logo.png" align="right" alt="logo" width="173" height = "200" style = "border: none; float: right;">
 ## General R-shiny based Analysis Platform Empowered by Statistics in Agriculture part-1 (grapesAgri1)
+=======
+# `grapes`: Collection of shiny applications for data analysis in Agriculture <img src="man/figures/logo.PNG" align="right" alt="logo" width="173" height = "200" style = "border: none; float: right;">
+## General R-shiny based Analysis Platform Empowered by Statistics (GRAPES)
+>>>>>>> origin/master
 ###### Version : 0.1.0; Copyright (C) 2020-2021: [Pratheesh P. Gopinath](https://www.coagrapes.com); License: [GPL-3](https://www.r-project.org/Licenses/)
 ##### *Gopinath, P. P.<sup>1</sup>, Parsad, R.<sup>2</sup>, Joseph, B.<sup>3</sup>, Adarsh, V.S.<sup>4</sup>*
 
@@ -11,6 +16,7 @@
 
 -----
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4916978.svg)](https://doi.org/10.5281/zenodo.4916978)
 
 
 -----
