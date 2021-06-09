@@ -17,8 +17,8 @@
 #'@export
 #'@examples
 #'\dontrun{
-#'library(grapes)
-#'grapes::corrAPP()
+#'library(grapesAgri1)
+#'grapesAgri1::corrAPP()
 #' }
 #'
 #'
@@ -26,21 +26,21 @@
 #'
 #'
 #'
-#'\insertRef{corrplot2021}{grapes}
+#'\insertRef{corrplot2021}{grapesAgri1}
 #'
-#'\insertRef{Hmisc_2021}{grapes}
+#'\insertRef{Hmisc_2021}{grapesAgri1}
 #'
-#'\insertRef{reshape2}{grapes}
+#'\insertRef{reshape2}{grapesAgri1}
 #'
-#'\insertRef{R_2021}{grapes}
+#'\insertRef{R_2021}{grapesAgri1}
 #'
-#'\insertRef{shiny_2021}{grapes}
+#'\insertRef{shiny_2021}{grapesAgri1}
 #'
-#'\insertRef{sw_2021}{grapes}
+#'\insertRef{sw_2021}{grapesAgri1}
 #'
-#'\insertRef{ggplot_2016}{grapes}
+#'\insertRef{ggplot_2016}{grapesAgri1}
 #'
-#'\insertRef{gupta1985statistical}{grapes}
+#'\insertRef{gupta1985statistical}{grapesAgri1}
 
 
 corrApp<- function() {
@@ -55,9 +55,9 @@ corrApp<- function() {
   }
 
 
-  appDir <- system.file("Corr", package = "grapes")
+  appDir <- system.file("Corr", package = "grapesAgri1")
   if (appDir == "") {
-    stop("Could not find directory. Try re-installing `grapes`.", call. = FALSE)
+    stop("Could not find directory. Try re-installing `grapesAgri1`.", call. = FALSE)
   }
 
   shiny::runApp(appDir, display.mode = "normal")

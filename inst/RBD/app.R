@@ -27,7 +27,7 @@ ui <- fluidPage(
     h5(tags$div(
       "Package:",
       tags$br(),
-      tags$b("grapes, Version 1.0.0"),
+      tags$b("grapesAgri1, Version 1.0.0"),
       tags$br()
     ))
   )

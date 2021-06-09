@@ -258,4 +258,4 @@ if(input$submit > 0){
 tags$br()
 tags$br()
 ```
-Report generated from: **Package: grapes Version 1.0.0**
+Report generated from: **Package: grapesAgri1, Version 1.0.0**

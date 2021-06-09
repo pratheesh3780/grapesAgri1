@@ -32,8 +32,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(grapes)
-#' grapes::descAPP()
+#' library(grapesAgri1)
+#' grapesAgri1::descAPP()
 #' }
 #'
 #'
@@ -41,33 +41,33 @@
 #'
 #'
 #'
-#'\insertRef{Dominic_Comtois_2021}{grapes}
+#'\insertRef{Dominic_Comtois_2021}{grapesAgri1}
 #'
-#'\insertRef{Hao_zhu_2021}{grapes}
+#'\insertRef{Hao_zhu_2021}{grapesAgri1}
 #'
-#'\insertRef{Yihui_Xie_2021}{grapes}
+#'\insertRef{Yihui_Xie_2021}{grapesAgri1}
 #'
-#'\insertRef{R_2021}{grapes}
+#'\insertRef{R_2021}{grapesAgri1}
 #'
-#'\insertRef{shiny_2021}{grapes}
+#'\insertRef{shiny_2021}{grapesAgri1}
 #'
-#'\insertRef{sw_2021}{grapes}
+#'\insertRef{sw_2021}{grapesAgri1}
 #'
-#'\insertRef{dplyr_2021}{grapes}
+#'\insertRef{dplyr_2021}{grapesAgri1}
 #'
-#'\insertRef{ggpubr_2020}{grapes}
+#'\insertRef{ggpubr_2020}{grapesAgri1}
 #'
-#'\insertRef{past_2018}{grapes}
+#'\insertRef{past_2018}{grapesAgri1}
 #'
-#'\insertRef{magi_2020}{grapes}
+#'\insertRef{magi_2020}{grapesAgri1}
 #'
-#'\insertRef{gridG_2020}{grapes}
+#'\insertRef{gridG_2020}{grapesAgri1}
 #'
-#'\insertRef{gupta1985statistical}{grapes}
+#'\insertRef{gupta1985statistical}{grapesAgri1}
 #'
-#'\insertRef{tukey1977exploratory}{grapes}
+#'\insertRef{tukey1977exploratory}{grapesAgri1}
 #'
-#'\insertRef{ggplot_2016}{grapes}
+#'\insertRef{ggplot_2016}{grapesAgri1}
 
 
 descApp<- function() {
@@ -81,9 +81,9 @@ descApp<- function() {
   }
 
 
-  appDir <- system.file("desc", package = "grapes")
+  appDir <- system.file("desc", package = "grapesAgri1")
   if (appDir == "") {
-    stop("Could not find directory. Try re-installing `grapes`.", call. = FALSE)
+    stop("Could not find directory. Try re-installing `grapesAgri1`.", call. = FALSE)
   }
 
   shiny::runApp(appDir, display.mode = "normal")

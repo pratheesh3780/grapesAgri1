@@ -22,29 +22,29 @@
 #'@export
 #'@examples
 #'\dontrun{
-#'library(grapes)
-#'grapes::ttAPP()
+#'library(grapesAgri1)
+#'grapesAgri1::ttAPP()
 #' }
 #'
 #'@references
 #'
 #'
 #'
-#'\insertRef{R_2021}{grapes}
+#'\insertRef{R_2021}{grapesAgri1}
 #'
-#'\insertRef{shiny_2021}{grapes}
+#'\insertRef{shiny_2021}{grapesAgri1}
 #'
-#'\insertRef{sw_2021}{grapes}
+#'\insertRef{sw_2021}{grapesAgri1}
 #'
-#'\insertRef{dplyr_2021}{grapes}
+#'\insertRef{dplyr_2021}{grapesAgri1}
 #'
-#'\insertRef{ggpubr_2020}{grapes}
+#'\insertRef{ggpubr_2020}{grapesAgri1}
 #'
-#'\insertRef{past_2018}{grapes}
+#'\insertRef{past_2018}{grapesAgri1}
 #'
-#'\insertRef{gupta1985statistical}{grapes}
+#'\insertRef{gupta1985statistical}{grapesAgri1}
 #'
-#'\insertRef{paired_data2018}{grapes}
+#'\insertRef{paired_data2018}{grapesAgri1}
 
 
 
@@ -59,9 +59,9 @@ ttApp<- function() {
          call. = FALSE)
   }
 
-  appDir <- system.file("comp_mean", package = "grapes")
+  appDir <- system.file("comp_mean", package = "grapesAgri1")
   if (appDir == "") {
-    stop("Could not find directory. Try re-installing `grapes`.", call. = FALSE)
+    stop("Could not find directory. Try re-installing `grapesAgri1`.", call. = FALSE)
   }
 
   shiny::runApp(appDir, display.mode = "normal")

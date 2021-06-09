@@ -25,34 +25,34 @@ To download the results in pdf one may use
 }
 \examples{
 \dontrun{
-library(grapes)
-grapes::layOut()
+library(grapesAgri1)
+grapesAgri1::layOut()
 }
 
 
 }
 \references{
-\insertRef{R_2021}{grapes}
+\insertRef{R_2021}{grapesAgri1}
 
-\insertRef{shiny_2021}{grapes}
+\insertRef{shiny_2021}{grapesAgri1}
 
-\insertRef{sw_2021}{grapes}
+\insertRef{sw_2021}{grapesAgri1}
 
-\insertRef{shinycss_2020}{grapes}
+\insertRef{shinycss_2020}{grapesAgri1}
 
-\insertRef{dplyr_2021}{grapes}
+\insertRef{dplyr_2021}{grapesAgri1}
 
-\insertRef{agricolae_2020}{grapes}
+\insertRef{agricolae_2020}{grapesAgri1}
 
-\insertRef{desplot_2020}{grapes}
+\insertRef{desplot_2020}{grapesAgri1}
 
-\insertRef{magi_2020}{grapes}
+\insertRef{magi_2020}{grapesAgri1}
 
-\insertRef{Yihui_Xie_2021}{grapes}
+\insertRef{Yihui_Xie_2021}{grapesAgri1}
 
-\insertRef{gupta1985statistical}{grapes}
+\insertRef{gupta1985statistical}{grapesAgri1}
 
-\insertRef{das1979design}{grapes}
+\insertRef{das1979design}{grapesAgri1}
 }
 \keyword{Augmented}
 \keyword{Completely}

@@ -25,38 +25,38 @@ one may use \code{tinytex::install_tinytex()} before using the app.
 }
 \examples{
 \dontrun{
-library(grapes)
-grapes::rbdAPP()
+library(grapesAgri1)
+grapesAgri1::rbdAPP()
 }
 
 
 }
 \references{
-\insertRef{R_2021}{grapes}
+\insertRef{R_2021}{grapesAgri1}
 
-\insertRef{shiny_2021}{grapes}
+\insertRef{shiny_2021}{grapesAgri1}
 
-\insertRef{sw_2021}{grapes}
+\insertRef{sw_2021}{grapesAgri1}
 
-\insertRef{dplyr_2021}{grapes}
+\insertRef{dplyr_2021}{grapesAgri1}
 
-\insertRef{ggpubr_2020}{grapes}
+\insertRef{ggpubr_2020}{grapesAgri1}
 
-\insertRef{ggplot_2016}{grapes}
+\insertRef{ggplot_2016}{grapesAgri1}
 
-\insertRef{gupta1985statistical}{grapes}
+\insertRef{gupta1985statistical}{grapesAgri1}
 
-\insertRef{tukey1977exploratory}{grapes}
+\insertRef{tukey1977exploratory}{grapesAgri1}
 
-\insertRef{hmisc_2021}{grapes}
+\insertRef{hmisc_2021}{grapesAgri1}
 
-\insertRef{agricolae_2020}{grapes}
+\insertRef{agricolae_2020}{grapesAgri1}
 
-\insertRef{rcol_2014}{grapes}
+\insertRef{rcol_2014}{grapesAgri1}
 
-\insertRef{shinycss_2020}{grapes}
+\insertRef{shinycss_2020}{grapesAgri1}
 
-\insertRef{das1979design}{grapes}
+\insertRef{das1979design}{grapesAgri1}
 }
 \keyword{ANOVA}
 \keyword{Barchart}
