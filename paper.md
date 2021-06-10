@@ -52,7 +52,7 @@ bibliography: paper.bib
 
 # Information for Users
 
-<p><div align="justify">``grapesAgri1`` is a collection of six shiny applications. Details of six applications were given in Table 1. Model dataset for testing can be downloaded from the main window of the application. Details for preparing CSV file is also included. User just need to click on the browse and upload the file for analysis. </div></p>
+<p><div align="justify">``grapesAgri1`` is a collection of six shiny applications. Details of six applications were given in Table 1. Model dataset for testing can be downloaded from the main window of the application. Details for preparing CSV file is also included in the main window. User just need to click on the browse and upload the CSV file for analysis. </div></p>
 
 - The package can be installed from Github using the following code:
 ``` r
