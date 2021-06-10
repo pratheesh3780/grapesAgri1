@@ -33,7 +33,7 @@
 #' @examples
 #' \dontrun{
 #' library(grapesAgri1)
-#' grapesAgri1::descAPP()
+#' grapesAgri1::descApp()
 #' }
 #'
 #'

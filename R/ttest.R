@@ -23,7 +23,7 @@
 #'@examples
 #'\dontrun{
 #'library(grapesAgri1)
-#'grapesAgri1::ttAPP()
+#'grapesAgri1::ttApp()
 #' }
 #'
 #'@references

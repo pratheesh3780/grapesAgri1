@@ -18,7 +18,7 @@
 #'@examples
 #'\dontrun{
 #'library(grapesAgri1)
-#'grapesAgri1::corrAPP()
+#'grapesAgri1::corrApp()
 #' }
 #'
 #'

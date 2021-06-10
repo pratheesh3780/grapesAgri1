@@ -35,7 +35,7 @@
 #' @examples
 #' \dontrun{
 #' library(grapesAgri1)
-#' grapesAgri1::crdAPP()
+#' grapesAgri1::crdApp()
 #' }
 #'
 #'
