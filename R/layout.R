@@ -34,7 +34,7 @@
 #' @examples
 #' \dontrun{
 #' library(grapesAgri1)
-#' grapesAgri1::layOut()
+#' grapesAgri1::layoutApp()
 #' }
 #'
 #'
