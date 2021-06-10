@@ -54,6 +54,16 @@ bibliography: paper.bib
 
 <p><div align="justify">``grapesAgri1`` is a collection of six shiny applications. Details of six applications were given in Table 1. Model dataset for testing can be downloaded from the main window of the application. Details for preparing CSV file is also included in the main window. User just need to click on the browse and upload the CSV file for analysis. </div></p>
 
+<p><div align="justify">``grapesAgri1`` is a collection of six shiny applications. Details of six applications were given below. </p></div> 
+
+- **Descriptive Statistics and Visualization**:- includes Summary Statistics, Summary Statistics by Group, Box plot, Histogram, Q-Q plot and Shapiro-Wilk's  test
+- **Correlation Simple correlation**:- includes Correlation Matrix, correlogram and scatterplot
+- **Compare Means: Small sample tests** :- includes One sample t-test, Two sample unpaired t-test, paired t-test, Two sample unpaired Welch t-test, F test, Box plot, Paired Plot
+- **Completely Randomized Design**:- One-way Analysis of variance (equal and unequal replication), Multiple comparison test, boxplot and barchart with confidence interval
+- **Field layout of experiments**:-  Field layout of following designs can be obtained: Completely Randomized Design (CRD), Randomized Complete Block Design (RCBD), Split-plot design, Strip-plot design, Augmented RCBD
+- **Randomized Block Design**:- includes Two-way Analysis of variance, Multiple comparison test, boxplot and barchart with confidence interval
+
+
 - The package can be installed from Github using the following code:
 ``` r
 # Install grapes development version from Github using the code below:
@@ -67,16 +77,6 @@ grapesAgri1::crdApp() # Completely Randomized Design
 grapesAgri1::layoutApp() # Field layout of experiments
 grapesAgri1::rbdApp() # Randomized Block Design 
 ```
-
-Table1: Apps included in the package
-|Sl. No.| App Title | Function to call |Remark |
-|:-----:| :----------- | :-----------:|:----------------|
-|1|Descriptive Statistics and Visualization   | descApp()      |Summary Statistics, Summary Statistics by Group, Box plot, Histogram, Q-Q plot and Shapiro-Wilk's test|
-|2|Correlation Analysis   | corrApp()      | Simple correlation, Correlation Matrix, correlogram and scatterplot|
-|3|Compare Means: Small samle tests  | ttApp()      | One sample t-test, Two sample unpaired t-test, paired t-test, Two sample unpaired Welch t-test, F test, Box plot, Paired Plot|
-|4|Completely Randomized Design  | crdApp()      |One-way Analysis of variance (equal and unequal replication), Multiple comparison test, boxplot and barchart with confidence interval|
-|5|Field layout of experiments | layoutApp()      |Field layout of following designs can be obtained: Completely Randomized Design (CRD), Randomized Complete Block Design (RCBD), Split-plot design, Strip-plot design, Augmented RCBD|
-|6|Randomized Block Design  | rbdApp()      |Two-way Analysis of variance, Multiple comparison test, boxplot and barchart with confidence interval|
 
 # Community guidelines
 
