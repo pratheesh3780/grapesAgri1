@@ -78,5 +78,18 @@ Table1: Apps included in the package
 |5|Field layout of experiments | layoutApp()      |Field layout of following designs can be obtained: Completely Randomized Design (CRD), Randomized Complete Block Design (RCBD), Split-plot design, Strip-plot design, Augmented RCBD|
 |6|Randomized Block Design  | rbdApp()      |Two-way Analysis of variance, Multiple comparison test, boxplot and barchart with confidence interval|
 
+# Community guidelines
 
+Report Issues:
 
+- Questions, feedback, bug reports: please open an issue in the [issue tracker of the project](https://github.com/pratheesh3780/grapesAgri1/issues).
+
+Contribution to the software:
+
+- Please open an issue in the issue tracker of the project that describes the changes you would like to make to the software and open a pull request with the   changes. The description of the pull request must references the corresponding issue.
+
+# Acknowledgements
+
+We wish to thank Kerala Agricultural University for the financial support through revolving fund scheme.
+ 
+# References
