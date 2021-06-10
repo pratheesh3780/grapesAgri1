@@ -9,10 +9,11 @@
 3.  Department of Agricultural Statistics, College of Agriculture, Vellayani, Kerala Agricultural Univesity.
 4.  Department of Agricultural Statistics, BCKV, West Bengal
 
+----
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4916978.svg)](https://doi.org/10.5281/zenodo.4916978)
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4916978.svg)](https://doi.org/10.5281/zenodo.4916978)
-
-
+----
 
 
 ## Introduction
