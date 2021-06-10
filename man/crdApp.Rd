@@ -65,12 +65,10 @@ grapesAgri1::crdAPP()
 \keyword{DMRT}
 \keyword{Design}
 \keyword{Interval}
-\keyword{LSD,}
 \keyword{Multiple}
 \keyword{One-way}
 \keyword{Randomized}
 \keyword{Tests}
-\keyword{Tukey,}
 \keyword{comparison}
 \keyword{confidence}
 \keyword{plot}

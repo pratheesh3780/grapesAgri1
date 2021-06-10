@@ -21,7 +21,7 @@
 #' One-way ANOVA
 #' Completely Randomized Design
 #' Multiple comparison Tests
-#' LSD, Tukey, DMRT
+#' DMRT
 #' Box plot
 #' Barchart with confidence Interval
 #'

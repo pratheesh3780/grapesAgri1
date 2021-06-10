@@ -43,7 +43,6 @@ grapesAgri1::ttAPP()
 
 \insertRef{paired_data2018}{grapesAgri1}
 }
-\keyword{(F-test),}
 \keyword{Testing}
 \keyword{Welch}
 \keyword{and}

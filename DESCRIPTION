@@ -1,29 +1,27 @@
 Package: grapesAgri1
 Type: Package
-Title: Collection of shiny apps for Agricultural research Data Analysis
+Title: Collection of Shiny Apps for Agricultural Research Data Analysis
 Version: 1.0.0
 Authors@R: c(
-    person(given = "Gopinath", family = "Pratheesh P.",
-           email = "pratheesh.pg@kau.in",
+    person(given = "Pratheesh P.", family = "Gopinath",
+           email = "grapescoa@gmail.com",
            role = c("aut", "cre"),
 		       comment = c(ORCID = "0000-0003-3290-0436")),
-	  person(given = "Parsad", family = "Rajender", 
+	  person(given = "Rajender", family = "Parsad", 
            email = "Rajender.Parsad@icar.gov.in",
 		       role = "aut"),
-    person(given = "Joseph", family = "Brigit",
+    person(given = "Brigit", family = "Joseph",
            email = "brigit.joseph@kau.in",
 		       role = "aut"),
-		person(given = "V. S.", family = "Adarsh",
+		person(given = "Adarsh.", family = "V.S.",
            email = "adarshvs0007@gmail.com",
 		       role = "aut"),
     person("Kerala Agricultural University",
            role = c("cph"),
 		       comment = c(url = "http://www.kau.in/")))
-Maintainer: Pratheesh P. Gopinath <grapescoa@gmail.com>
 Description: Allows user to have graphical user interface to perform analysis of Agricultural experimental data. On using the functions in this package a Interactive User Interface will pop up. Apps Works by simple upload of files in CSV format.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
-LazyData: true
 RoxygenNote: 7.1.1
 Imports: shiny(>= 1.6.0),
          shinycssloaders(>= 1.0.0),

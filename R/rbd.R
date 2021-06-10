@@ -21,7 +21,7 @@
 #' Two-way ANOVA
 #' Randomized Block Design
 #' Multiple comparison Tests
-#' LSD, Tukey, DMRT
+#' DMRT
 #' Box plot
 #' Barchart with confidence Interval
 #'

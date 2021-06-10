@@ -65,11 +65,9 @@ grapesAgri1::rbdAPP()
 \keyword{DMRT}
 \keyword{Design}
 \keyword{Interval}
-\keyword{LSD,}
 \keyword{Multiple}
 \keyword{Randomized}
 \keyword{Tests}
-\keyword{Tukey,}
 \keyword{Two-way}
 \keyword{comparison}
 \keyword{confidence}

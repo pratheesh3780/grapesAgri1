@@ -15,7 +15,7 @@
 #'unpaired two sample t-test
 #'Welch t-test
 #'paired t-test
-#'Testing homogeneity of variance (F-test),
+#'Testing homogeneity of variance
 #'boxplot and paired plot
 #'@usage
 #'ttApp()

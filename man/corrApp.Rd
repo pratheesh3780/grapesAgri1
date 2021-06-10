@@ -29,8 +29,6 @@ grapesAgri1::corrAPP()
 
 \insertRef{Hmisc_2021}{grapesAgri1}
 
-\insertRef{reshape2}{grapesAgri1}
-
 \insertRef{R_2021}{grapesAgri1}
 
 \insertRef{shiny_2021}{grapesAgri1}
