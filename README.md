@@ -24,6 +24,13 @@ The development version can be installed from github as follows:
 # Install grapesAgri1 development version from Github using the code below:
 if (!require('devtools')) install.packages('devtools')
 devtools::install_github("pratheesh3780/grapesAgri1")
+# usage
+grapesAgri1::descApp() # descriptive Statistics and Visualization 
+grapesAgri1::corrApp() # Correlation Analysis
+grapesAgri1::ttApp() # Compare Means
+grapesAgri1::crdApp() # Completely Randomized Design
+grapesAgri1::layoutApp() # Field layout of experiments
+grapesAgri1::rbdApp() # Randomized Block Design 
 ```
 ## Apps included in the package
 
