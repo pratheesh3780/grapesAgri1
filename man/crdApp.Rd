@@ -6,6 +6,9 @@
 \usage{
 crdApp()
 }
+\value{
+Nothing
+}
 \description{
 crdApp() function opens up an interactive shiny app which will allow
 the user to perform analysis of completely randomized design with
@@ -24,9 +27,8 @@ barchart with confidence interval. To download the results in pdf
 one may use \code{tinytex::install_tinytex()} before using the app.
 }
 \examples{
-\dontrun{
-library(grapesAgri1)
-grapesAgri1::crdAPP()
+if(interactive()){
+crdApp()
 }
 
 

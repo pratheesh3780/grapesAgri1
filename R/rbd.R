@@ -1,5 +1,5 @@
 #'@title Randomized Block Design
-#'
+#'@return Nothing
 #'@description
 #'rbdApp() function opens up an interactive shiny app which will allow
 #'the user to perform analysis of randomized Block design.
@@ -33,10 +33,9 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' library(grapesAgri1)
-#' grapesAgri1::rbdApp()
-#' }
+#'if(interactive()){
+#'rbdApp()
+#'}
 #'
 #'
 #'@references

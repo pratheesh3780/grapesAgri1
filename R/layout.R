@@ -1,5 +1,5 @@
 #'@title Field Layout of Designs
-#'
+#'@return Nothing
 #'@description
 #'layoutApp() function opens up an interactive shiny app which will allow
 #'the user to create field layout of Completely Randomized Design (CRD),
@@ -32,10 +32,9 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' library(grapesAgri1)
-#' grapesAgri1::layoutApp()
-#' }
+#'if(interactive()){
+#'layoutApp()
+#'}
 #'
 #'
 #'@references

@@ -1,4 +1,5 @@
 #'@title t-test and Paired t-test
+#'@return Nothing
 #'@description
 #'ttApp() function opens up an interactive shiny app which will allow
 #'user to easily perform one sample t-test, unpaired two sample t-test
@@ -21,10 +22,9 @@
 #'ttApp()
 #'@export
 #'@examples
-#'\dontrun{
-#'library(grapesAgri1)
-#'grapesAgri1::ttApp()
-#' }
+#'if(interactive()){
+#'ttApp()
+#'}
 #'
 #'@references
 #'

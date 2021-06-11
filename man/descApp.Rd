@@ -6,6 +6,9 @@
 \usage{
 descApp()
 }
+\value{
+Nothing
+}
 \description{
 descApp() function opens up an interactive shiny app which will allow
 the user to easily calculate Summary Statistics, Summary Statistics by Group, Box plot,
@@ -22,9 +25,8 @@ to obtain histogram and boxplot respectively. \code{ggqqplot} of package \code{g
 is also used to plot Q-Q plot in the app.
 }
 \examples{
-\dontrun{
-library(grapesAgri1)
-grapesAgri1::descAPP()
+if(interactive()){
+descApp()
 }
 
 

@@ -1,5 +1,5 @@
 #'@title Completely Randomized Design
-#'
+#'@return Nothing
 #'@description
 #'crdApp() function opens up an interactive shiny app which will allow
 #'the user to perform analysis of completely randomized design with
@@ -33,10 +33,9 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' library(grapesAgri1)
-#' grapesAgri1::crdApp()
-#' }
+#'if(interactive()){
+#'crdApp()
+#'}
 #'
 #'
 #'@references

@@ -6,6 +6,9 @@
 \usage{
 corrApp()
 }
+\value{
+Nothing
+}
 \description{
 corrApp() function opens up an interactive shiny app which will
 allow the user to easily calculate Simple correlation, Correlation Matrix and obtain plots
@@ -17,9 +20,8 @@ is calculated using \code{rcorr} function in \code{Hmisc} package. Correlogram
 is obtained using \code{corrplot} function in \code{corrplot} package
 }
 \examples{
-\dontrun{
-library(grapesAgri1)
-grapesAgri1::corrAPP()
+if(interactive()){
+corrApp()
 }
 
 

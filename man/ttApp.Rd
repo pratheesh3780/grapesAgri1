@@ -6,6 +6,9 @@
 \usage{
 ttApp()
 }
+\value{
+Nothing
+}
 \description{
 ttApp() function opens up an interactive shiny app which will allow
 user to easily perform one sample t-test, unpaired two sample t-test
@@ -20,9 +23,8 @@ of \code{ggpubr} package is used to draw boxplot. Paired plot is obtained
 using \code{paired} function of package \code{PairedData}
 }
 \examples{
-\dontrun{
-library(grapesAgri1)
-grapesAgri1::ttAPP()
+if(interactive()){
+ttApp()
 }
 
 }

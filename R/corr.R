@@ -1,4 +1,5 @@
 #'@title Correlation Analysis
+#'@return Nothing
 #'@description
 #'corrApp() function opens up an interactive shiny app which will
 #'allow the user to easily calculate Simple correlation, Correlation Matrix and obtain plots
@@ -16,10 +17,9 @@
 #'corrApp()
 #'@export
 #'@examples
-#'\dontrun{
-#'library(grapesAgri1)
-#'grapesAgri1::corrApp()
-#' }
+#'if(interactive()){
+#'corrApp()
+#'}
 #'
 #'
 #'@references

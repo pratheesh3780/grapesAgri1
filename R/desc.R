@@ -1,5 +1,5 @@
 #'@title Descriptive statistics and Visualization
-#'
+#'@return Nothing
 #'@description
 #'descApp() function opens up an interactive shiny app which will allow
 #'the user to easily calculate Summary Statistics, Summary Statistics by Group, Box plot,
@@ -31,10 +31,9 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' library(grapesAgri1)
-#' grapesAgri1::descApp()
-#' }
+#'if(interactive()){
+#'descApp()
+#'}
 #'
 #'
 #'@references
