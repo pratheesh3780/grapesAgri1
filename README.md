@@ -9,12 +9,16 @@
 3.  Department of Agricultural Statistics, BCKV, West Bengal
 
 ---
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4923220.svg)](https://doi.org/10.5281/zenodo.4923220)
+
+![GitHub](https://img.shields.io/github/license/pratheesh3780/grapesAgri1)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4923220.svg)](https://doi.org/10.5281/zenodo.4923220)
 [![Travis build status](https://travis-ci.com/pratheesh3780/grapesAgri1.svg?branch=master)](https://travis-ci.com/pratheesh3780/grapesAgri1)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/pratheesh3780/grapesAgri1)
 ![GitHub R package version](https://img.shields.io/github/r-package/v/pratheesh3780/grapesAgri1)
 ![GitHub language count](https://img.shields.io/github/languages/count/pratheesh3780/grapesAgri1)
 ![GitHub top language](https://img.shields.io/github/languages/top/pratheesh3780/grapesAgri1)
+![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/pratheesh3780/grapesAgri1)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/pratheesh3780/grapesAgri1)
 
 ---
 
