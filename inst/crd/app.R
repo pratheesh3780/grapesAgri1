@@ -665,14 +665,14 @@ server = function(input, output, session) {
   })
   datasetInput <- reactive({
     equal<- read.csv(system.file("extdata/crd_data",
-                                        "equal_replication.csv",
-                                        package = "grapes") )
+                                 "equal_replication.csv",
+                                 package = "grapesAgri1"))
     unequal<- read.csv(system.file("extdata/crd_data",
-                                 "unequal_replication.csv",
-                                 package = "grapes") )
+                                   "unequal_replication.csv",
+                                   package = "grapesAgri1") )
     mango<- read.csv(system.file("extdata/crd_data",
-                                   "mango.csv",
-                                   package = "grapes") )
+                                 "mango.csv",
+                                 package = "grapesAgri1") )
     switch(input$dataset,
            "equal_replication" = equal,
            "unequal_replication" = unequal,

@@ -643,13 +643,13 @@ ui <- fluidPage(
     datasetInput <- reactive({
       mango<- read.csv(system.file("extdata/rbd_data",
                                    "mango_rbd.csv",
-                                   package = "grapes") )
+                                   package = "grapesAgri1") )
       feed<- read.csv(system.file("extdata/rbd_data",
                                      "feed_rbd.csv",
-                                     package = "grapes") )
+                                     package = "grapesAgri1") )
       sample1<- read.csv(system.file("extdata/rbd_data",
                                    "sample_rbd.csv",
-                                   package = "grapes") )
+                                   package = "grapesAgri1") )
       switch(input$dataset,
              "mango data" = mango,
              "feed data" = feed,
