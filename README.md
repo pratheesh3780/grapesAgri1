@@ -10,16 +10,17 @@
 
 ---
 
+![CRAN/METACRAN](https://img.shields.io/cran/v/grapesAgri1?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/pratheesh3780/grapesAgri1)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version-last-release/grapesAgri1)](https://cran.r-project.org/package=grapesAgri1)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4923220.svg)](https://doi.org/10.5281/zenodo.4923220)
-[![Travis build status](https://travis-ci.com/pratheesh3780/grapesAgri1.svg?branch=master)](https://travis-ci.com/pratheesh3780/grapesAgri1)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/pratheesh3780/grapesAgri1)
 ![GitHub R package version](https://img.shields.io/github/r-package/v/pratheesh3780/grapesAgri1)
 ![GitHub language count](https://img.shields.io/github/languages/count/pratheesh3780/grapesAgri1)
-![GitHub top language](https://img.shields.io/github/languages/top/pratheesh3780/grapesAgri1)
 ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/pratheesh3780/grapesAgri1)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/pratheesh3780/grapesAgri1)
 [![R-CMD-check](https://github.com/pratheesh3780/grapesAgri1/workflows/R-CMD-check/badge.svg)](https://github.com/pratheesh3780/grapesAgri1/actions)
+[![](https://cranlogs.r-pkg.org/badges/grapesAgri1)](https://cran.r-project.org/package=grapesAgri1)
 
 ---
 
@@ -27,13 +28,23 @@
 <div align="justify">Agricultural experiments demands a wide range of statistical tools for analysis, which includes from Exploratory analysis, Design of experiments and Statistical genetics. Majority of the Agricutural scientists prefer graphical user interface for performing analysis . As R-shiny provides a platform to create intercative user interface, we have utilzed it to produce interactive interfaces for commonly used analysis tools in Agrciultural experiments. grapesAgri1(General R-shiny based Analysis Platform Empowered by Statistics for data analysis in Agriculture-part1) is a collection of shiny based applications for some basic statistical analysis commonly used in agricultural research. It can be utilised by scientific community who prefers an interactive user interface. On using the functions in this package a Graphical User Interface will pop up. Apps Works by simple upload of files in CSV format. Results can be downloaded as docx, PDF or HTML format. Plots and Graphs can be generated, which is also downloadable as .png file.</div>
 
 ## Installation
+The package can be installed from CRAN as follows:
+
+``` r
+# Install from CRAN
+install.packages('grapesAgri1', dependencies=TRUE)
+```
+
 The development version can be installed from github as follows:
 
 ``` r
 # Install grapesAgri1 development version from Github using the code below:
 if (!require('devtools')) install.packages('devtools')
 devtools::install_github("pratheesh3780/grapesAgri1")
+```
+
 # usage
+```r
 grapesAgri1::descApp() # descriptive Statistics and Visualization 
 grapesAgri1::corrApp() # Correlation Analysis
 grapesAgri1::ttApp() # Compare Means
