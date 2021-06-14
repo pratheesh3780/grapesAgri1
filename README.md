@@ -43,7 +43,7 @@ if (!require('devtools')) install.packages('devtools')
 devtools::install_github("pratheesh3780/grapesAgri1")
 ```
 
-# usage
+## usage
 ```r
 grapesAgri1::descApp() # descriptive Statistics and Visualization 
 grapesAgri1::corrApp() # Correlation Analysis
@@ -62,3 +62,28 @@ grapesAgri1::rbdApp() # Randomized Block Design
 |4|Completely Randomized Design  | crdApp()      |One-way Analysis of variance (equal and unequal replication), Multiple comparison test, boxplot and barchart with confidence interval|
 |5|Field layout of experiments | layoutApp()      |Field layout of following designs can be obtained: Completely Randomized Design (CRD), Randomized Complete Block Design (RCBD), Split-plot design, Strip-plot design, Augmented RCBD|
 |6|Randomized Block Design  | rbdApp()      |Two-way Analysis of variance, Multiple comparison test, boxplot and barchart with confidence interval|
+
+
+## Glimpse to grapesAgri1 in Action!
+It is very user friendly. Just upload your file in CSV fomat.
+Correlation Analysis         |  Correlation Matrix
+:-------------------------:|:-------------------------:
+![alt text](man/figures/corr.PNG) |  ![](man/figures/corr2.PNG)
+
+Several types of plots can be generated
+Correlogram 1      |  Correlogram 2
+:-------------------------:|:-------------------------:
+![alt text](man/figures/corr3.PNG) |  ![](man/figures/corr4.PNG)
+
+One-way ANOVA and Two-way ANOVA
+Completely Randomized Design  |  Barchart with confidence Interval
+:-------------------------:|:-------------------------:
+![alt text](man/figures/crd.PNG) |  ![](man/figures/plot.PNG)
+
+Detailed analysis and multiple comparison
+Treatmnent grouping  | Field Layout of designs
+:-------------------------:|:-------------------------:
+![alt text](man/figures/results.PNG) |  ![](man/figures/layout.PNG)
+
+
+##A LOT MORE.....
