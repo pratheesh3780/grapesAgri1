@@ -21,6 +21,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/pratheesh3780/grapesAgri1)
 [![R-CMD-check](https://github.com/pratheesh3780/grapesAgri1/workflows/R-CMD-check/badge.svg)](https://github.com/pratheesh3780/grapesAgri1/actions)
 [![](https://cranlogs.r-pkg.org/badges/grapesAgri1)](https://cran.r-project.org/package=grapesAgri1)
+[![Build Status](https://www.travis-ci.com/pratheesh3780/grapesAgri1.svg?branch=master)](https://www.travis-ci.com/pratheesh3780/grapesAgri1)
 
 ---
 
