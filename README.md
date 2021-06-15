@@ -1,6 +1,6 @@
 # `grapesAgri1`: Collection of shiny applications for data analysis in Agriculture-Part 1 <img src="man/figures/logo.PNG" align="right" alt="logo" width="173" height = "200" style = "border: none; float: right;">
 ### General R-shiny based Analysis Platform Empowered by Statistics in Agriculture part-1 (grapesAgri1)
-###### Version : 0.1.0; Copyright (C) 2020-2021: [Pratheesh P. Gopinath](https://www.kaugrapes.com); License: [GPL-3](https://www.r-project.org/Licenses/) 
+###### Version : 0.1.0; Copyright (C) 2021-2025: [Kerala Agricultural University](https://www.kaugrapes.com); License: [GPL-3](https://www.r-project.org/Licenses/) 
 ##### *Gopinath, P. P.<sup>1</sup>, Parsad, R.<sup>2</sup>, Joseph, B.<sup>1</sup>, Adarsh, V.S.<sup>3</sup>*
 
 1.  Department of Agricultural Statistics, College of Agriculture, Vellayani, Kerala Agricultural Univesity.
