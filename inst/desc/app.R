@@ -5,7 +5,6 @@ library(knitr)
 library(dplyr)
 library(magrittr)
 library(gridGraphics)
-library(grid)
 ######################
 library(kableExtra)
 library(pastecs)

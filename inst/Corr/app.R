@@ -3,7 +3,6 @@ library(rmarkdown)
 library(shinyWidgets)
 library(dplyr)
 library(gridGraphics)
-library(grid)
 library(RColorBrewer)
 library(knitr)
 ##############
