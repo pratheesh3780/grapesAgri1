@@ -7,7 +7,8 @@
 #'@details
 #'This app uses \code{cor.test} to calculate correlation. Correlation matrix
 #'is calculated using \code{rcorr} function in \code{Hmisc} package. Correlogram
-#'is obtained using \code{corrplot} function in \code{corrplot} package
+#'is obtained using \code{corrplot} function in \code{corrplot} package. To download the results in pdf
+#'one may use \code{tinytex::install_tinytex()} before using the app.
 #'@keywords
 #'Correlation
 #'Correlation Matrix

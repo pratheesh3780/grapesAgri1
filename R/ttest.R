@@ -10,7 +10,8 @@
 #'were calculated using \code{stat.desc} function of \code{pastecs} package.
 #'\code{var.test} function is used for F-test.\code{ggboxplot} function
 #'of \code{ggpubr} package is used to draw boxplot. Paired plot is obtained
-#'using \code{paired} function of package \code{PairedData}
+#'using \code{paired} function of package \code{PairedData}. To download the results in pdf
+#'one may use \code{tinytex::install_tinytex()} before using the app.
 #'@keywords
 #'one sample t-test
 #'unpaired two sample t-test
