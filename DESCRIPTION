@@ -20,6 +20,7 @@ Authors@R: c(
            role = c("cph"),
 		       comment = c(url = "http://www.kau.in/")))
 Description: Allows user to have graphical user interface to perform analysis of Agricultural experimental data. On using the functions in this package a Interactive User Interface will pop up. Apps Works by simple upload of files in CSV format.
+License: GPL-3 
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 URL: https://github.com/pratheesh3780/grapesAgri1
