@@ -79,14 +79,12 @@ ui <- fluidPage(
     tableOutput('corrmat'),
     tags$style(  type="text/css", "#corrmat th,td {border: medium solid #000000;text-align:center}"),
     tags$style(  type="text/css", "#corrmat td {border: medium solid #000000;text-align:center}"),
-
+    htmlOutput('note'),
+    tags$br(),
     tableOutput('sigmat'),
     tags$style(  type="text/css", "#sigmat th,td {border: medium solid #000000;text-align:center}"),
     tags$style(  type="text/css", "#sigmat td {border: medium solid #000000;text-align:center}"),
 
-
-    tags$br(),
-    htmlOutput('note'),
     uiOutput('plot'),
     tags$br(),
     tags$br(),
@@ -292,12 +290,18 @@ server = function(input, output, session) {
         if(input$submit2 > 0){
         x<-as.data.frame(csvfile()[,input$selvar])
         cormat <- Hmisc::rcorr(as.matrix(x),type=input$req)
-        correlmat<-cormat$r
-        row.names(correlmat)<-names(x)
-        correlmat
+        R<-round(cormat$r,3)
+        p<-cormat$P
+        ## Define notions for significance levels; spacing is important.
+        mystars <- ifelse(p < .001, "*** ", ifelse(p < .01, "**  ", ifelse(p < .05, "*   ", "    ")))
+        Rnew <- matrix(paste(R, mystars, sep=""), ncol=ncol(x))
+        diag(Rnew) <- paste(diag(R), " ", sep="")
+        row.names(Rnew)<-names(x)
+        colnames(Rnew)<-names(x)
+        Rnew
       }
     }
-  },digits=3,rownames = TRUE,bordered = TRUE,align='c',caption=('<b>Correlation Matrix</b>'),caption.placement = getOption("xtable.caption.placement", "top")
+  },rownames = TRUE,bordered = TRUE,align='c',caption=('<b>Correlation Matrix</b>'),caption.placement = getOption("xtable.caption.placement", "top")
   )
 
   output$sigmat<- renderTable({
@@ -322,7 +326,9 @@ server = function(input, output, session) {
     if(is.null(input$submit2)){return()}
     if(input$submit2 > 0){
       if(input$req1 == 'corrmat'){
-        HTML(paste0("<b>","Correlation between variables is significant at 5% level if P-values are < 0.05","</b>"))
+        HTML(paste0("<p>*** Correlation is significant at 0.001 level (two tailed)</p>
+                    <p>** Correlation is significant at 0.01 level (two tailed)</p>
+                    <p>* Correlation is significant at 0.05 level (two tailed)</p>" ))
       }
     }
   })
