@@ -1,8 +1,4 @@
 ---
-output:
-  pdf_document: default
-  html_document: default
----
 # `grapesAgri1`: Collection of shiny applications for data analysis in Agriculture-Part 1 <img src="man/figures/logo.PNG" align="right" alt="logo" width="173" height = "200" style = "border: none; float: right;">
 ### General R-shiny based Analysis Platform Empowered by Statistics in Agriculture part-1 (grapesAgri1)
 ## R-Package for Data Analysis in Agriculture.
