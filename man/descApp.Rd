@@ -25,11 +25,9 @@ to obtain histogram and boxplot respectively. \code{ggqqplot} of package \code{g
 is also used to plot Q-Q plot in the app.
 }
 \examples{
-if(interactive()){
-descApp()
+if (interactive()) {
+  descApp()
 }
-
-
 }
 \references{
 \insertRef{Dominic_Comtois_2021}{grapesAgri1}
