@@ -99,5 +99,13 @@ See below for some random images of GUI of grapesAgri1
 
 ![Field Layout of designs](man/figures/layout.PNG)
 
+# Community guidelines
 
+Report Issues:
+
+-   Questions, feedback, bug reports: please open an issue in the [issue tracker of the project](https://github.com/pratheesh3780/grapesAgri1/issues).
+
+Contribution to the software:
+
+-   Please open an issue in the issue tracker of the project that describes the changes you would like to make to the software and open a pull request with the changes. The description of the pull request must reference the corresponding issue.
 
