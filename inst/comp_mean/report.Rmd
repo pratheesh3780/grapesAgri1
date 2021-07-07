@@ -11,11 +11,10 @@ library(shinycssloaders)
 library(rmarkdown)
 library(pastecs)
 library(dplyr)
-library(ggplot2)
-library(ggpubr)
-library(PairedData)
 library(reshape2)
 library(knitr)
+library(magrittr)
+library(kableExtra)
 
 ```
 ## RESULT
@@ -39,7 +38,7 @@ if(input$req1 == 'ttest'||input$req1 == 'wttest'||input$req1=='ottest'||input$re
       rownames(result)[rownames(result) == "nbr.null"] <- "null values"
       rownames(result)[rownames(result) == "nbr.na"] <- "NA"
       round(result,3)
-      kable(result,caption = "Summary Statistics",digits=3)
+      kable(result,caption = "Summary Statistics",digits=3) %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
     }
 ########## two sample ttest
@@ -55,7 +54,7 @@ if(input$req1 == 'ttest'||input$req1 == 'wttest'||input$req1=='ottest'||input$re
         alt.Hypothesis<-t$alternative
         result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
-         kable(result,caption = "Two sample unpaired t-test",row.names = FALSE)
+         kable(result,caption = "Two sample unpaired t-test",row.names = FALSE) %>% kable_styling() %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
  }
 h3("")
@@ -93,7 +92,7 @@ h3("")
         result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
         result
-        kable(result,caption = "Welch unpaired t-test",row.names = FALSE)
+        kable(result,caption = "Welch unpaired t-test",row.names = FALSE) %>% kable_styling() %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
  }
 h3("")
@@ -127,7 +126,7 @@ if(input$req1 == 'ottest'){
         alt.Hypothesis<-t$alternative
         result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
-        kable(result,caption = "One sample t-test",row.names = FALSE)
+        kable(result,caption = "One sample t-test",row.names = FALSE) %>% kable_styling() %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
 }
 h3("")
@@ -161,7 +160,7 @@ if(input$req1 == 'ftest'){
         alt.Hypothesis<-f$alternative
         result<-cbind(F_value,t(df),Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
-         kable(result,caption = "F test for Homogenity of Variance",row.names = FALSE)
+         kable(result,caption = "F test for Homogenity of Variance",row.names = FALSE) %>% kable_styling() %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
 }
 h3("")
@@ -195,7 +194,7 @@ if(input$req1 == 'pttest'){
       meandiff<-ttest$estimate
       result1<-cbind(tvalue,df,pvalue,meandiff)
       row.names(result1)<-NULL
-       kable(round(result1,3),caption = "Paired t test",row.names = FALSE)
+       kable(round(result1,3),caption = "Paired t test",row.names = FALSE) %>% kable_styling() %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
 }
 h3("")

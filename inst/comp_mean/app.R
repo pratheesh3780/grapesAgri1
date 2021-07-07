@@ -5,7 +5,6 @@ library(datasets)
 library(rmarkdown)
 library(dplyr)
 library(ggplot2)
-###############
 library(pastecs)
 library(ggpubr)
 library(PairedData)
