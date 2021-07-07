@@ -23,15 +23,12 @@ obtain one-way ANOVA.\code{LSD.test},\code{duncan.test} and
 multiple comparison test like LSD,DMRT and Tukey respectively.
 \code{ggboxplot} function of \code{ggpubr} package is used for
 boxplot.'\code{ggplot} function of \code{ggplot2} is used for
-barchart with confidence interval. To download the results in pdf
-one may use \code{tinytex::install_tinytex()} before using the app.
+barchart with confidence interval.
 }
 \examples{
-if(interactive()){
-crdApp()
+if (interactive()) {
+  crdApp()
 }
-
-
 }
 \references{
 \insertRef{R_2021}{grapesAgri1}

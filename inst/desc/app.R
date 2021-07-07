@@ -253,7 +253,7 @@ server = function(input, output, session) {
     if (input$req == "summary") {
       if (input$submit4 > 0) {
         list(
-          radioButtons("format", "Download report:", c("HTML"),
+          radioButtons("format", "Download report (Note: if you are changing the file name after download give '.html' extension):", c("HTML"),
             inline = TRUE
           ),
           downloadButton("downloadReport")
@@ -275,7 +275,7 @@ server = function(input, output, session) {
     if (input$req == "sumbygrp") {
       if (input$submit5 > 0) {
         list(
-          radioButtons("format", "Download report:", c("HTML"),
+          radioButtons("format", "Download report (Note: if you are changing the file name after download give '.html' extension):", c("HTML"),
             inline = TRUE
           ),
           downloadButton("downloadReport")

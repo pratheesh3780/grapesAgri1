@@ -54,7 +54,7 @@ if(input$req1 == 'ttest'||input$req1 == 'wttest'||input$req1=='ottest'||input$re
         alt.Hypothesis<-t$alternative
         result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
-         kable(result,caption = "Two sample unpaired t-test",row.names = FALSE) %>% kable_styling() %>% kable_styling() %>% kable_paper("hover", full_width = F)
+         kable(result,caption = "Two sample unpaired t-test",row.names = FALSE) %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
  }
 h3("")
@@ -92,7 +92,7 @@ h3("")
         result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
         result
-        kable(result,caption = "Welch unpaired t-test",row.names = FALSE) %>% kable_styling() %>% kable_styling() %>% kable_paper("hover", full_width = F)
+        kable(result,caption = "Welch unpaired t-test",row.names = FALSE) %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
  }
 h3("")
@@ -126,7 +126,7 @@ if(input$req1 == 'ottest'){
         alt.Hypothesis<-t$alternative
         result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
-        kable(result,caption = "One sample t-test",row.names = FALSE) %>% kable_styling() %>% kable_styling() %>% kable_paper("hover", full_width = F)
+        kable(result,caption = "One sample t-test",row.names = FALSE) %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
 }
 h3("")
@@ -160,7 +160,7 @@ if(input$req1 == 'ftest'){
         alt.Hypothesis<-f$alternative
         result<-cbind(F_value,t(df),Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
-         kable(result,caption = "F test for Homogenity of Variance",row.names = FALSE) %>% kable_styling() %>% kable_styling() %>% kable_paper("hover", full_width = F)
+         kable(result,caption = "F test for Homogenity of Variance",row.names = FALSE) %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
 }
 h3("")
@@ -194,7 +194,7 @@ if(input$req1 == 'pttest'){
       meandiff<-ttest$estimate
       result1<-cbind(tvalue,df,pvalue,meandiff)
       row.names(result1)<-NULL
-       kable(round(result1,3),caption = "Paired t test",row.names = FALSE) %>% kable_styling() %>% kable_styling() %>% kable_paper("hover", full_width = F)
+       kable(round(result1,3),caption = "Paired t test",row.names = FALSE) %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
 }
 h3("")

@@ -892,7 +892,7 @@ server <- function(input, output, session) {
     if (input$req1 == "pttest") {
       if (input$submit5 > 0) {
         validate(
-          need(input$idvar != input$var, "Both input variables selected (Group A and Group B) are same. Choose different input variables for meaningful result")
+          need(input$dvar != input$ivar, "Both input variables selected (Group A and Group B) are same. Choose different input variables for meaningful result")
         )
         x <- as.vector(csvfile()[, input$dvar])
         y <- as.vector(csvfile()[, input$ivar])
@@ -1176,7 +1176,7 @@ server <- function(input, output, session) {
         list(
           radioButtons(
             "format",
-            "Download report:",
+            "Download report (Note: if you are changing the file name after download give '.html' extension):",
             c("HTML"),
             inline = TRUE
           ),
@@ -1201,7 +1201,7 @@ server <- function(input, output, session) {
         list(
           radioButtons(
             "format",
-            "Download report:",
+            "Download report (Note: if you are changing the file name after download give '.html' extension):",
             c("HTML"),
             inline = TRUE
           ),
@@ -1226,7 +1226,7 @@ server <- function(input, output, session) {
         list(
           radioButtons(
             "format",
-            "Download report:",
+            "Download report (Note: if you are changing the file name after download give '.html' extension):",
             c("HTML"),
             inline = TRUE
           ),
@@ -1251,7 +1251,7 @@ server <- function(input, output, session) {
         list(
           radioButtons(
             "format",
-            "Download report:",
+            "Download report (Note: if you are changing the file name after download give '.html' extension):",
             c("HTML"),
             inline = TRUE
           ),
@@ -1276,7 +1276,7 @@ server <- function(input, output, session) {
         list(
           radioButtons(
             "format",
-            "Download report:",
+            "Download report (Note: if you are changing the file name after download give '.html' extension):",
             c("HTML"),
             inline = TRUE
           ),
