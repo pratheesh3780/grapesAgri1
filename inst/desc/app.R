@@ -5,12 +5,13 @@ library(knitr)
 library(dplyr)
 library(magrittr)
 library(gridGraphics)
-######################
 library(kableExtra)
 library(pastecs)
 library(ggpubr)
 library(summarytools)
 library(ggplot2)
+library(datasets)
+library(grid)
 ############################### ui
 ui = fluidPage(
   setBackgroundColor(
