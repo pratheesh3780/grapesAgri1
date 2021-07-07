@@ -126,7 +126,7 @@ server <- function(input, output, session) {
     if (is.null(csvfile)) {
       return(NULL)
     }
-    dt <- read.csv(csvfile$datapath, header = input$header, sep = ",")
+    dt <- read.csv(csvfile$datapath, header = input$header, sep = ",", check.names = FALSE)
     dt
   })
 

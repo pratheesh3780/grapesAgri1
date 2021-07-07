@@ -203,7 +203,7 @@ server <- function(input, output, session) {
     dt <-
       read.csv(csvfile$datapath,
         header = input$header,
-        sep = ","
+        sep = ",", check.names = FALSE
       )
     dt
   })

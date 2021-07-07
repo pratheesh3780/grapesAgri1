@@ -13,7 +13,7 @@ library(ggplot2)
 library(datasets)
 library(grid)
 ############################### ui
-ui = fluidPage(
+ui <- fluidPage(
   setBackgroundColor(
     color = c("#faf1d2", "#ffffff"),
     gradient = "radial",
@@ -91,17 +91,17 @@ Shiny.onInputChange('shiny_height',myHeight)
 )
 
 #################################### SERVER
-server = function(input, output, session) {
-  csvfile = reactive({
-    csvfile = input$file1
+server <- function(input, output, session) {
+  csvfile <- reactive({
+    csvfile <- input$file1
     if (is.null(csvfile)) {
       return(NULL)
     }
-    dt = read.csv(csvfile$datapath, header = input$header, sep = ",")
+    dt <- read.csv(csvfile$datapath, header = input$header, sep = ",", check.names = FALSE)
     dt
   })
 
-  output$var = renderUI({
+  output$var <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -241,7 +241,7 @@ server = function(input, output, session) {
   })
 
 
-  output$var1 = renderUI({
+  output$var1 <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -263,7 +263,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$var2 = renderUI({
+  output$var2 <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -286,7 +286,7 @@ server = function(input, output, session) {
   })
 
   ############################# Summary
-  output$summaryout = function() {
+  output$summaryout <- function() {
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -298,8 +298,8 @@ server = function(input, output, session) {
     }
     if (input$req == "summary") {
       if (input$submit4 > 0) {
-        y = subset(csvfile(), select = input$var)
-        final =
+        y <- subset(csvfile(), select = input$var)
+        final <-
           summarytools::descr(y) %>%
           summarytools::tb(order = 3) %>%
           knitr::kable(digits = 2, caption = "Summary Statistics") %>%
@@ -310,7 +310,7 @@ server = function(input, output, session) {
     }
   }
   ####################################### Shapiro Wilk's Test
-  output$nort = renderPrint({
+  output$nort <- renderPrint({
     if (is.null(input$file1$datapath)) {
       return(invisible())
     }
@@ -322,16 +322,16 @@ server = function(input, output, session) {
     }
     if (input$req == "nt") {
       if (input$submit > 0) {
-        y = subset(csvfile(), select = input$var)
-        data = as.data.frame(y)
-        colnames(data) = "variable_under_study"
-        test = stats::shapiro.test(data$variable_under_study)
+        y <- subset(csvfile(), select = input$var)
+        data <- as.data.frame(y)
+        colnames(data) <- "variable_under_study"
+        test <- stats::shapiro.test(data$variable_under_study)
         test
       }
     }
   })
   ############################# Summary by group
-  output$bygroup = function() {
+  output$bygroup <- function() {
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -343,9 +343,9 @@ server = function(input, output, session) {
     }
     if (input$req == "sumbygrp") {
       if (input$submit5 > 0) {
-        y1 = subset(csvfile(), select = input$var)
-        y2 = subset(csvfile(), select = input$group)
-        final =
+        y1 <- subset(csvfile(), select = input$var)
+        y2 <- subset(csvfile(), select = input$group)
+        final <-
           summarytools::stby(y1, y2, descr) %>%
           summarytools::tb(order = 1) %>%
           knitr::kable(digits = 2, caption = "Summary Statistics by Group") %>%
@@ -356,7 +356,7 @@ server = function(input, output, session) {
     }
   }
   ###################### text of shapiro wilk's
-  output$text3 = renderUI({
+  output$text3 <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -368,10 +368,10 @@ server = function(input, output, session) {
     }
     if (input$submit > 0) {
       if (input$req == "nt") {
-        y = subset(csvfile(), select = input$var)
-        data = as.data.frame(y)
-        colnames(data) = "variable_under_study"
-        test = shapiro.test(data$variable_under_study)
+        y <- subset(csvfile(), select = input$var)
+        data <- as.data.frame(y)
+        colnames(data) <- "variable_under_study"
+        test <- shapiro.test(data$variable_under_study)
         if (test$p.value <= 0.05) {
           HTML(paste0(" Here <b>p-value is < 0.05</b>; <b>Null hypothesis</b>: data follows a normal distribution is <b>rejected </b> at
                     5% level of significance. In other words data does not follows normal distribution"))
@@ -385,7 +385,7 @@ server = function(input, output, session) {
     }
   })
   ########################################## plots
-  output$plot = renderUI({
+  output$plot <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -396,7 +396,7 @@ server = function(input, output, session) {
       if (is.null(input$submit1)) {
         return()
       }
-      output$boxplot = renderPlot(
+      output$boxplot <- renderPlot(
         {
           if (input$submit1 > 0) {
             graphics::boxplot(csvfile()[, input$variable],
@@ -414,7 +414,7 @@ server = function(input, output, session) {
       if (is.null(input$submit2)) {
         return()
       }
-      output$histogram = renderPlot(
+      output$histogram <- renderPlot(
         {
           if (input$submit2 > 0) {
             graphics::hist(csvfile()[, input$variable],
@@ -435,7 +435,7 @@ server = function(input, output, session) {
       if (is.null(input$submit3)) {
         return()
       }
-      output$qqplot = renderPlot(
+      output$qqplot <- renderPlot(
         {
           if (input$style == "Style 1" && input$submit3 > 0) {
             stats::qqnorm(csvfile()[, input$variable],
@@ -459,7 +459,7 @@ server = function(input, output, session) {
 
 
   ############################### this note appear on opening
-  output$note = renderUI({
+  output$note <- renderUI({
     if (is.null(input$file1$datapath)) {
       return(
         HTML(paste0(" <h4> To perform analysis using your own dataset prepare excel file in csv format by reading instruction below  </h4>
@@ -488,7 +488,7 @@ server = function(input, output, session) {
   })
 
   ########################################## dataset download
-  output$data_set = renderUI({
+  output$data_set <- renderUI({
     if (is.null(input$file1$datapath)) {
       list(
         selectInput("dataset", "Choose a dataset:",
@@ -502,7 +502,7 @@ server = function(input, output, session) {
       return()
     }
   })
-  datasetInput = reactive({
+  datasetInput <- reactive({
     switch(input$dataset,
       "iris" = iris,
       "pressure" = pressure,
@@ -510,7 +510,7 @@ server = function(input, output, session) {
     )
   })
 
-  output$downloadData = downloadHandler(
+  output$downloadData <- downloadHandler(
     filename = function() {
       paste(input$dataset, ".csv", sep = "")
     },
@@ -520,27 +520,27 @@ server = function(input, output, session) {
   )
 
   ################### download Report
-  output$downloadReport = downloadHandler(
+  output$downloadReport <- downloadHandler(
     filename = function() {
       paste("my-report", sep = ".", switch(input$format,
         HTML = "html"
       ))
     },
     content = function(file) {
-      src = normalizePath("report.Rmd")
-      owd = setwd(tempdir())
+      src <- normalizePath("report.Rmd")
+      owd <- setwd(tempdir())
       on.exit(setwd(owd))
       file.copy(src, "report.Rmd", overwrite = TRUE)
 
-      out = render("report.Rmd", switch(input$format,
+      out <- render("report.Rmd", switch(input$format,
         HTML = html_document()
       ))
       file.rename(out, file)
     }
   )
 
-   #################################### Download Image
-  output$image_down = renderUI({
+  #################################### Download Image
+  output$image_down <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -582,7 +582,7 @@ server = function(input, output, session) {
   })
 
   ### plotting
-  plotInput = reactive({
+  plotInput <- reactive({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -600,7 +600,7 @@ server = function(input, output, session) {
           border = input$color
         )
         grid.echo()
-        P1 = grid.grab()
+        P1 <- grid.grab()
         grid.draw(P1)
       }
     }
@@ -617,7 +617,7 @@ server = function(input, output, session) {
           freq = TRUE
         )
         grid.echo()
-        P1 = grid.grab()
+        P1 <- grid.grab()
         grid.draw(P1)
       }
     }
@@ -642,7 +642,7 @@ server = function(input, output, session) {
   })
 
   ###
-  output$downloadImage1 = downloadHandler(
+  output$downloadImage1 <- downloadHandler(
     filename = "boxplot.png",
     content = function(file) {
       png(file,
@@ -655,7 +655,7 @@ server = function(input, output, session) {
     }
   )
 
-  output$downloadImage2 = downloadHandler(
+  output$downloadImage2 <- downloadHandler(
     filename = "histogram.png",
     content = function(file) {
       png(file,
@@ -668,7 +668,7 @@ server = function(input, output, session) {
     }
   )
 
-  output$downloadImage3 = downloadHandler(
+  output$downloadImage3 <- downloadHandler(
     filename = "qqplot.png",
     content = function(file) {
       png(file,
