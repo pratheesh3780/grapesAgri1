@@ -17,16 +17,16 @@ library(dplyr)
 ```
 ```{r echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE,warn.conflicts=FALSE}
 
-csvfile <- reactive({
-    csvfile <- input$file1
+csvfile = reactive({
+    csvfile = input$file1
     if (is.null(csvfile)){return(NULL)}
-    dt <- read.csv(csvfile$datapath, header=input$header, sep=",")
+    dt = read.csv(csvfile$datapath, header=input$header, sep=",")
   })
 #output
 if(input$req == 'summary'){
       if(input$submit4 > 0){
-         y<-subset(csvfile(),select=input$var)
-        final<-
+         y=subset(csvfile(),select=input$var)
+        final=
           summarytools::descr(y) %>%
           summarytools::tb(order = 3) %>%
           knitr::kable( digits = 2,caption = "Summary Statistics") %>%
@@ -39,9 +39,9 @@ if(input$req == 'summary'){
 
 if(input$req == 'sumbygrp'){
       if(input$submit5 > 0){
-        y1<-subset(csvfile(),select=input$var)
-        y2<-subset(csvfile(),select=input$group)
-        final<-
+        y1=subset(csvfile(),select=input$var)
+        y2=subset(csvfile(),select=input$group)
+        final=
           summarytools::stby(y1, y2, descr) %>%
           summarytools::tb(order = 1) %>%
           knitr::kable(digits = 2,caption = "Summary Statistics by Group") %>%

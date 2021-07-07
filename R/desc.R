@@ -65,19 +65,8 @@
 #' \insertRef{ggplot_2016}{grapesAgri1}
 
 
-descApp = function() {
-  if (!requireNamespace("kableExtra", quietly = TRUE)) {
-    stop("Package \"kableExtra\" needed for this function to work. Please install it.",
-      call. = FALSE
-    )
-  }
-  if (!requireNamespace("summarytools", quietly = TRUE)) {
-    stop("Package \"summarytools\" needed for this function to work. Please install it.",
-      call. = FALSE
-    )
-  }
-
-  appDir = system.file("desc", package = "grapesAgri1")
+descApp <- function() {
+  appDir <- system.file("desc", package = "grapesAgri1")
   if (appDir == "") {
     stop("Could not find directory. Try re-installing `grapesAgri1`.", call. = FALSE)
   }
