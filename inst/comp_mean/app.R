@@ -10,7 +10,7 @@ library(ggpubr)
 library(PairedData)
 library(reshape2)
 ############################### Ui
-ui <- fluidPage(
+ui = fluidPage(
   setBackgroundColor(
     color = c("#ffb9b3", "#ffffff"),
     gradient = "radial",
@@ -195,13 +195,13 @@ ui <- fluidPage(
   )
 )
 ########################### Server
-server <- function(input, output, session) {
-  csvfile <- reactive({
-    csvfile <- input$file1
+server = function(input, output, session) {
+  csvfile = reactive({
+    csvfile = input$file1
     if (is.null(csvfile)) {
       return(NULL)
     }
-    dt <-
+    dt =
       read.csv(csvfile$datapath,
         header = input$header,
         sep = ","
@@ -209,7 +209,7 @@ server <- function(input, output, session) {
     dt
   })
 
-  output$var <- renderUI({
+  output$var = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -378,7 +378,7 @@ server <- function(input, output, session) {
     }
   })
   # two sample ttest
-  output$ttest <- renderTable(
+  output$ttest = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -391,9 +391,9 @@ server <- function(input, output, session) {
       }
       if (input$req1 == "ttest") {
         if (input$submit1 > 0) {
-          x <- as.vector(csvfile()[, input$dvar])
-          y <- as.vector(csvfile()[, input$ivar])
-          t <- t.test(
+          x = as.vector(csvfile()[, input$dvar])
+          y = as.vector(csvfile()[, input$ivar])
+          t = t.test(
             x,
             y,
             alternative = input$alt,
@@ -401,12 +401,12 @@ server <- function(input, output, session) {
             paired = FALSE,
             na.omit = TRUE
           )
-          t_value <- round(t$statistic, 3)
-          df <- t$parameter
-          Pvalue <- round(t$p.value, 3)
-          alt.Hypothesis <- t$alternative
-          result <- cbind(t_value, df, Pvalue, alt.Hypothesis)
-          result <- as.data.frame(result)
+          t_value = round(t$statistic, 3)
+          df = t$parameter
+          Pvalue = round(t$p.value, 3)
+          alt.Hypothesis = t$alternative
+          result = cbind(t_value, df, Pvalue, alt.Hypothesis)
+          result = as.data.frame(result)
           result
         }
       }
@@ -419,7 +419,7 @@ server <- function(input, output, session) {
   )
 
   # note1
-  output$note1 <- renderUI({
+  output$note1 = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -431,9 +431,9 @@ server <- function(input, output, session) {
     }
     if (input$req1 == "ttest") {
       if (input$submit1 > 0) {
-        x <- as.vector(csvfile()[, input$dvar])
-        y <- as.vector(csvfile()[, input$ivar])
-        t <- t.test(
+        x = as.vector(csvfile()[, input$dvar])
+        y = as.vector(csvfile()[, input$ivar])
+        t = t.test(
           x,
           y,
           alternative = input$alt,
@@ -462,7 +462,7 @@ server <- function(input, output, session) {
       }
     }
   })
-  output$summary1 <- renderTable(
+  output$summary1 = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -475,16 +475,16 @@ server <- function(input, output, session) {
       }
       if (input$req1 == "ttest") {
         if (input$submit1 > 0) {
-          grp1 <- subset(csvfile(), select = input$dvar)
-          grp2 <- subset(csvfile(), select = input$ivar)
-          final <- cbind(grp1, grp2)
-          res <- pastecs::stat.desc(final)
-          result <- as.data.frame(res)
-          rownames(result)[rownames(result) == "nbr.val"] <-
+          grp1 = subset(csvfile(), select = input$dvar)
+          grp2 = subset(csvfile(), select = input$ivar)
+          final = cbind(grp1, grp2)
+          res = pastecs::stat.desc(final)
+          result = as.data.frame(res)
+          rownames(result)[rownames(result) == "nbr.val"] =
             "Number of Obs."
-          rownames(result)[rownames(result) == "nbr.null"] <-
+          rownames(result)[rownames(result) == "nbr.null"] =
             "null values"
-          rownames(result)[rownames(result) == "nbr.na"] <- "NA"
+          rownames(result)[rownames(result) == "nbr.na"] = "NA"
           round(result, 3)
         }
       }
@@ -497,7 +497,7 @@ server <- function(input, output, session) {
     rownames = TRUE
   )
   # Weltch ttest
-  output$wttest <- renderTable(
+  output$wttest = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -510,9 +510,9 @@ server <- function(input, output, session) {
       }
       if (input$req1 == "wttest") {
         if (input$submit2 > 0) {
-          x <- as.vector(csvfile()[, input$dvar])
-          y <- as.vector(csvfile()[, input$ivar])
-          t <- t.test(
+          x = as.vector(csvfile()[, input$dvar])
+          y = as.vector(csvfile()[, input$ivar])
+          t = t.test(
             x,
             y,
             alternative = input$alt,
@@ -520,12 +520,12 @@ server <- function(input, output, session) {
             paired = FALSE,
             na.omit = TRUE
           )
-          t_value <- round(t$statistic, 3)
-          df <- round(t$parameter, 2)
-          Pvalue <- round(t$p.value, 3)
-          alt.Hypothesis <- t$alternative
-          result <- cbind(t_value, df, Pvalue, alt.Hypothesis)
-          result <- as.data.frame(result)
+          t_value = round(t$statistic, 3)
+          df = round(t$parameter, 2)
+          Pvalue = round(t$p.value, 3)
+          alt.Hypothesis = t$alternative
+          result = cbind(t_value, df, Pvalue, alt.Hypothesis)
+          result = as.data.frame(result)
           result
         }
       }
@@ -537,7 +537,7 @@ server <- function(input, output, session) {
     caption.placement = getOption("xtable.caption.placement", "top")
   )
   # note2
-  output$note2 <- renderUI({
+  output$note2 = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -549,9 +549,9 @@ server <- function(input, output, session) {
     }
     if (input$req1 == "wttest") {
       if (input$submit2 > 0) {
-        x <- as.vector(csvfile()[, input$dvar])
-        y <- as.vector(csvfile()[, input$ivar])
-        t <- t.test(
+        x = as.vector(csvfile()[, input$dvar])
+        y = as.vector(csvfile()[, input$ivar])
+        t = t.test(
           x,
           y,
           alternative = input$alt,
@@ -580,7 +580,7 @@ server <- function(input, output, session) {
       }
     }
   })
-  output$summary2 <- renderTable(
+  output$summary2 = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -593,16 +593,16 @@ server <- function(input, output, session) {
       }
       if (input$req1 == "wttest") {
         if (input$submit2 > 0) {
-          grp1 <- subset(csvfile(), select = input$dvar)
-          grp2 <- subset(csvfile(), select = input$ivar)
-          final <- cbind(grp1, grp2)
-          res <- stat.desc(final)
-          result <- as.data.frame(res)
-          rownames(result)[rownames(result) == "nbr.val"] <-
+          grp1 = subset(csvfile(), select = input$dvar)
+          grp2 = subset(csvfile(), select = input$ivar)
+          final = cbind(grp1, grp2)
+          res = stat.desc(final)
+          result = as.data.frame(res)
+          rownames(result)[rownames(result) == "nbr.val"] =
             "Number of Obs."
-          rownames(result)[rownames(result) == "nbr.null"] <-
+          rownames(result)[rownames(result) == "nbr.null"] =
             "null values"
-          rownames(result)[rownames(result) == "nbr.na"] <- "NA"
+          rownames(result)[rownames(result) == "nbr.na"] = "NA"
           round(result, 3)
         }
       }
@@ -614,7 +614,7 @@ server <- function(input, output, session) {
     rownames = TRUE
   )
   # one sample ttest
-  output$ottest <- renderTable(
+  output$ottest = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -627,20 +627,20 @@ server <- function(input, output, session) {
       }
       if (input$req1 == "ottest") {
         if (input$submit3 > 0) {
-          x <- as.vector(csvfile()[, input$dvar])
-          t <- t.test(
+          x = as.vector(csvfile()[, input$dvar])
+          t = t.test(
             x,
             y = NULL,
             alternative = input$alt,
             mu = input$mu,
             na.omit = TRUE
           )
-          t_value <- round(t$statistic, 3)
-          df <- round(t$parameter, 2)
-          Pvalue <- round(t$p.value, 3)
-          alt.Hypothesis <- t$alternative
-          result <- cbind(t_value, df, Pvalue, alt.Hypothesis)
-          result <- as.data.frame(result)
+          t_value = round(t$statistic, 3)
+          df = round(t$parameter, 2)
+          Pvalue = round(t$p.value, 3)
+          alt.Hypothesis = t$alternative
+          result = cbind(t_value, df, Pvalue, alt.Hypothesis)
+          result = as.data.frame(result)
           result
         }
       }
@@ -653,7 +653,7 @@ server <- function(input, output, session) {
   )
 
   # note3
-  output$note3 <- renderUI({
+  output$note3 = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -665,15 +665,15 @@ server <- function(input, output, session) {
     }
     if (input$req1 == "ottest") {
       if (input$submit3 > 0) {
-        x <- as.vector(csvfile()[, input$dvar])
-        t <- t.test(
+        x = as.vector(csvfile()[, input$dvar])
+        t = t.test(
           x,
           y = NULL,
           alternative = input$alt,
           mu = input$mu,
           na.omit = TRUE
         )
-        mu <- as.numeric(input$mu)
+        mu = as.numeric(input$mu)
 
         if (t$p.value <= 0.05) {
           HTML(paste0(
@@ -697,7 +697,7 @@ server <- function(input, output, session) {
     }
   })
 
-  output$summary3 <- renderTable(
+  output$summary3 = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -710,15 +710,15 @@ server <- function(input, output, session) {
       }
       if (input$req1 == "ottest") {
         if (input$submit3 > 0) {
-          grp1 <- subset(csvfile(), select = input$dvar)
-          final <- grp1
-          res <- stat.desc(final)
-          result <- as.data.frame(res)
-          rownames(result)[rownames(result) == "nbr.val"] <-
+          grp1 = subset(csvfile(), select = input$dvar)
+          final = grp1
+          res = stat.desc(final)
+          result = as.data.frame(res)
+          rownames(result)[rownames(result) == "nbr.val"] =
             "Number of Obs."
-          rownames(result)[rownames(result) == "nbr.null"] <-
+          rownames(result)[rownames(result) == "nbr.null"] =
             "null values"
-          rownames(result)[rownames(result) == "nbr.na"] <- "NA"
+          rownames(result)[rownames(result) == "nbr.na"] = "NA"
           round(result, 3)
         }
       }
@@ -731,7 +731,7 @@ server <- function(input, output, session) {
     rownames = TRUE
   )
   # Ftest homogenity
-  output$ftest <- renderTable(
+  output$ftest = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -744,18 +744,18 @@ server <- function(input, output, session) {
       }
       if (input$req1 == "ftest") {
         if (input$submit4 > 0) {
-          x <- as.vector(csvfile()[, input$dvar])
-          y <- as.vector(csvfile()[, input$ivar])
-          f <- var.test(x, y,
+          x = as.vector(csvfile()[, input$dvar])
+          y = as.vector(csvfile()[, input$ivar])
+          f = var.test(x, y,
             ratio = 1,
             alternative = input$alt
           )
-          F_value <- round(f$statistic, 3)
-          df <- as.data.frame(f$parameter)
-          Pvalue <- round(f$p.value, 3)
-          alt.Hypothesis <- f$alternative
-          result <- cbind(F_value, t(df), Pvalue, alt.Hypothesis)
-          result <- as.data.frame(result)
+          F_value = round(f$statistic, 3)
+          df = as.data.frame(f$parameter)
+          Pvalue = round(f$p.value, 3)
+          alt.Hypothesis = f$alternative
+          result = cbind(F_value, t(df), Pvalue, alt.Hypothesis)
+          result = as.data.frame(result)
           result
         }
       }
@@ -768,7 +768,7 @@ server <- function(input, output, session) {
   )
 
   # note4
-  output$note4 <- renderUI({
+  output$note4 = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -780,9 +780,9 @@ server <- function(input, output, session) {
     }
     if (input$req1 == "ftest") {
       if (input$submit4 > 0) {
-        x <- as.vector(csvfile()[, input$dvar])
-        y <- as.vector(csvfile()[, input$ivar])
-        f <- var.test(x, y,
+        x = as.vector(csvfile()[, input$dvar])
+        y = as.vector(csvfile()[, input$ivar])
+        f = var.test(x, y,
           ratio = 1,
           alternative = input$alt
         )
@@ -806,7 +806,7 @@ server <- function(input, output, session) {
       }
     }
   })
-  output$summary4 <- renderTable(
+  output$summary4 = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -819,16 +819,16 @@ server <- function(input, output, session) {
       }
       if (input$req1 == "ftest") {
         if (input$submit4 > 0) {
-          grp1 <- subset(csvfile(), select = input$dvar)
-          grp2 <- subset(csvfile(), select = input$ivar)
-          final <- cbind(grp1, grp2)
-          res <- pastecs::stat.desc(final)
-          result <- as.data.frame(res)
-          rownames(result)[rownames(result) == "nbr.val"] <-
+          grp1 = subset(csvfile(), select = input$dvar)
+          grp2 = subset(csvfile(), select = input$ivar)
+          final = cbind(grp1, grp2)
+          res = pastecs::stat.desc(final)
+          result = as.data.frame(res)
+          rownames(result)[rownames(result) == "nbr.val"] =
             "Number of Obs."
-          rownames(result)[rownames(result) == "nbr.null"] <-
+          rownames(result)[rownames(result) == "nbr.null"] =
             "null values"
-          rownames(result)[rownames(result) == "nbr.na"] <- "NA"
+          rownames(result)[rownames(result) == "nbr.na"] = "NA"
           round(result, 3)
         }
       }
@@ -841,7 +841,7 @@ server <- function(input, output, session) {
     rownames = TRUE
   )
   # Paired t test
-  output$pttest <- renderTable(
+  output$pttest = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -854,21 +854,21 @@ server <- function(input, output, session) {
       }
       if (input$req1 == "pttest") {
         if (input$submit5 > 0) {
-          grp1 <- subset(csvfile(), select = input$dvar)
-          grp2 <- subset(csvfile(), select = input$ivar)
-          final <- cbind(grp1, grp2)
-          ttest <-
+          grp1 = subset(csvfile(), select = input$dvar)
+          grp2 = subset(csvfile(), select = input$ivar)
+          final = cbind(grp1, grp2)
+          ttest =
             t.test(final[, 1],
               final[, 2],
               paired = TRUE,
               alternative = input$alt
             )
-          tvalue <- round(ttest$statistic, 3)
-          df <- ttest$parameter
-          pvalue <- round(ttest$p.value, 3)
-          meandiff <- round(ttest$estimate, 3)
-          result1 <- cbind(tvalue, df, pvalue, meandiff)
-          row.names(result1) <- NULL
+          tvalue = round(ttest$statistic, 3)
+          df = ttest$parameter
+          pvalue = round(ttest$p.value, 3)
+          meandiff = round(ttest$estimate, 3)
+          result1 = cbind(tvalue, df, pvalue, meandiff)
+          row.names(result1) = NULL
           result1
         }
       }
@@ -880,7 +880,7 @@ server <- function(input, output, session) {
     rownames = FALSE
   )
 
-  output$note5 <- renderUI({
+  output$note5 = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -892,9 +892,9 @@ server <- function(input, output, session) {
     }
     if (input$req1 == "pttest") {
       if (input$submit5 > 0) {
-        x <- as.vector(csvfile()[, input$dvar])
-        y <- as.vector(csvfile()[, input$ivar])
-        t <- t.test(
+        x = as.vector(csvfile()[, input$dvar])
+        y = as.vector(csvfile()[, input$ivar])
+        t = t.test(
           x,
           y,
           alternative = input$alt,
@@ -923,7 +923,7 @@ server <- function(input, output, session) {
       }
     }
   })
-  output$summary5 <- renderTable(
+  output$summary5 = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -936,17 +936,17 @@ server <- function(input, output, session) {
       }
       if (input$req1 == "pttest") {
         if (input$submit5 > 0) {
-          grp1 <- subset(csvfile(), select = input$dvar)
-          grp2 <- subset(csvfile(), select = input$ivar)
-          final <- cbind(grp1, grp2)
-          res <- pastecs::stat.desc(final)
-          result <- as.data.frame(res)
-          rownames(result)[rownames(result) == "nbr.val"] <-
+          grp1 = subset(csvfile(), select = input$dvar)
+          grp2 = subset(csvfile(), select = input$ivar)
+          final = cbind(grp1, grp2)
+          res = pastecs::stat.desc(final)
+          result = as.data.frame(res)
+          rownames(result)[rownames(result) == "nbr.val"] =
             "Number of Obs."
-          rownames(result)[rownames(result) == "nbr.null"] <-
+          rownames(result)[rownames(result) == "nbr.null"] =
             "null values"
-          rownames(result)[rownames(result) == "nbr.na"] <- "NA"
-          result <- round(result, 3)
+          rownames(result)[rownames(result) == "nbr.na"] = "NA"
+          result = round(result, 3)
           result
         }
       }
@@ -959,7 +959,7 @@ server <- function(input, output, session) {
     rownames = TRUE
   )
   # Plots
-  output$plot <- renderUI({
+  output$plot = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -971,19 +971,19 @@ server <- function(input, output, session) {
       if (is.null(input$submit6)) {
         return()
       }
-      output$boxplot <- renderPlot(
+      output$boxplot = renderPlot(
         {
           if (input$submit6 > 0) {
-            x <- as.matrix(csvfile()[, input$dvar])
-            y <- as.matrix(csvfile()[, input$ivar])
-            g_1 <- rep(input$dvar, each = nrow(x))
-            g_2 <- rep(input$ivar, each = nrow(y))
-            my_data <- data.frame(
+            x = as.matrix(csvfile()[, input$dvar])
+            y = as.matrix(csvfile()[, input$ivar])
+            g_1 = rep(input$dvar, each = nrow(x))
+            g_2 = rep(input$ivar, each = nrow(y))
+            my_data = data.frame(
               group = c(g_1, g_2),
               obs = c(x, y)
             )
 
-            colnames(my_data) <- c("group", "obs")
+            colnames(my_data) = c("group", "obs")
             ggpubr::ggboxplot(
               my_data,
               x = "group",
@@ -1005,12 +1005,12 @@ server <- function(input, output, session) {
       if (is.null(input$submit7)) {
         return()
       }
-      output$pplot <- renderPlot(
+      output$pplot = renderPlot(
         {
           if (input$submit7 > 0) {
-            group1 <- subset(csvfile(), select = input$dvar)
-            group2 <- subset(csvfile(), select = input$ivar)
-            pd <- paired(group1, group2)
+            group1 = subset(csvfile(), select = input$dvar)
+            group2 = subset(csvfile(), select = input$ivar)
+            pd = paired(group1, group2)
             plot(pd, type = "profile") + theme_bw()
           }
         },
@@ -1021,7 +1021,7 @@ server <- function(input, output, session) {
   })
 
   # slider input for boxplot
-  output$slider <- renderUI({
+  output$slider = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -1044,7 +1044,7 @@ server <- function(input, output, session) {
     }
   })
   # Download Image
-  output$image_down <- renderUI({
+  output$image_down = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -1072,7 +1072,7 @@ server <- function(input, output, session) {
     }
   })
   # plotting
-  plotInput <- reactive({
+  plotInput = reactive({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -1085,16 +1085,16 @@ server <- function(input, output, session) {
         return()
       }
       if (input$submit6 > 0) {
-        x <- as.matrix(csvfile()[, input$dvar])
-        y <- as.matrix(csvfile()[, input$ivar])
-        g_1 <- rep(input$dvar, each = nrow(x))
-        g_2 <- rep(input$ivar, each = nrow(y))
-        my_data <- data.frame(
+        x = as.matrix(csvfile()[, input$dvar])
+        y = as.matrix(csvfile()[, input$ivar])
+        g_1 = rep(input$dvar, each = nrow(x))
+        g_2 = rep(input$ivar, each = nrow(y))
+        my_data = data.frame(
           group = c(g_1, g_2),
           obs = c(x, y)
         )
 
-        colnames(my_data) <- c("group", "obs")
+        colnames(my_data) = c("group", "obs")
         ggboxplot(
           my_data,
           x = "group",
@@ -1113,9 +1113,9 @@ server <- function(input, output, session) {
         return()
       }
       if (input$submit7 > 0) {
-        group1 <- subset(csvfile(), select = input$dvar)
-        group2 <- subset(csvfile(), select = input$ivar)
-        pd <- paired(group1, group2)
+        group1 = subset(csvfile(), select = input$dvar)
+        group2 = subset(csvfile(), select = input$ivar)
+        pd = paired(group1, group2)
         plot(pd, type = "profile") + theme_bw()
       }
     }
@@ -1124,10 +1124,10 @@ server <- function(input, output, session) {
 
 
   ###
-  output$downloadImage1 <- downloadHandler(
+  output$downloadImage1 = downloadHandler(
     filename = "boxplot.png",
     content = function(file) {
-      device <- function(..., width, height) {
+      device = function(..., width, height) {
         grDevices::png(
           ...,
           width = width,
@@ -1140,10 +1140,10 @@ server <- function(input, output, session) {
     }
   )
 
-  output$downloadImage2 <- downloadHandler(
+  output$downloadImage2 = downloadHandler(
     filename = "paired.png",
     content = function(file) {
-      device <- function(..., width, height) {
+      device = function(..., width, height) {
         grDevices::png(
           ...,
           width = width,
@@ -1159,7 +1159,7 @@ server <- function(input, output, session) {
 
 
   # download Report
-  output$var1 <- renderUI({
+  output$var1 = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -1175,7 +1175,7 @@ server <- function(input, output, session) {
           radioButtons(
             "format",
             "Download report:",
-            c("HTML", "Word", "PDF"),
+            c("HTML"),
             inline = TRUE
           ),
           downloadButton("downloadReport")
@@ -1184,7 +1184,7 @@ server <- function(input, output, session) {
     }
   })
 
-  output$var2 <- renderUI({
+  output$var2 = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -1200,7 +1200,7 @@ server <- function(input, output, session) {
           radioButtons(
             "format",
             "Download report:",
-            c("HTML", "Word", "PDF"),
+            c("HTML"),
             inline = TRUE
           ),
           downloadButton("downloadReport")
@@ -1209,7 +1209,7 @@ server <- function(input, output, session) {
     }
   })
 
-  output$var3 <- renderUI({
+  output$var3 = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -1225,7 +1225,7 @@ server <- function(input, output, session) {
           radioButtons(
             "format",
             "Download report:",
-            c("HTML", "Word", "PDF"),
+            c("HTML"),
             inline = TRUE
           ),
           downloadButton("downloadReport")
@@ -1234,7 +1234,7 @@ server <- function(input, output, session) {
     }
   })
 
-  output$var4 <- renderUI({
+  output$var4 = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -1250,7 +1250,7 @@ server <- function(input, output, session) {
           radioButtons(
             "format",
             "Download report:",
-            c("HTML", "Word", "PDF"),
+            c("HTML"),
             inline = TRUE
           ),
           downloadButton("downloadReport")
@@ -1259,7 +1259,7 @@ server <- function(input, output, session) {
     }
   })
 
-  output$var5 <- renderUI({
+  output$var5 = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -1275,7 +1275,7 @@ server <- function(input, output, session) {
           radioButtons(
             "format",
             "Download report:",
-            c("HTML", "Word", "PDF"),
+            c("HTML"),
             inline = TRUE
           ),
           downloadButton("downloadReport")
@@ -1284,30 +1284,26 @@ server <- function(input, output, session) {
     }
   })
 
-  output$downloadReport <- downloadHandler(
+  output$downloadReport = downloadHandler(
     filename = function() {
       paste("my-report", sep = ".", switch(input$format,
-        HTML = "html",
-        Word = "docx",
-        PDF = "pdf"
+        HTML = "html"
       ))
     },
     content = function(file) {
-      src <- normalizePath("report.Rmd")
-      owd <- setwd(tempdir())
+      src = normalizePath("report.Rmd")
+      owd = setwd(tempdir())
       on.exit(setwd(owd))
       file.copy(src, "report.Rmd", overwrite = TRUE)
-      out <- render("report.Rmd", switch(input$format,
-        PDF = pdf_document(),
-        HTML = html_document(),
-        Word = word_document()
+      out = render("report.Rmd", switch(input$format,
+        HTML = html_document()
       ))
       file.rename(out, file)
     }
   )
 
   # this note appear on opening
-  output$start_note <- renderUI({
+  output$start_note = renderUI({
     if (is.null(input$file1$datapath)) {
       return(HTML(
         paste0(
@@ -1350,7 +1346,7 @@ with in the app. </li>
 
 
   ########################################## dataset download
-  output$data_set <- renderUI({
+  output$data_set = renderUI({
     if (is.null(input$file1$datapath)) {
       list(
         selectInput(
@@ -1366,7 +1362,7 @@ with in the app. </li>
       return()
     }
   })
-  datasetInput <- reactive({
+  datasetInput = reactive({
     switch(input$dataset,
       "iris" = iris,
       "rock" = rock,
@@ -1374,7 +1370,7 @@ with in the app. </li>
     )
   })
 
-  output$downloadData <- downloadHandler(
+  output$downloadData = downloadHandler(
     filename = function() {
       paste(input$dataset, ".csv", sep = "")
     },

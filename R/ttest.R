@@ -1,66 +1,54 @@
-#'@title t-test and Paired t-test
-#'@return Nothing
-#'@description
-#'ttApp() function opens up an interactive shiny app which will allow
-#'user to easily perform one sample t-test, unpaired two sample t-test
-#'unpaired two sample Welch t-test, paired t-test, test for homogeneity of variance (F-test),
-#'and obtain plots like boxplot and paired plot by uploading CSV file.
-#'@details
-#'This app uses \code{t.test} function to calculate t statistic.Descriptive statistics
-#'were calculated using \code{stat.desc} function of \code{pastecs} package.
-#'\code{var.test} function is used for F-test.\code{ggboxplot} function
-#'of \code{ggpubr} package is used to draw boxplot. Paired plot is obtained
-#'using \code{paired} function of package \code{PairedData}. To download the results in pdf
-#'one may use \code{tinytex::install_tinytex()} before using the app.
-#'@keywords
-#'one sample t-test
-#'unpaired two sample t-test
-#'Welch t-test
-#'paired t-test
-#'Testing homogeneity of variance
-#'boxplot and paired plot
-#'@usage
-#'ttApp()
-#'@export
-#'@examples
-#'if(interactive()){
-#'ttApp()
-#'}
-#'
-#'@references
+#' @title t-test and Paired t-test
+#' @return Nothing
+#' @description
+#' ttApp() function opens up an interactive shiny app which will allow
+#' user to easily perform one sample t-test, unpaired two sample t-test
+#' unpaired two sample Welch t-test, paired t-test, test for homogeneity of variance (F-test),
+#' and obtain plots like boxplot and paired plot by uploading CSV file.
+#' @details
+#' This app uses \code{t.test} function to calculate t statistic.Descriptive statistics
+#' were calculated using \code{stat.desc} function of \code{pastecs} package.
+#' \code{var.test} function is used for F-test.\code{ggboxplot} function
+#' of \code{ggpubr} package is used to draw boxplot. Paired plot is obtained
+#' using \code{paired} function of package \code{PairedData}.
+#' @keywords
+#' one sample t-test
+#' unpaired two sample t-test
+#' Welch t-test
+#' paired t-test
+#' Testing homogeneity of variance
+#' boxplot and paired plot
+#' @usage
+#' ttApp()
+#' @export
+#' @examples
+#' if (interactive()) {
+#'   ttApp()
+#' }
+#' @references
 #'
 #'
 #'
-#'\insertRef{R_2021}{grapesAgri1}
+#' \insertRef{R_2021}{grapesAgri1}
 #'
-#'\insertRef{shiny_2021}{grapesAgri1}
+#' \insertRef{shiny_2021}{grapesAgri1}
 #'
-#'\insertRef{sw_2021}{grapesAgri1}
+#' \insertRef{sw_2021}{grapesAgri1}
 #'
-#'\insertRef{dplyr_2021}{grapesAgri1}
+#' \insertRef{dplyr_2021}{grapesAgri1}
 #'
-#'\insertRef{ggpubr_2020}{grapesAgri1}
+#' \insertRef{ggpubr_2020}{grapesAgri1}
 #'
-#'\insertRef{past_2018}{grapesAgri1}
+#' \insertRef{past_2018}{grapesAgri1}
 #'
-#'\insertRef{gupta1985statistical}{grapesAgri1}
+#' \insertRef{gupta1985statistical}{grapesAgri1}
 #'
-#'\insertRef{paired_data2018}{grapesAgri1}
+#' \insertRef{paired_data2018}{grapesAgri1}
 
 
 
-ttApp<- function() {
-
-  if (!requireNamespace("reshape2", quietly = TRUE)) {
-    stop("Package \"reshape2\" needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
-  if (!requireNamespace("PairedData", quietly = TRUE)) {
-    stop("Package \"PairedData\" needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
-
-  appDir <- system.file("comp_mean", package = "grapesAgri1")
+ttApp = function() {
+  appDir = system.file("comp_mean", package = "grapesAgri1")
   if (appDir == "") {
     stop("Could not find directory. Try re-installing `grapesAgri1`.", call. = FALSE)
   }
