@@ -15,7 +15,7 @@ library(grid)
 
 ############################### ui
 
-ui <- fluidPage(
+ui = fluidPage(
   setBackgroundColor(
     color = c("#bbedfc", "#ffffff"),
     gradient = "radial",
@@ -99,17 +99,17 @@ Shiny.onInputChange('shiny_height',myHeight)
   )
 )
 ############################ SERVER
-server <- function(input, output, session) {
-  csvfile <- reactive({
-    csvfile <- input$file1
+server = function(input, output, session) {
+  csvfile = reactive({
+    csvfile = input$file1
     if (is.null(csvfile)) {
       return(NULL)
     }
-    dt <- read.csv(csvfile$datapath, header = input$header, sep = ",", check.names = FALSE)
+    dt = read.csv(csvfile$datapath, header = input$header, sep = ",", check.names = FALSE)
     dt
   })
 
-  output$var <- renderUI({
+  output$var = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -283,7 +283,7 @@ server <- function(input, output, session) {
 
   ###################
   # correlaton
-  output$correlation <- renderTable(
+  output$correlation = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -299,21 +299,21 @@ server <- function(input, output, session) {
           validate(
             need(input$dvar != input$ivar, "Both input variables selected (x and y) are same, correlation will be one.")
           )
-          a <- as.vector(csvfile()[, input$dvar])
-          y <- as.vector(csvfile()[, input$ivar])
-          x <- cor.test(a, y,
+          a = as.vector(csvfile()[, input$dvar])
+          y = as.vector(csvfile()[, input$ivar])
+          x = cor.test(a, y,
             method = input$req, conf.level = as.numeric(input$ci),
             alternative = input$alt, exact = FALSE
           )
-          t_value <- round(x$statistic, 3)
-          correlation <- round(x$estimate, 3)
-          df <- x$parameter
-          pvalue <- round(x$p.value, 3)
-          alt.Hypothesis <- x$alternative
-          result <- cbind(correlation, t_value, df, pvalue, alt.Hypothesis)
-          nam <- x$method
-          rownames(result) <- nam
-          result <- as.data.frame(result)
+          t_value = round(x$statistic, 3)
+          correlation = round(x$estimate, 3)
+          df = x$parameter
+          pvalue = round(x$p.value, 3)
+          alt.Hypothesis = x$alternative
+          result = cbind(correlation, t_value, df, pvalue, alt.Hypothesis)
+          nam = x$method
+          rownames(result) = nam
+          result = as.data.frame(result)
           result
         }
       }
@@ -325,7 +325,7 @@ server <- function(input, output, session) {
     caption.placement = getOption("xtable.caption.placement", "top")
   )
 
-  output$ci <- renderTable(
+  output$ci = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -343,14 +343,14 @@ server <- function(input, output, session) {
               need(input$dvar != input$ivar, "Are you confused?.
             Correlation measures linear relationship between two variables say x and y. To know more on correlation see Read me of package grapesAgri1. You can select different variables as x and y from the sidebar panel and see how it works!")
             )
-            a <- as.vector(csvfile()[, input$dvar])
-            y <- as.vector(csvfile()[, input$ivar])
-            x <- cor.test(a, y,
+            a = as.vector(csvfile()[, input$dvar])
+            y = as.vector(csvfile()[, input$ivar])
+            x = cor.test(a, y,
               method = "pearson", conf.level = as.numeric(input$ci),
               alternative = input$alt, exact = FALSE
             )
-            ci <- x$conf.int
-            ci_nw <- reshape2::melt(ci, value.name = "Lower Limit and Upper limit")
+            ci = x$conf.int
+            ci_nw = reshape2::melt(ci, value.name = "Lower Limit and Upper limit")
             ci_nw
           }
         }
@@ -364,7 +364,7 @@ server <- function(input, output, session) {
   )
   ##################################
   # Correlation Matrix
-  output$corrmat <- renderTable(
+  output$corrmat = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -380,16 +380,16 @@ server <- function(input, output, session) {
           validate(
             need(input$selvar, "No input selected, supply me some variables to cook a matrix!")
           )
-          x <- as.data.frame(subset(csvfile(), select = input$selvar))
-          cormat <- Hmisc::rcorr(as.matrix(x), type = input$req)
-          R <- round(cormat$r, 3)
-          p <- cormat$P
+          x = as.data.frame(subset(csvfile(), select = input$selvar))
+          cormat = Hmisc::rcorr(as.matrix(x), type = input$req)
+          R = round(cormat$r, 3)
+          p = cormat$P
           ## Define notions for significance levels; spacing is important.
-          mystars <- ifelse(p < .001, "*** ", ifelse(p < .01, "**  ", ifelse(p < .05, "*   ", "    ")))
-          Rnew <- matrix(paste(R, mystars, sep = ""), ncol = ncol(x))
-          diag(Rnew) <- paste(diag(R), " ", sep = "")
-          row.names(Rnew) <- names(x)
-          colnames(Rnew) <- names(x)
+          mystars = ifelse(p < .001, "*** ", ifelse(p < .01, "**  ", ifelse(p < .05, "*   ", "    ")))
+          Rnew = matrix(paste(R, mystars, sep = ""), ncol = ncol(x))
+          diag(Rnew) = paste(diag(R), " ", sep = "")
+          row.names(Rnew) = names(x)
+          colnames(Rnew) = names(x)
           Rnew
         }
       }
@@ -401,7 +401,7 @@ server <- function(input, output, session) {
     caption.placement = getOption("xtable.caption.placement", "top")
   )
 
-  output$sigmat <- renderTable(
+  output$sigmat = renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -417,10 +417,10 @@ server <- function(input, output, session) {
           validate(
             need(input$selvar, "You can select input variables from sidebarpanel.")
           )
-          x <- as.data.frame(subset(csvfile(), select = input$selvar))
-          cormat <- Hmisc::rcorr(as.matrix(x), type = input$req)
-          correlmat <- cormat$P
-          row.names(correlmat) <- names(x)
+          x = as.data.frame(subset(csvfile(), select = input$selvar))
+          cormat = Hmisc::rcorr(as.matrix(x), type = input$req)
+          correlmat = cormat$P
+          row.names(correlmat) = names(x)
           correlmat
         }
       }
@@ -433,7 +433,7 @@ server <- function(input, output, session) {
     caption.placement = getOption("xtable.caption.placement", "top")
   )
 
-  output$note <- renderUI({
+  output$note = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -458,7 +458,7 @@ server <- function(input, output, session) {
 
 
   ############################### PLOTS
-  output$plot <- renderUI({
+  output$plot = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -470,11 +470,11 @@ server <- function(input, output, session) {
       if (is.null(input$submit1)) {
         return()
       }
-      output$scatplot <- renderPlot(
+      output$scatplot = renderPlot(
         {
           if (input$submit1 > 0) {
-            x <- as.vector(csvfile()[, input$dvar])
-            y <- as.vector(csvfile()[, input$ivar])
+            x = as.vector(csvfile()[, input$dvar])
+            y = as.vector(csvfile()[, input$ivar])
             plot(x, y,
               main = input$main,
               xlab = input$xlab, ylab = input$ylab,
@@ -490,14 +490,14 @@ server <- function(input, output, session) {
       if (is.null(input$submit3)) {
         return()
       }
-      output$corrplot <- renderPlot(
+      output$corrplot = renderPlot(
         {
           if (input$submit3 > 0) {
             validate(
               need(input$selvar, "No input selected, supply me some variables to draw!")
             )
-            x <- as.data.frame(subset(csvfile(), select = input$selvar))
-            cormat1 <- cor(x, method = input$req2, use = "complete.obs")
+            x = as.data.frame(subset(csvfile(), select = input$selvar))
+            cormat1 = cor(x, method = input$req2, use = "complete.obs")
             corrplot::corrplot(cormat1,
               method = input$shape,
               type = input$layout, tl.col = "#000000",
@@ -507,9 +507,9 @@ server <- function(input, output, session) {
               validate(
                 need(input$selvar, "No input selected, supply me some variables to draw!")
               )
-              x <- as.data.frame(subset(csvfile(), select = input$selvar))
-              cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-              res1 <- corrplot::cor.mtest(x)
+              x = as.data.frame(subset(csvfile(), select = input$selvar))
+              cormat1 = cor(x, method = input$req2, use = "complete.obs")
+              res1 = corrplot::cor.mtest(x)
               corrplot::corrplot(cormat1,
                 method = input$shape,
                 type = input$layout, tl.col = "#000000",
@@ -521,9 +521,9 @@ server <- function(input, output, session) {
               validate(
                 need(input$selvar, "No input selected, supply me some variables to draw!")
               )
-              x <- as.data.frame(subset(csvfile(), select = input$selvar))
-              cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-              res1 <- corrplot::cor.mtest(x)
+              x = as.data.frame(subset(csvfile(), select = input$selvar))
+              cormat1 = cor(x, method = input$req2, use = "complete.obs")
+              res1 = corrplot::cor.mtest(x)
               corrplot::corrplot(cormat1,
                 method = input$shape,
                 type = input$layout, tl.col = "#000000",
@@ -535,9 +535,9 @@ server <- function(input, output, session) {
               validate(
                 need(input$selvar, "No input selected, supply me some variables to draw!")
               )
-              x <- as.data.frame(subset(csvfile(), select = input$selvar))
-              cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-              res1 <- corrplot::cor.mtest(x)
+              x = as.data.frame(subset(csvfile(), select = input$selvar))
+              cormat1 = cor(x, method = input$req2, use = "complete.obs")
+              res1 = corrplot::cor.mtest(x)
               corrplot::corrplot(cormat1,
                 method = input$shape,
                 type = input$layout, tl.col = "#000000",
@@ -557,26 +557,20 @@ server <- function(input, output, session) {
 
 
   ####################### download Report
-  output$var1 <- renderUI({
+  output$var1 = renderUI({
     if (is.null(input$file1$datapath)) {
-      return()
-    }
-    if (is.null(input$req)) {
-      return()
-    }
-    if (is.null(input$submit)) {
-      return()
-    }
-    if (is.null(input$submit2)) {
       return()
     }
     if (is.null(input$req1)) {
       return()
     }
     if (input$req1 == "correlation") {
+      if (is.null(input$submit)) {
+        return()
+      }
       if (input$submit > 0) {
         list(
-          radioButtons("format", "Download report:", c("HTML", "Word", "PDF"),
+          radioButtons("format", "Download report (Note: if you are changing the file name after download give '.html' extension):", c("HTML"),
             inline = TRUE
           ),
           downloadButton("downloadReport")
@@ -584,9 +578,12 @@ server <- function(input, output, session) {
       }
     }
     else if (input$req1 == "corrmat") {
+      if (is.null(input$submit2)) {
+        return()
+      }
       if (input$submit2 > 0) {
         list(
-          radioButtons("format", "Download report:", c("HTML", "Word", "PDF"),
+          radioButtons("format", "Download report (Note: if you are changing the file name after download give '.html' extension):", c("HTML"),
             inline = TRUE
           ),
           downloadButton("downloadReport")
@@ -596,23 +593,19 @@ server <- function(input, output, session) {
   })
 
 
-  output$downloadReport <- downloadHandler(
+  output$downloadReport = downloadHandler(
     filename = function() {
       paste("my-report", sep = ".", switch(input$format,
-        HTML = "html",
-        Word = "docx",
-        PDF = "pdf"
+        HTML = "html"
       ))
     },
     content = function(file) {
-      src <- normalizePath("report.Rmd")
-      owd <- setwd(tempdir())
+      src = normalizePath("report.Rmd")
+      owd = setwd(tempdir())
       on.exit(setwd(owd))
       file.copy(src, "report.Rmd", overwrite = TRUE)
-      out <- render("report.Rmd", switch(input$format,
-        PDF = pdf_document(),
-        HTML = html_document(),
-        Word = word_document()
+      out = render("report.Rmd", switch(input$format,
+        HTML = html_document()
       ))
       file.rename(out, file)
     }
@@ -620,7 +613,7 @@ server <- function(input, output, session) {
 
   #############################################
   ############################### this note appear on opening
-  output$note1 <- renderUI({
+  output$note1 = renderUI({
     if (is.null(input$file1$datapath)) {
       return(
         HTML(paste0(" <h4> To perform analysis using your own dataset, prepare excel file in csv format by reading instruction below  </h4>
@@ -650,7 +643,7 @@ server <- function(input, output, session) {
   })
 
   ########################################## dataset download
-  output$data_set <- renderUI({
+  output$data_set = renderUI({
     if (is.null(input$file1$datapath)) {
       list(
         selectInput("dataset", "Choose a dataset:",
@@ -664,7 +657,7 @@ server <- function(input, output, session) {
       return()
     }
   })
-  datasetInput <- reactive({
+  datasetInput = reactive({
     switch(input$dataset,
       "iris" = iris,
       "rock" = rock,
@@ -672,7 +665,7 @@ server <- function(input, output, session) {
     )
   })
 
-  output$downloadData <- downloadHandler(
+  output$downloadData = downloadHandler(
     filename = function() {
       paste(input$dataset, ".csv", sep = "")
     },
@@ -683,7 +676,7 @@ server <- function(input, output, session) {
   #######################################################
 
   #################################### Download Image
-  output$image_down <- renderUI({
+  output$image_down = renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -709,7 +702,7 @@ server <- function(input, output, session) {
     }
   })
   ### plotting
-  plotInput <- reactive({
+  plotInput = reactive({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -721,8 +714,8 @@ server <- function(input, output, session) {
         return()
       }
       if (input$submit1 > 0) {
-        x <- as.vector(csvfile()[, input$dvar])
-        y <- as.vector(csvfile()[, input$ivar])
+        x = as.vector(csvfile()[, input$dvar])
+        y = as.vector(csvfile()[, input$ivar])
         plot(x, y,
           main = input$main,
           xlab = input$xlab, ylab = input$ylab,
@@ -735,17 +728,17 @@ server <- function(input, output, session) {
         return()
       }
       if (input$submit3 > 0) {
-        x <- as.data.frame(subset(csvfile(), select = input$selvar))
-        cormat1 <- cor(x, method = input$req2, use = "complete.obs")
+        x = as.data.frame(subset(csvfile(), select = input$selvar))
+        cormat1 = cor(x, method = input$req2, use = "complete.obs")
         corrplot::corrplot(cormat1,
           method = input$shape,
           type = input$layout, tl.col = "#000000",
           col = brewer.pal(n = 8, name = input$style), addCoef.col = input$txcol, number.cex = input$cex
         )
         if (input$significance > 0) {
-          x <- as.data.frame(subset(csvfile(), select = input$selvar))
-          cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-          res1 <- corrplot::cor.mtest(x)
+          x = as.data.frame(subset(csvfile(), select = input$selvar))
+          cormat1 = cor(x, method = input$req2, use = "complete.obs")
+          res1 = corrplot::cor.mtest(x)
           corrplot::corrplot(cormat1,
             method = input$shape,
             type = input$layout, tl.col = "#000000",
@@ -754,9 +747,9 @@ server <- function(input, output, session) {
           )
         }
         if (input$remove_corr > 0) {
-          x <- as.data.frame(subset(csvfile(), select = input$selvar))
-          cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-          res1 <- corrplot::cor.mtest(x)
+          x = as.data.frame(subset(csvfile(), select = input$selvar))
+          cormat1 = cor(x, method = input$req2, use = "complete.obs")
+          res1 = corrplot::cor.mtest(x)
           corrplot::corrplot(cormat1,
             method = input$shape,
             type = input$layout, tl.col = "#000000",
@@ -765,9 +758,9 @@ server <- function(input, output, session) {
         }
 
         if (input$remove_corr > 0 && input$significance > 0) {
-          x <- as.data.frame(subset(csvfile(), select = input$selvar))
-          cormat1 <- cor(x, method = input$req2, use = "complete.obs")
-          res1 <- corrplot::cor.mtest(x)
+          x = as.data.frame(subset(csvfile(), select = input$selvar))
+          cormat1 = cor(x, method = input$req2, use = "complete.obs")
+          res1 = corrplot::cor.mtest(x)
           corrplot::corrplot(cormat1,
             method = input$shape,
             type = input$layout, tl.col = "#000000",
@@ -777,7 +770,7 @@ server <- function(input, output, session) {
         }
 
         grid.echo()
-        P1 <- grid.grab()
+        P1 = grid.grab()
 
         grid.draw(P1)
       }
@@ -787,7 +780,7 @@ server <- function(input, output, session) {
 
 
   ###
-  output$downloadImage1 <- downloadHandler(
+  output$downloadImage1 = downloadHandler(
     filename = "scatter.png",
     content = function(file) {
       png(file,
@@ -800,7 +793,7 @@ server <- function(input, output, session) {
     }
   )
 
-  output$downloadImage2 <- downloadHandler(
+  output$downloadImage2 = downloadHandler(
     filename = "corr.png",
     content = function(file) {
       png(file,
@@ -812,9 +805,6 @@ server <- function(input, output, session) {
       dev.off()
     }
   )
-
-
-
-  ###########################
+###########################
 }
 shinyApp(ui = ui, server = server)

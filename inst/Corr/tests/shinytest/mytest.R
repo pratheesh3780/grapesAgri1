@@ -1,0 +1,15 @@
+app <- ShinyDriver$new("../../")
+app$snapshotInit("mytest")
+
+app$snapshot()
+app$uploadFile(file1 = "iris.csv") # <-- This should be the path to the file, relative to the app's tests/shinytest directory
+app$setInputs(submit = "click",allowInputNoBinding_ = TRUE)
+app$setInputs(req1 = "corrmat",allowInputNoBinding_ = TRUE)
+app$setInputs(selvar = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),allowInputNoBinding_ = TRUE)
+app$setInputs(submit2 = "click",allowInputNoBinding_ = TRUE)
+app$setInputs(req1 = "scatplot",allowInputNoBinding_ = TRUE)
+app$setInputs(ivar = "Sepal.Width",allowInputNoBinding_ = TRUE)
+app$setInputs(submit1 = "click",allowInputNoBinding_ = TRUE)
+app$setInputs(req1 = "corrplot",allowInputNoBinding_ = TRUE)
+app$setInputs(selvar = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),allowInputNoBinding_ = TRUE)
+app$setInputs(submit3 = "click",allowInputNoBinding_ = TRUE)
