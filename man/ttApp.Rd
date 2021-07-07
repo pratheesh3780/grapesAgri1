@@ -11,7 +11,7 @@ Nothing
 }
 \description{
 ttApp() function opens up an interactive shiny app which will allow
-user to easily perform one sample t-test, unpaired two sample t-test
+user to easily perform one sample t-test, unpaired two sample t-test,
 unpaired two sample Welch t-test, paired t-test, test for homogeneity of variance (F-test),
 and obtain plots like boxplot and paired plot by uploading CSV file.
 }
@@ -20,14 +20,12 @@ This app uses \code{t.test} function to calculate t statistic.Descriptive statis
 were calculated using \code{stat.desc} function of \code{pastecs} package.
 \code{var.test} function is used for F-test.\code{ggboxplot} function
 of \code{ggpubr} package is used to draw boxplot. Paired plot is obtained
-using \code{paired} function of package \code{PairedData}. To download the results in pdf
-one may use \code{tinytex::install_tinytex()} before using the app.
+using \code{paired} function of package \code{PairedData}.
 }
 \examples{
-if(interactive()){
-ttApp()
+if (interactive()) {
+  ttApp()
 }
-
 }
 \references{
 \insertRef{R_2021}{grapesAgri1}
