@@ -379,7 +379,7 @@ server <- function(input, output, session) {
         else {
           HTML(paste0(" Here <b>p-value is > 0.05</b>; We don't have enough evidence
                       to reject the <b>Null hypothesis</b>: Data follows a normal distribution
-                      at 5% level of significance; we assumee that data is normal in this case</b>."))
+                      at 5% level of significance; we assume that data is normal in this case</b>."))
         }
       }
     }
