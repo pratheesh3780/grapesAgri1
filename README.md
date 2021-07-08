@@ -70,12 +70,16 @@ grapesAgri1::rbdApp() # Randomized Block Design
 |5|Field layout of experiments | layoutApp()      |Field layout of following designs can be obtained: Completely Randomized Design (CRD), Randomized Complete Block Design (RCBD), Split-plot design, Strip-plot design, Augmented RCBD|
 |6|Randomized Block Design  | rbdApp()      |Two-way Analysis of variance, Multiple comparison test, boxplot and barchart with confidence interval|
 
+## Further Reading
+To know more about analysis tools included in the package see the following links
+1. [Design and Analysis of experiments](http://apps.iasri.res.in/ebook/EBADAT/2-Basic%20Statistical%20Techniques/9-Fundamentals%20Of%20Designsf.pdf).
+2. [Correlation Analysis](http://apps.iasri.res.in/ebook/EBADAT/2-Basic%20Statistical%20Techniques/6-Correlation_and_regression.pdf).
+3. [Hypothesis Testing](http://apps.iasri.res.in/ebook/EBADAT/2-Basic%20Statistical%20Techniques/4-TEST%20OF%20HYPOTHESIS.pdf).
+4. [Descriptive statistics and Exploratory data analysis](http://apps.iasri.res.in/ebook/EBADAT/2-Basic%20Statistical%20Techniques/1-Descriptive%20Statistics.pdf).
+5. [Test for significance](http://apps.iasri.res.in/ebook/EBADAT/2-Basic%20Statistical%20Techniques/5-Tests%20of%20Significance-Seema.pdf).
+
 ## Glimpse to grapesAgri1 in Action!
 It is very user friendly. Just upload your file in CSV format.
-
-To know more about grapesAgri1 and how to upload Excel file as csv see https://www.kaugrapes.com/
-
-##A LOT MORE.....
 
 Note: we apologize that in grapesAgri1 version 1.0.0 in CRAN you may not be able to download model data set in crdApp()and rbdApp(). Issue will be cleared in the version 1.1.0 releasing by next month. You can instead download from github where the issue is resolved. 
 
