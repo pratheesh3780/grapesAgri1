@@ -65,8 +65,8 @@
 #' \insertRef{ggplot_2016}{grapesAgri1}
 
 
-descApp <- function() {
-  appDir <- system.file("desc", package = "grapesAgri1")
+descApp = function() {
+  appDir = system.file("desc", package = "grapesAgri1")
   if (appDir == "") {
     stop("Could not find directory. Try re-installing `grapesAgri1`.", call. = FALSE)
   }

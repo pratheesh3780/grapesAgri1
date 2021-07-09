@@ -57,8 +57,8 @@
 #'
 #' \insertRef{das1979design}{grapesAgri1}
 
-layoutApp <- function() {
-  appDir <- system.file("layout", package = "grapesAgri1")
+layoutApp = function() {
+  appDir = system.file("layout", package = "grapesAgri1")
   if (appDir == "") {
     stop("Could not find directory. Try re-installing `grapesAgri1`.", call. = FALSE)
   }

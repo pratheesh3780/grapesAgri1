@@ -13,244 +13,255 @@ library(shinyWidgets)
 library(shinycssloaders)
 library(dplyr)
 library(knitr)
+library(kableExtra)
+library(magrittr)
 ```
 ## RESULT
 RBD ANALYSIS
 
 ```{r, echo = FALSE}
 csvfile <- reactive({
-    csvfile <- input$file1
-    if (is.null(csvfile)){return(NULL)}
-    dt <- read.csv(csvfile$datapath, header=input$header, sep=",")
-    dt
-  })
+  csvfile <- input$file1
+  if (is.null(csvfile)) {
+    return(NULL)
+  }
+  dt <- read.csv(csvfile$datapath, header = input$header, sep = ",")
+  dt
+})
 
-if(input$submit > 0){
-      d=as.data.frame(csvfile())
-      r=as.numeric(input$rep)
-      t=as.numeric(input$trt)
-      response=d[,input$yield]
-      treatment=d[,input$treatment]
-      replication=d[,input$Replication]
-      treatment=factor(treatment)
-      replication=factor(replication)
-      anvaTable=lm(response~treatment+replication)
-      result=as.data.frame( anova(anvaTable) )
-      out<-agricolae::LSD.test(csvfile()[,input$yield], csvfile()[,input$treatment], result[3,1], result[3,3]) 
-      trtmeans<-out$means
-     colnames(trtmeans)[1] <- "Treatment_means"
-     drops <- c("r","Q25", "Q50", "Q75")
-     trtmeans<-trtmeans[ , !(names(trtmeans) %in% drops)]
-     kable(trtmeans,caption = "Treatment mean and other statistics",digits=3,align='c',row.names = TRUE)
+if (input$submit > 0) {
+  d <- as.data.frame(csvfile())
+  r <- as.numeric(input$rep)
+  t <- as.numeric(input$trt)
+  response <- d[, input$yield]
+  treatment <- d[, input$treatment]
+  replication <- d[, input$Replication]
+  treatment <- factor(treatment)
+  replication <- factor(replication)
+  anvaTable <- lm(response ~ treatment + replication)
+  result <- as.data.frame(anova(anvaTable))
+  out <- agricolae::LSD.test(csvfile()[, input$yield], csvfile()[, input$treatment], result[3, 1], result[3, 3])
+  trtmeans <- out$means
+  colnames(trtmeans)[1] <- "Treatment_means"
+  drops <- c("r", "Q25", "Q50", "Q75")
+  trtmeans <- trtmeans[, !(names(trtmeans) %in% drops)]
+  kable(trtmeans, caption = "Treatment mean and other statistics", digits = 3, align = "c", row.names = TRUE) %>% kable_styling() %>% kable_paper("hover", full_width = F)
 }
 tags$br()
-################anova table
+################ anova table
 
-if(input$submit > 0){
-      d=as.data.frame(csvfile())
-      r=as.numeric(input$rep)
-      t=as.numeric(input$trt)
-      response=d[,input$yield]
-      treatment=d[,input$treatment]
-      replication=d[,input$Replication]
-      treatment=factor(treatment)
-      replication=factor(replication)
-      anvaTable=lm(response~treatment+replication)
-      result=as.data.frame( anova(anvaTable) )
-      SoV <- c("Treatment", "Replication","Error")
-      final<-cbind(SoV,result)
-      kable(final,caption = "ANOVA TABLE",digits=3,align='c',row.names = FALSE)
+if (input$submit > 0) {
+  d <- as.data.frame(csvfile())
+  r <- as.numeric(input$rep)
+  t <- as.numeric(input$trt)
+  response <- d[, input$yield]
+  treatment <- d[, input$treatment]
+  replication <- d[, input$Replication]
+  treatment <- factor(treatment)
+  replication <- factor(replication)
+  anvaTable <- lm(response ~ treatment + replication)
+  result <- as.data.frame(anova(anvaTable))
+  SoV <- c("Treatment", "Replication", "Error")
+  final <- cbind(SoV, result)
+  kable(final, caption = "ANOVA TABLE", digits = 3, align = "c", row.names = FALSE) %>% kable_styling() %>% kable_paper("hover", full_width = F)
 }
 tags$br()
-##############################################SEM
-if(input$submit > 0){
-        d=as.data.frame(csvfile())
-        r=as.numeric(input$rep)
-        t=as.numeric(input$trt)
-        response=d[,input$yield]
-        treatment=d[,input$treatment]
-        replication=d[,input$Replication]
-        treatment=factor(treatment)
-        replication=factor(replication)
-        anvaTable=lm(response~treatment+replication)
-        result=as.data.frame( anova(anvaTable) )
-        out<-LSD.test(d[,input$yield], d[,input$treatment], result[3,1], result[3,3]) 
-        colnam<-c("MSE","SE(d)","SE(m)","CV")
-        stat<-out$statistics
-        MSE<-stat[1,1]
-        SED<-sqrt((2*MSE)/r)
-        SEM<-sqrt(MSE/r)
-        CV<-stat[1,4]
-        Result<-cbind(MSE,SED,SEM,CV)
-        colnames(Result)<-colnam
-        kable(Result,caption = "SEM & Other statistics",digits=3,align='c')
-        }
+############################################## SEM
+if (input$submit > 0) {
+  d <- as.data.frame(csvfile())
+  r <- as.numeric(input$rep)
+  t <- as.numeric(input$trt)
+  response <- d[, input$yield]
+  treatment <- d[, input$treatment]
+  replication <- d[, input$Replication]
+  treatment <- factor(treatment)
+  replication <- factor(replication)
+  anvaTable <- lm(response ~ treatment + replication)
+  result <- as.data.frame(anova(anvaTable))
+  out <- LSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3])
+  colnam <- c("MSE", "SE(d)", "SE(m)", "CV")
+  stat <- out$statistics
+  MSE <- stat[1, 1]
+  SED <- sqrt((2 * MSE) / r)
+  SEM <- sqrt(MSE / r)
+  CV <- stat[1, 4]
+  Result <- cbind(MSE, SED, SEM, CV)
+  colnames(Result) <- colnam
+  kable(Result, caption = "SEM & Other statistics", digits = 3, align = "c") %>% kable_styling() %>% kable_paper("hover", full_width = F)
+}
 tags$br()
-if(input$submit > 0){
-      d=as.data.frame(csvfile())
-      r=as.numeric(input$rep)
-      t=as.numeric(input$trt)
-      response=d[,input$yield]
-      treatment=d[,input$treatment]
-      replication=d[,input$Replication]
-      treatment=factor(treatment)
-      replication=factor(replication)
-      anvaTable=lm(response~treatment+replication)
-      result=as.data.frame( anova(anvaTable) )
-      if(result[1,5]<= 0.05){
-        cat("Since the P-value in ANOVA table is < 0.05,\nthere is a significant difference between atleast a pair of treatments,\nso multiple comparison is required to identify best treatment(s)")
-      }
-     if(result[1,5]>0.05){cat("Treatment means are not significantly different")
-      }
-    }
+if (input$submit > 0) {
+  d <- as.data.frame(csvfile())
+  r <- as.numeric(input$rep)
+  t <- as.numeric(input$trt)
+  response <- d[, input$yield]
+  treatment <- d[, input$treatment]
+  replication <- d[, input$Replication]
+  treatment <- factor(treatment)
+  replication <- factor(replication)
+  anvaTable <- lm(response ~ treatment + replication)
+  result <- as.data.frame(anova(anvaTable))
+  if (result[1, 5] <= 0.05) {
+    cat("Since the P-value in ANOVA table is < 0.05,\nthere is a significant difference between atleast a pair of treatments,\nso multiple comparison is required to identify best treatment(s)")
+  }
+  if (result[1, 5] > 0.05) {
+    cat("Treatment means are not significantly different")
+  }
+}
 ############################### CD and measures
 tags$br()
-if(input$submit > 0){
-     d=as.data.frame(csvfile())
-      r=as.numeric(input$rep)
-      t=as.numeric(input$trt)
-      response=d[,input$yield]
-      treatment=d[,input$treatment]
-      replication=d[,input$Replication]
-      treatment=factor(treatment)
-      replication=factor(replication)
-      anvaTable=lm(response~treatment+replication)
-      result=as.data.frame( anova(anvaTable) )
-      if(result[1,5]>0.05){return()}
-      
-     else if(input$req=='lsd'){
-      d=as.data.frame(csvfile())
-      r=as.numeric(input$rep)
-      t=as.numeric(input$trt)
-      response=d[,input$yield]
-      treatment=d[,input$treatment]
-      replication=d[,input$Replication]
-      treatment=factor(treatment)
-      replication=factor(replication)
-      anvaTable=lm(response~treatment+replication)
-      result=as.data.frame( anova(anvaTable) )
-      out<-agricolae::LSD.test(d[,input$yield], d[,input$treatment], result[3,1], result[3,3]) 
-      colnam<-c("MSE","SE(d)","SE(m)","CD","t value","CV")
-      stat<-out$statistics
-      MSE<-stat[1,1]
-      SED<-sqrt((2*MSE)/r)
-      SEM<-sqrt(MSE/r)
-      CD<-stat[1,6]
-      t<-stat[1,5]
-      CV<-stat[1,4]
-      Result<-cbind(MSE,SED,SEM,CD,t,CV)
-      colnames(Result)<-colnam
-      kable(Result,caption = "LSD test",digits=3,align='c')
-      }
-      else if(input$req=='dmrt'){
-        d=as.data.frame(csvfile())
-        r=as.numeric(input$rep)
-        t=as.numeric(input$trt)
-        response=d[,input$yield]
-        treatment=d[,input$treatment]
-        replication=d[,input$Replication]
-        treatment=factor(treatment)
-        replication=factor(replication)
-        anvaTable=lm(response~treatment+replication)
-        result=as.data.frame( anova(anvaTable) )
-        out<-agricolae::duncan.test(d[,input$yield], d[,input$treatment], result[3,1], result[3,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
-        Result<-out$duncan
-        kable(Result,caption = "DMRT",digits=3,align='c')
-      }
-      else if(input$req=='tukey'){
-        d=as.data.frame(csvfile())
-        r=as.numeric(input$rep)
-        t=as.numeric(input$trt)
-        response=d[,input$yield]
-        treatment=d[,input$treatment]
-        replication=d[,input$Replication]
-        treatment=factor(treatment)
-        replication=factor(replication)
-        anvaTable=lm(response~treatment+replication)
-        result=as.data.frame( anova(anvaTable) )
-        out<-agricolae::HSD.test(d[,input$yield], d[,input$treatment], result[3,1], result[3,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
-        Result<-out$statistics
-        kable(Result,caption = "Tukey's HSD",digits=3,align='c')
-      }  
+if (input$submit > 0) {
+  d <- as.data.frame(csvfile())
+  r <- as.numeric(input$rep)
+  t <- as.numeric(input$trt)
+  response <- d[, input$yield]
+  treatment <- d[, input$treatment]
+  replication <- d[, input$Replication]
+  treatment <- factor(treatment)
+  replication <- factor(replication)
+  anvaTable <- lm(response ~ treatment + replication)
+  result <- as.data.frame(anova(anvaTable))
+  if (result[1, 5] > 0.05) {
+    return()
+  }
+
+  else if (input$req == "lsd") {
+    d <- as.data.frame(csvfile())
+    r <- as.numeric(input$rep)
+    t <- as.numeric(input$trt)
+    response <- d[, input$yield]
+    treatment <- d[, input$treatment]
+    replication <- d[, input$Replication]
+    treatment <- factor(treatment)
+    replication <- factor(replication)
+    anvaTable <- lm(response ~ treatment + replication)
+    result <- as.data.frame(anova(anvaTable))
+    out <- agricolae::LSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3])
+    colnam <- c("MSE", "SE(d)", "SE(m)", "CD", "t value", "CV")
+    stat <- out$statistics
+    MSE <- stat[1, 1]
+    SED <- sqrt((2 * MSE) / r)
+    SEM <- sqrt(MSE / r)
+    CD <- stat[1, 6]
+    t <- stat[1, 5]
+    CV <- stat[1, 4]
+    Result <- cbind(MSE, SED, SEM, CD, t, CV)
+    colnames(Result) <- colnam
+    kable(Result, caption = "LSD test", digits = 3, align = "c") %>% kable_styling() %>% kable_paper("hover", full_width = F)
+  }
+  else if (input$req == "dmrt") {
+    d <- as.data.frame(csvfile())
+    r <- as.numeric(input$rep)
+    t <- as.numeric(input$trt)
+    response <- d[, input$yield]
+    treatment <- d[, input$treatment]
+    replication <- d[, input$Replication]
+    treatment <- factor(treatment)
+    replication <- factor(replication)
+    anvaTable <- lm(response ~ treatment + replication)
+    result <- as.data.frame(anova(anvaTable))
+    out <- agricolae::duncan.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, console = FALSE)
+    Result <- out$duncan
+    kable(Result, caption = "DMRT", digits = 3, align = "c") %>% kable_styling() %>% kable_paper("hover", full_width = F)
+  }
+  else if (input$req == "tukey") {
+    d <- as.data.frame(csvfile())
+    r <- as.numeric(input$rep)
+    t <- as.numeric(input$trt)
+    response <- d[, input$yield]
+    treatment <- d[, input$treatment]
+    replication <- d[, input$Replication]
+    treatment <- factor(treatment)
+    replication <- factor(replication)
+    anvaTable <- lm(response ~ treatment + replication)
+    result <- as.data.frame(anova(anvaTable))
+    out <- agricolae::HSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, unbalanced = FALSE, console = FALSE)
+    Result <- out$statistics
+    kable(Result, caption = "Tukey's HSD", digits = 3, align = "c") %>% kable_styling() %>% kable_paper("hover", full_width = F)
+  }
 }
 tags$br()
-###########################################grouping
-if(input$submit > 0){
-  d=as.data.frame(csvfile())
-      r=as.numeric(input$rep)
-      t=as.numeric(input$trt)
-      response=d[,input$yield]
-      treatment=d[,input$treatment]
-      replication=d[,input$Replication]
-      treatment=factor(treatment)
-      replication=factor(replication)
-      anvaTable=lm(response~treatment+replication)
-      result=as.data.frame( anova(anvaTable) )
-      if(result[1,5]>0.05){return()}
-      
-     else if(input$req=='lsd'){ 
-      d=as.data.frame(csvfile())
-      r=as.numeric(input$rep)
-      t=as.numeric(input$trt)
-      response=d[,input$yield]
-      treatment=d[,input$treatment]
-      replication=d[,input$Replication]
-      treatment=factor(treatment)
-      replication=factor(replication)
-      anvaTable=lm(response~treatment+replication)
-      result=as.data.frame( anova(anvaTable) )
-  out<-agricolae::LSD.test(d[,input$yield], d[,input$treatment], result[3,1], result[3,3]) 
-        outgroup<-out$groups
-        colnames(outgroup) <- c("trt_mean","grouping")
-        kable(outgroup,caption = "Treatment Grouping",align='c')
-      }
-      else if(input$req=='dmrt'){
-        d=as.data.frame(csvfile())
-        r=as.numeric(input$rep)
-        t=as.numeric(input$trt)
-        response=d[,input$yield]
-        treatment=d[,input$treatment]
-        replication=d[,input$Replication]
-        treatment=factor(treatment)
-        replication=factor(replication)
-        anvaTable=lm(response~treatment+replication)
-        result=as.data.frame( anova(anvaTable) )
-        out<-agricolae::duncan.test(d[,input$yield], d[,input$treatment], result[3,1], result[3,3], alpha = 0.05, group=TRUE, main = NULL,console=FALSE)
-        outgroup<-out$groups
-        colnames(outgroup) <- c("trt_mean","grouping")
-         kable(outgroup,caption = "Treatment Grouping",align='c')
-      }
-      else if(input$req=='tukey'){
-        d=as.data.frame(csvfile())
-        r=as.numeric(input$rep)
-        t=as.numeric(input$trt)
-        response=d[,input$yield]
-        treatment=d[,input$treatment]
-        replication=d[,input$Replication]
-        treatment=factor(treatment)
-        replication=factor(replication)
-        anvaTable=lm(response~treatment+replication)
-        result=as.data.frame( anova(anvaTable) )
-        out<-agricolae::HSD.test(d[,input$yield], d[,input$treatment], result[3,1], result[3,3], alpha = 0.05, group=TRUE, main = NULL,unbalanced=FALSE,console=FALSE)
-        outgroup<-out$groups
-        colnames(outgroup) <- c("trt_mean","grouping")
-         kable(outgroup,caption = "Treatment Grouping",align='c')
-      }
+########################################### grouping
+if (input$submit > 0) {
+  d <- as.data.frame(csvfile())
+  r <- as.numeric(input$rep)
+  t <- as.numeric(input$trt)
+  response <- d[, input$yield]
+  treatment <- d[, input$treatment]
+  replication <- d[, input$Replication]
+  treatment <- factor(treatment)
+  replication <- factor(replication)
+  anvaTable <- lm(response ~ treatment + replication)
+  result <- as.data.frame(anova(anvaTable))
+  if (result[1, 5] > 0.05) {
+    return()
+  }
+
+  else if (input$req == "lsd") {
+    d <- as.data.frame(csvfile())
+    r <- as.numeric(input$rep)
+    t <- as.numeric(input$trt)
+    response <- d[, input$yield]
+    treatment <- d[, input$treatment]
+    replication <- d[, input$Replication]
+    treatment <- factor(treatment)
+    replication <- factor(replication)
+    anvaTable <- lm(response ~ treatment + replication)
+    result <- as.data.frame(anova(anvaTable))
+    out <- agricolae::LSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3])
+    outgroup <- out$groups
+    colnames(outgroup) <- c("trt_mean", "grouping")
+    kable(outgroup, caption = "Treatment Grouping", align = "c") %>% kable_styling() %>% kable_paper("hover", full_width = F)
+  }
+  else if (input$req == "dmrt") {
+    d <- as.data.frame(csvfile())
+    r <- as.numeric(input$rep)
+    t <- as.numeric(input$trt)
+    response <- d[, input$yield]
+    treatment <- d[, input$treatment]
+    replication <- d[, input$Replication]
+    treatment <- factor(treatment)
+    replication <- factor(replication)
+    anvaTable <- lm(response ~ treatment + replication)
+    result <- as.data.frame(anova(anvaTable))
+    out <- agricolae::duncan.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, console = FALSE)
+    outgroup <- out$groups
+    colnames(outgroup) <- c("trt_mean", "grouping")
+    kable(outgroup, caption = "Treatment Grouping", align = "c") %>% kable_styling() %>% kable_paper("hover", full_width = F)
+  }
+  else if (input$req == "tukey") {
+    d <- as.data.frame(csvfile())
+    r <- as.numeric(input$rep)
+    t <- as.numeric(input$trt)
+    response <- d[, input$yield]
+    treatment <- d[, input$treatment]
+    replication <- d[, input$Replication]
+    treatment <- factor(treatment)
+    replication <- factor(replication)
+    anvaTable <- lm(response ~ treatment + replication)
+    result <- as.data.frame(anova(anvaTable))
+    out <- agricolae::HSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, unbalanced = FALSE, console = FALSE)
+    outgroup <- out$groups
+    colnames(outgroup) <- c("trt_mean", "grouping")
+    kable(outgroup, caption = "Treatment Grouping", align = "c") %>% kable_styling() %>% kable_paper("hover", full_width = F)
+  }
 }
 ############
-if(input$submit > 0){
-   d=as.data.frame(csvfile())
-        r=as.numeric(input$rep)
-        t=as.numeric(input$trt)
-        response=d[,input$yield]
-        treatment=d[,input$treatment]
-        replication=d[,input$Replication]
-        treatment=factor(treatment)
-        replication=factor(replication)
-        anvaTable=lm(response~treatment+replication)
-        result=as.data.frame( anova(anvaTable) )
-    if(result[1,5]>0.05){return("")}
-  if(input$req=='tukey'||input$req=='dmrt'||input$req=='lsd'){
+if (input$submit > 0) {
+  d <- as.data.frame(csvfile())
+  r <- as.numeric(input$rep)
+  t <- as.numeric(input$trt)
+  response <- d[, input$yield]
+  treatment <- d[, input$treatment]
+  replication <- d[, input$Replication]
+  treatment <- factor(treatment)
+  replication <- factor(replication)
+  anvaTable <- lm(response ~ treatment + replication)
+  result <- as.data.frame(anova(anvaTable))
+  if (result[1, 5] > 0.05) {
+    return("")
+  }
+  if (input$req == "tukey" || input$req == "dmrt" || input$req == "lsd") {
     cat("Treatments with same letters are not significantly different")
   }
 }
