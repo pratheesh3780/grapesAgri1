@@ -15,23 +15,18 @@ the user to create field layout of Completely Randomized Design (CRD),
 Randomized Complete Block Design (RCBD), Split-plot design, Strip-plot design
 and Augmented Randomized complete block design. Layout generated are
 random. Field layout in table format can also be prepared for recording
-observations from the field. Results can be downloaded in word, PDF or
-HTML format
+observations from the field. Results can be downloaded in HTML format
 }
 \details{
 This app uses \code{design.crd}, \code{design.rcbd}, \code{design.dau},
 \code{design.strip}, \code{design.split} functions of package
 \code{agricolae} to generate random layout of designs. Field layout
 were plotted using \code{desplot} function in \code{desplot} package.
-To download the results in pdf one may use
-\code{tinytex::install_tinytex()} before using the app.
 }
 \examples{
-if(interactive()){
-layoutApp()
+if (interactive()) {
+  layoutApp()
 }
-
-
 }
 \references{
 \insertRef{R_2021}{grapesAgri1}

@@ -1,0 +1,62 @@
+{
+  "input": {
+    "design": "crd",
+    "trt_crd": 0
+  },
+  "output": {
+    "details_aug": null,
+    "details_crd": null,
+    "details_rbd": null,
+    "details_split": null,
+    "details_strip": null,
+    "download_aug": null,
+    "download_crd": null,
+    "download_rbd": null,
+    "download_split": null,
+    "download_strip": null,
+    "plot": null,
+    "tab_aug": null,
+    "tab_crd": null,
+    "tab_rbd": null,
+    "tab_split": null,
+    "tab_strip": null,
+    "table_aug": null,
+    "table_crd": null,
+    "table_rbd": null,
+    "table_split": null,
+    "table_strip": null,
+    "text_aug1": null,
+    "text_aug2": null,
+    "text_aug3": null,
+    "text_crd1": null,
+    "text_crd2": null,
+    "text_crd3": null,
+    "text_rbd1": null,
+    "text_rbd2": null,
+    "text_rbd3": null,
+    "text_split1": null,
+    "text_split2": null,
+    "text_split3": null,
+    "text_strip1": null,
+    "text_strip2": null,
+    "text_strip3": null,
+    "var_aug": null,
+    "var_aug1": null,
+    "var_crd": {
+      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"trt_crd-label\" for=\"trt_crd\">\n    <div style=\"color:#a047ff\">\n      <b>Please enter the number of treatments:<\/b>\n    <\/div>\n  <\/label>\n  <input id=\"trt_crd\" type=\"number\" class=\"form-control\" value=\"0\" min=\"2\" max=\"100\"/>\n<\/div>",
+      "deps": [
+
+      ]
+    },
+    "var_crd1": null,
+    "var_rbd": null,
+    "var_rbd1": null,
+    "var_split": null,
+    "var_split1": null,
+    "var_strip": null,
+    "var_strip1": null
+  },
+  "export": {
+
+  }
+}

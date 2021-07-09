@@ -22,61 +22,71 @@ Details of the Experiment is given below.
 
   if(input$design == 'crd'){
     if(input$rep_crd>0 && input$submit1>0){
-      Treatments<- input$trt_crd
-      Replication<-input$rep_crd
-      Experimental.units<-Treatments*Replication
-      det<-cbind(Treatments,Replication,Experimental.units)
-      det<-as.data.frame(det)
-      kable(det,row.names = FALSE)
+      Treatments= input$trt_crd
+      Replication=input$rep_crd
+      Experimental.units=Treatments*Replication
+      det=cbind(Treatments,Replication,Experimental.units)
+      det=as.data.frame(det)
+      kable(det,row.names = FALSE) %>%
+      kable_styling() %>%
+      kable_paper("hover", full_width = F)
     }
   }
 
     if(input$design == 'rbd'){
       if(input$rep_rbd>0 && input$submit2>0){
-        Treatments<- input$trt_rbd
-        Blocks<-input$rep_rbd
-        Experimental.units<-Treatments*Blocks
-        det<-cbind(Treatments,Blocks,Experimental.units)
-        det<-as.data.frame(det)
-        kable(det,row.names = FALSE)
+        Treatments= input$trt_rbd
+        Blocks=input$rep_rbd
+        Experimental.units=Treatments*Blocks
+        det=cbind(Treatments,Blocks,Experimental.units)
+        det=as.data.frame(det)
+        kable(det,row.names = FALSE) %>%
+      kable_styling() %>%
+      kable_paper("hover", full_width = F)
       }
     }
     
     if(input$design == 'aug'){
       if(input$check_aug>0&&input$trt_aug&&input$rep_aug>0 && input$submit3>0){
-        Check <-input$check_aug
-        Treatments<- input$trt_aug
-        Blocks<-input$rep_aug
-        Plots <-Check*Blocks+Treatments
-        det<-cbind(Check,Treatments,Blocks,Plots)
-        det<-as.data.frame(det)
-        kable(det,row.names = FALSE)
+        Check =input$check_aug
+        Treatments= input$trt_aug
+        Blocks=input$rep_aug
+        Plots =Check*Blocks+Treatments
+        det=cbind(Check,Treatments,Blocks,Plots)
+        det=as.data.frame(det)
+        kable(det,row.names = FALSE) %>%
+      kable_styling() %>%
+      kable_paper("hover", full_width = F)
       }
     }
   
     if(input$design == 'split'){
       if(input$maintrt_split>0&&input$subtrt_split&&input$rep_split>0 &&
          input$submit4>0){
-        Main_plot_trt <-input$maintrt_split
-        Sub_plot_trt <-input$subtrt_split
-        Replications <-input$rep_split
-        No_of_Plots <-Main_plot_trt*Sub_plot_trt*Replications
-        det<-cbind(Main_plot_trt,Sub_plot_trt,Replications,No_of_Plots)
-        det<-as.data.frame(det)
-        kable(det,row.names = FALSE)
+        Main_plot_trt =input$maintrt_split
+        Sub_plot_trt =input$subtrt_split
+        Replications =input$rep_split
+        No_of_Plots =Main_plot_trt*Sub_plot_trt*Replications
+        det=cbind(Main_plot_trt,Sub_plot_trt,Replications,No_of_Plots)
+        det=as.data.frame(det)
+        kable(det,row.names = FALSE) %>%
+      kable_styling() %>%
+      kable_paper("hover", full_width = F)
       }
     }
 
     if(input$design == 'strip'){
       if(input$maintrt_strip>0&&input$subtrt_strip&&input$rep_strip>0 &&
          input$submit5>0){
-        Main_plot_A <-input$maintrt_strip
-        Main_plot_B <-input$subtrt_strip
-        Replications <-input$rep_strip
-        No_of_Plots <-Main_plot_A*Main_plot_B*Replications
-        det<-cbind(Main_plot_A,Main_plot_B,Replications,No_of_Plots)
-        det<-as.data.frame(det)
-        kable(det,row.names = FALSE)
+        Main_plot_A =input$maintrt_strip
+        Main_plot_B =input$subtrt_strip
+        Replications =input$rep_strip
+        No_of_Plots =Main_plot_A*Main_plot_B*Replications
+        det=cbind(Main_plot_A,Main_plot_B,Replications,No_of_Plots)
+        det=as.data.frame(det)
+        kable(det,row.names = FALSE) %>%
+      kable_styling() %>%
+      kable_paper("hover", full_width = F)
       }
     }
 
@@ -87,69 +97,72 @@ Field layout of your experiment
 
 ```{r echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, include=TRUE,warn.conflicts=FALSE}
 
- if(input$design == 'crd'){
-    if(input$trt_crd > 0){
-      if(input$rep_crd > 0){
-          if(input$submit1>0){
-            t<- input$trt_crd
-            r<-input$rep_crd
-            s<-input$size
-            rand<-input$rand
-            trtname<-sprintf("T%d", 1:t)
-            outdesign <- agricolae::design.crd(trtname,r= r,seed=rand,serie=0,kinds="Super-Duper",randomization=TRUE)
-            CRD = outdesign$book
-            CRD = CRD[order(CRD$r),]
-            CRD$col = CRD$r
-            CRD$row = rep(1:t,r)
-            desplot::desplot(form=trtname ~ col+row, data=CRD, text=trtname, out1=col,
-                             out2=row,out2.gpar = list(col = "black", lwd = 3),
-                             cex=s, main="Layout of Completely Randomized Design",show.key=FALSE)
-            
-          }
+ if (input$design == "crd") {
+  if (input$trt_crd > 0) {
+    if (input$rep_crd > 0) {
+      if (input$submit1 > 0) {
+        t = input$trt_crd
+        r = input$rep_crd
+        s = input$size
+        rand = input$rand
+        trtname = sprintf("T%d", 1:t)
+        outdesign = agricolae::design.crd(trtname, r = r, seed = rand, serie = 0, kinds = "Super-Duper", randomization = TRUE)
+        CRD = outdesign$book
+        CRD = CRD[order(CRD$r), ]
+        CRD$col = CRD$r
+        CRD$row = rep(1:t, r)
+        desplot::desplot(
+          form = trtname ~ col + row, data = CRD, text = trtname, out1 = col,
+          out2 = row, out2.gpar = list(col = "black", lwd = 3),
+          cex = s, main = "Layout of Completely Randomized Design", show.key = FALSE
+        )
       }
     }
   }
-  if(input$design == 'rbd'){
-    if(input$trt_rbd> 0){
-      if(input$rep_rbd> 0){
-          if(input$submit2>0){
-            t<- input$trt_rbd
-            rep<-input$rep_rbd
-            s<-input$size_rbd
-            trtname<-sprintf("T%d", 1:t)
-            n<-t*rep
-            outdesign <- agricolae::design.rcbd(trt=trtname, r=rep,seed=input$rand2,serie=0,kinds="Super-Duper",randomization=TRUE)
-            RBD = outdesign$book
-            RBD = RBD[order(RBD$block),]
-            RBD$blocks = as.numeric(RBD$block)
-            RBD$plots = rep(1:t,rep)
-            desplot::desplot(form=block~ blocks+plots, data=RBD, text=trtname, out1=blocks,
-                             out2=plots,out2.gpar = list(col = "green"),
-                             cex=s, main="Layout of Randomized Block Design",show.key=TRUE)
-          }
+}
+if (input$design == "rbd") {
+  if (input$trt_rbd > 0) {
+    if (input$rep_rbd > 0) {
+      if (input$submit2 > 0) {
+        t = input$trt_rbd
+        rep = input$rep_rbd
+        s = input$size_rbd
+        trtname = sprintf("T%d", 1:t)
+        n = t * rep
+        outdesign = agricolae::design.rcbd(trt = trtname, r = rep, seed = input$rand2, serie = 0, kinds = "Super-Duper", randomization = TRUE)
+        RBD = outdesign$book
+        RBD = RBD[order(RBD$block), ]
+        RBD$blocks = as.numeric(RBD$block)
+        RBD$plots = rep(1:t, rep)
+        desplot::desplot(
+          form = block ~ blocks + plots, data = RBD, text = trtname, out1 = blocks,
+          out2 = plots, out2.gpar = list(col = "green"),
+          cex = s, main = "Layout of Randomized Block Design", show.key = TRUE
+        )
       }
     }
   }
+}
   
   if(input$design == 'aug'){
     if(input$check_aug> 0){
       if(input$trt_aug> 0){
         if(input$rep_aug> 0){
             if(input$submit3>0){
-              NC<-input$check_aug # no. of check
-              blk<-input$rep_aug # no: of Blocks
-              trt<-input$trt_aug # no.of trt
-              s<-input$size_aug
-              T1<-sprintf("C%d", 1:NC) # checks
-              T2<-sprintf("T%d", 1:trt) # treatments
-              outdesign<-agricolae::design.dau(T1,T2, r=blk,seed=input$rand3,serie=0,randomization = TRUE)
+              NC=input$check_aug # no. of check
+              blk=input$rep_aug # no: of Blocks
+              trt=input$trt_aug # no.of trt
+              s=input$size_aug
+              T1=sprintf("C%d", 1:NC) # checks
+              T2=sprintf("T%d", 1:trt) # treatments
+              outdesign=agricolae::design.dau(T1,T2, r=blk,seed=input$rand3,serie=0,randomization = TRUE)
               aug= outdesign$book
               aug = aug[order(aug$block),]
               aug$blocks = as.numeric(aug$block)
-              x<-aug %>%
+              x=aug %>%
                 group_by(block) %>%
                 mutate(row = row_number())
-              aug1<-as.data.frame(cbind(aug,row=x$row))
+              aug1=as.data.frame(cbind(aug,row=x$row))
               desplot::desplot(form=block~ blocks+row, data=aug1, text=trt, out1=blocks, out2=row,
                                cex=s, main="Layout of Augmented Randomized Block Design",show.key=FALSE)
               
@@ -167,16 +180,16 @@ Field layout of your experiment
               a=input$maintrt_strip
               b=input$subtrt_strip
               rep=input$rep_strip
-              s<-input$size_strip
-              main1<-sprintf("A%d", 1:a)
-              main2<-sprintf("B%d", 1:b)
-              outdesign <-agricolae::design.strip(main1,main2,r=rep,serie=0,seed=input$rand5,kinds="Super-Duper",randomization=TRUE)
-              strip<- outdesign$book
-              strip$block2<-strip$block
-              v1 <- do.call(paste, as.data.frame(t(apply(strip[4:5], 1, sort))))
-              strip$row <-  match(v1, unique(v1))
-              v2 <- do.call(paste, as.data.frame(t(apply(strip[2:3], 1, sort))))
-                 strip$column <-  match(v2, unique(v2))
+              s=input$size_strip
+              main1=sprintf("A%d", 1:a)
+              main2=sprintf("B%d", 1:b)
+              outdesign =agricolae::design.strip(main1,main2,r=rep,serie=0,seed=input$rand5,kinds="Super-Duper",randomization=TRUE)
+              strip= outdesign$book
+              strip$block2=strip$block
+              v1 = do.call(paste, as.data.frame(t(apply(strip[4:5], 1, sort))))
+              strip$row =  match(v1, unique(v1))
+              v2 = do.call(paste, as.data.frame(t(apply(strip[2:3], 1, sort))))
+                 strip$column =  match(v2, unique(v2))
               desplot::desplot(form=main1~ row+column, data=strip,text=main2, out1=column,
                                out2=row,out2.gpar = list(col = "#a83232"),
                                cex=s, main="Layout of Strip-Plot Design",show.key=TRUE)
@@ -195,15 +208,15 @@ Field layout of your experiment
               a=input$maintrt_split
               b=input$subtrt_split
               rep=input$rep_split
-              s<-input$size_split
-              main<-sprintf("A%d", 1:a)
-              sub<-sprintf("b%d", 1:b)
-              outdesign <-agricolae::design.split(main,sub,r=rep,serie=0,seed=input$rand4,kinds="Super-Duper",randomization=TRUE)
-              split <- outdesign$book
+              s=input$size_split
+              main=sprintf("A%d", 1:a)
+              sub=sprintf("b%d", 1:b)
+              outdesign =agricolae::design.split(main,sub,r=rep,serie=0,seed=input$rand4,kinds="Super-Duper",randomization=TRUE)
+              split = outdesign$book
               split = split[order(split$plots),]
               split$plots = split$plots
-              split$plots<-as.numeric(split$plots)
-              split$splots<-as.numeric(split$splots)
+              split$plots=as.numeric(split$plots)
+              split$splots=as.numeric(split$splots)
               desplot::desplot(form=main~ plots+splots, data=split,col=main, text=sub, out1=plots, out2=splots,
                                cex=s, main="Layout of Split-Plot Design",show.key=TRUE)
               
@@ -216,94 +229,100 @@ Field layout of your experiment
 
 
 ```{r , echo=FALSE}
-if(input$design == 'crd'){
-    if(input$table_butt1>0){
-      t<- input$trt_crd
-      r<-input$rep_crd
-      n<-t*r
-      trtname<-sprintf("T%d", 1:t)
-      outdesign <- agricolae::design.crd(trtname,r= r,seed=input$rand,serie=0,kinds="Super-Duper",randomization=TRUE)
-      CRD = outdesign$book
-      CRD = CRD[order(CRD$r),]
-      CRD$exp = rep(1:n)
-      final<-as.data.frame(cbind(Experimental.Unit=CRD$exp,Treatments=as.character(CRD$trtname)))
-      kable(final,caption="Layout of CRD",row.names = FALSE)
-    }
+if (input$design == "crd") {
+  if (input$table_butt1 > 0) {
+    t = input$trt_crd
+    r = input$rep_crd
+    n = t * r
+    trtname = sprintf("T%d", 1:t)
+    outdesign = agricolae::design.crd(trtname, r = r, seed = input$rand, serie = 0, kinds = "Super-Duper", randomization = TRUE)
+    CRD = outdesign$book
+    CRD = CRD[order(CRD$r), ]
+    CRD$exp = rep(1:n)
+    final = as.data.frame(cbind(Experimental.Unit = CRD$exp, Treatments = as.character(CRD$trtname)))
+    kable(final, caption = "Layout of CRD", row.names = FALSE)
   }
+}
 
-  if(input$design == 'rbd'){
-    if(input$table_butt2>0){
-      t<- input$trt_rbd
-      rep<-input$rep_rbd
-      trtname<-sprintf("T%d", 1:t)
-      n<-t*rep
-      outdesign <- agricolae::design.rcbd(trt=trtname, r=rep,seed=input$rand2,serie=0,kinds="Super-Duper",randomization=TRUE)
-      RBD = outdesign$book
-      RBD = RBD[order(RBD$block),]
-      RBD$plot = rep(1:t,rep)
-      final<-as.data.frame(cbind(Block=RBD$block,Plot=RBD$plot,Treatment=as.character(RBD$trtname)))
-      kable(final,caption="Layout of RBD",row.names = FALSE)
-    }
+if (input$design == "rbd") {
+  if (input$table_butt2 > 0) {
+    t = input$trt_rbd
+    rep = input$rep_rbd
+    trtname = sprintf("T%d", 1:t)
+    n = t * rep
+    outdesign = agricolae::design.rcbd(trt = trtname, r = rep, seed = input$rand2, serie = 0, kinds = "Super-Duper", randomization = TRUE)
+    RBD = outdesign$book
+    RBD = RBD[order(RBD$block), ]
+    RBD$plot = rep(1:t, rep)
+    final = as.data.frame(cbind(Block = RBD$block, Plot = RBD$plot, Treatment = as.character(RBD$trtname)))
+    kable(final, caption = "Layout of RBD", row.names = FALSE)
   }
+}
 
 
-  if(input$design == 'aug'){
-    if(input$table_butt3>0){
-      NC<-input$check_aug # no. of check
-      blk<-input$rep_aug # no: of Blocks
-      trt<-input$trt_aug # no.of trt
-      s<-input$size_aug
-      T1<-sprintf("C%d", 1:NC) # checks
-      T2<-sprintf("T%d", 1:trt) # treatments
-      outdesign<-agricolae::design.dau(T1,T2, r=blk,seed=input$rand3,serie=0,randomization = TRUE)
-      aug= outdesign$book
-      aug = aug[order(aug$block),]
-      x1<-aug %>% group_by(block) %>% mutate(Plot = row_number())
-      final<-as.data.frame(cbind(Block=x1$block,Plot=x1$Plot,Treatment=as.character(x1$trt)))
-      kable(final,caption="Layout of Augmented Design",row.names = FALSE)
-    }
+if (input$design == "aug") {
+  if (input$table_butt3 > 0) {
+    NC = input$check_aug # no. of check
+    blk = input$rep_aug # no: of Blocks
+    trt = input$trt_aug # no.of trt
+    s = input$size_aug
+    T1 = sprintf("C%d", 1:NC) # checks
+    T2 = sprintf("T%d", 1:trt) # treatments
+    outdesign = agricolae::design.dau(T1, T2, r = blk, seed = input$rand3, serie = 0, randomization = TRUE)
+    aug = outdesign$book
+    aug = aug[order(aug$block), ]
+    x1 = aug %>%
+      group_by(block) %>%
+      mutate(Plot = row_number())
+    final = as.data.frame(cbind(Block = x1$block, Plot = x1$Plot, Treatment = as.character(x1$trt)))
+    kable(final, caption = "Layout of Augmented Design", row.names = FALSE)
   }
+}
 
 
-  if(input$design == 'split'){
-    if(input$table_butt4>0){
-      a=input$maintrt_split
-      b=input$subtrt_split
-      rep=input$rep_split
-      s<-input$size_split
-      main<-sprintf("A%d", 1:a)
-      sub<-sprintf("b%d", 1:b)
-      outdesign <-agricolae::design.split(main,sub,r=rep,serie=0,seed=input$rand4,kinds="Super-Duper",randomization=TRUE)
-      split <- outdesign$book
-      split = split[order(split$plots),]
-      final<-as.data.frame(cbind(Main_plot=split$plots, Sub_plot=split$splots
-                                 ,Replication=split$block,Main_treatment = as.character(split$main), Sub_treatment = as.character(split$sub)))
-      kable(final,caption="Layout of Split-Plot design",row.names = FALSE)
-    }
+if (input$design == "split") {
+  if (input$table_butt4 > 0) {
+    a = input$maintrt_split
+    b = input$subtrt_split
+    rep = input$rep_split
+    s = input$size_split
+    main = sprintf("A%d", 1:a)
+    sub = sprintf("b%d", 1:b)
+    outdesign = agricolae::design.split(main, sub, r = rep, serie = 0, seed = input$rand4, kinds = "Super-Duper", randomization = TRUE)
+    split = outdesign$book
+    split = split[order(split$plots), ]
+    final = as.data.frame(cbind(
+      Main_plot = split$plots, Sub_plot = split$splots,
+      Replication = split$block, Main_treatment = as.character(split$main), Sub_treatment = as.character(split$sub)
+    ))
+    kable(final, caption = "Layout of Split-Plot design", row.names = FALSE)
   }
+}
 
-  if(input$design == 'strip'){
-    if(input$table_butt5>0){
-      a=input$maintrt_strip
-      b=input$subtrt_strip
-      rep=input$rep_strip
-      s<-input$size_strip
-      main1<-sprintf("A%d", 1:a)
-      main2<-sprintf("B%d", 1:b)
-      outdesign <-agricolae::design.strip(main1,main2,r=rep,serie=0,seed=input$rand5,kinds="Super-Duper",randomization=TRUE)
-      strip<- outdesign$book
-      strip$block2<-strip$block
-      v1 <- do.call(paste, as.data.frame(t(apply(strip[4:5], 1, sort))))
-      strip$row <-  match(v1, unique(v1))
-      v2 <- do.call(paste, as.data.frame(t(apply(strip[2:3], 1, sort))))
-                 strip$column <-  match(v2, unique(v2))
-      final<-as.data.frame(cbind(Replication=strip$block, Horizontal_row_No.=strip$row
-                                 ,Treatment_A=as.character(strip$main1),
-                                 Vertical_row_No. = strip$column,
-                                 Treatment_B = as.character(strip$main2)))
-      kable(final,caption="Layout of Strip plot design",row.names = FALSE)
-    }
+if (input$design == "strip") {
+  if (input$table_butt5 > 0) {
+    a = input$maintrt_strip
+    b = input$subtrt_strip
+    rep = input$rep_strip
+    s = input$size_strip
+    main1 = sprintf("A%d", 1:a)
+    main2 = sprintf("B%d", 1:b)
+    outdesign = agricolae::design.strip(main1, main2, r = rep, serie = 0, seed = input$rand5, kinds = "Super-Duper", randomization = TRUE)
+    strip = outdesign$book
+    strip$block2 = strip$block
+    v1 = do.call(paste, as.data.frame(t(apply(strip[4:5], 1, sort))))
+    strip$row = match(v1, unique(v1))
+    v2 = do.call(paste, as.data.frame(t(apply(strip[2:3], 1, sort))))
+    strip$column = match(v2, unique(v2))
+    final = as.data.frame(cbind(
+      Replication = strip$block, Horizontal_row_No. = strip$row,
+      Treatment_A = as.character(strip$main1),
+      Vertical_row_No. = strip$column,
+      Treatment_B = as.character(strip$main2)
+    ))
+    kable(final, caption = "Layout of Strip plot design", row.names = FALSE)
   }
+}
   
 ```
 **Package: grapesAgri1, Version;1.0.0**
