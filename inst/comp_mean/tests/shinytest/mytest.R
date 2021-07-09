@@ -2,7 +2,7 @@ app <- ShinyDriver$new("../../")
 app$snapshotInit("mytest")
 
 app$snapshot()
-app$uploadFile(file1 = "iris.csv") # <-- This should be the path to the file, relative to the app's tests/shinytest directory
+app$uploadFile(file1 = "iris.csv")
 app$setInputs(submit1 = "click")
 app$setInputs(req1 = "pttest")
 app$setInputs(submit5 = "click")
