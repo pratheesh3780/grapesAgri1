@@ -9,6 +9,7 @@ tags:
   - Field Layout
   - Correlation Analysis
   - Descriptive Statistics
+  
 authors:
   - name: Pratheesh P. Gopinath
     orcid: 0000-0003-3290-0436
@@ -19,6 +20,7 @@ authors:
     affiliation: "1"
   - name: Adarsh V. S.
     affiliation: "3"
+    
 affiliations:
  - name: Department of Agricultural Statistics, College of Agriculture, Vellayani, Kerala Agricultural University, Kerala, India.
    index: 1
@@ -26,6 +28,7 @@ affiliations:
    index: 2
  - name: Department of Agricultural Statistics, BCKV, West Bengal, India
    index: 3
+   
 date: June 11, 2021 
 bibliography: paper.bib
 
