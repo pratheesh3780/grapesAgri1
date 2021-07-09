@@ -91,7 +91,7 @@ ui <- fluidPage(
                          uiOutput('varboxplot'),
                          tags$br(),
                          uiOutput('start_note3'),
-                         plotOutput('boxplot')%>% withSpinner(color="#0dc5c1"),
+                         plotOutput('boxplot'),
                          tags$br(),
                          tags$br(),
                          uiOutput('image_down'),#image to download
@@ -150,6 +150,21 @@ ui <- fluidPage(
       if(is.null(input$file1$datapath)){return()}
       if(is.null(input$submit)){return()}
       if(input$submit > 0){
+        validate(
+          need(input$treatment != input$yield, "Warning 1: Both input variables selected (Treatment and response) are same. Choose Treatment and response correctly for meaningful result")
+        )
+        validate(
+          need(input$treatment != input$Replication, "Warning 1: Both input variables selected (Treatment and Replication) are same. Choose Treatment and Replication correctly for meaningful result")
+        )
+        validate(
+          need(input$yield != input$Replication, "Warning 1: Both input variables selected (Replication and response) are same. Choose Replication and response correctly for meaningful result")
+        )
+        validate(
+          need(input$trt!=0, "Please enter number of treatments")
+        )
+        validate(
+          need(input$rep!=0, "Please enter number of replications")
+        )
         input$reload
         Sys.sleep(2)
         d=as.data.frame(csvfile())
@@ -175,6 +190,21 @@ ui <- fluidPage(
       if(is.null(input$file1$datapath)){return()}
       if(is.null(input$submit)){return()}
       if(input$submit > 0){
+        validate(
+          need(input$treatment != input$yield, "")
+        )
+        validate(
+          need(input$treatment != input$Replication, "")
+        )
+        validate(
+          need(input$yield != input$Replication, "")
+        )
+        validate(
+          need(input$trt!=0, "")
+        )
+        validate(
+          need(input$rep!=0, "")
+        )
         d=as.data.frame(csvfile())
         r=as.numeric(input$rep)
         t=as.numeric(input$trt)
@@ -197,6 +227,21 @@ ui <- fluidPage(
       if(is.null(input$file1$datapath)){return()}
       if(is.null(input$submit)){return()}
       if(input$submit > 0){
+        validate(
+          need(input$treatment != input$yield, "")
+        )
+        validate(
+          need(input$treatment != input$Replication, "")
+        )
+        validate(
+          need(input$yield != input$Replication, "")
+        )
+        validate(
+          need(input$trt!=0, "")
+        )
+        validate(
+          need(input$rep!=0, "")
+        )
         d=as.data.frame(csvfile())
         r=as.numeric(input$rep)
         t=as.numeric(input$trt)
@@ -226,6 +271,21 @@ ui <- fluidPage(
       if(is.null(input$file1$datapath)){return()}
       if(is.null(input$submit)){return()}
       if(input$submit > 0){
+        validate(
+          need(input$treatment != input$yield, "")
+        )
+        validate(
+          need(input$treatment != input$Replication, "")
+        )
+        validate(
+          need(input$yield != input$Replication, "")
+        )
+        validate(
+          need(input$trt!=0, "")
+        )
+        validate(
+          need(input$rep!=0, "")
+        )
         d=as.data.frame(csvfile())
         r=as.numeric(input$rep)
         t=as.numeric(input$trt)
@@ -250,6 +310,21 @@ ui <- fluidPage(
       if(is.null(input$file1$datapath)){return()}
       if(is.null(input$submit)){return()}
       if(input$submit > 0){
+        validate(
+          need(input$treatment != input$yield, "")
+        )
+        validate(
+          need(input$treatment != input$Replication, "")
+        )
+        validate(
+          need(input$yield != input$Replication, "")
+        )
+        validate(
+          need(input$trt!=0, "")
+        )
+        validate(
+          need(input$rep!=0, "")
+        )
         d=as.data.frame(csvfile())
         r=as.numeric(input$rep)
         t=as.numeric(input$trt)
@@ -279,6 +354,21 @@ ui <- fluidPage(
       if(is.null(input$req)){return()}
       if(input$submit > 0){
         if(input$req=='lsd'){
+          validate(
+            need(input$treatment != input$yield, "")
+          )
+          validate(
+            need(input$treatment != input$Replication, "")
+          )
+          validate(
+            need(input$yield != input$Replication, "")
+          )
+          validate(
+            need(input$trt!=0, "")
+          )
+          validate(
+            need(input$rep!=0, "")
+          )
           d=as.data.frame(csvfile())
           r=as.numeric(input$rep)
           t=as.numeric(input$trt)
@@ -305,6 +395,21 @@ ui <- fluidPage(
           }
         }
         else if(input$req=='dmrt'){
+          validate(
+            need(input$treatment != input$yield, "")
+          )
+          validate(
+            need(input$treatment != input$Replication, "")
+          )
+          validate(
+            need(input$yield != input$Replication, "")
+          )
+          validate(
+            need(input$trt!=0, "")
+          )
+          validate(
+            need(input$rep!=0, "")
+          )
           d=as.data.frame(csvfile())
           r=as.numeric(input$rep)
           t=as.numeric(input$trt)
@@ -321,6 +426,21 @@ ui <- fluidPage(
           }
         }
         else if(input$req=='tukey'){
+          validate(
+            need(input$treatment != input$yield, "")
+          )
+          validate(
+            need(input$treatment != input$Replication, "")
+          )
+          validate(
+            need(input$yield != input$Replication, "")
+          )
+          validate(
+            need(input$trt!=0, "")
+          )
+          validate(
+            need(input$rep!=0, "")
+          )
           d=as.data.frame(csvfile())
           r=as.numeric(input$rep)
           t=as.numeric(input$trt)
@@ -346,6 +466,21 @@ ui <- fluidPage(
       if(is.null(input$req)){return()}
       if(input$submit > 0){
         if(input$req=='lsd'){
+          validate(
+            need(input$treatment != input$yield, "")
+          )
+          validate(
+            need(input$treatment != input$Replication, "")
+          )
+          validate(
+            need(input$yield != input$Replication, "")
+          )
+          validate(
+            need(input$trt!=0, "")
+          )
+          validate(
+            need(input$rep!=0, "")
+          )
           d=as.data.frame(csvfile())
           r=as.numeric(input$rep)
           t=as.numeric(input$trt)
@@ -364,6 +499,21 @@ ui <- fluidPage(
           }
         }
         else if(input$req=='dmrt'){
+          validate(
+            need(input$treatment != input$yield, "")
+          )
+          validate(
+            need(input$treatment != input$Replication, "")
+          )
+          validate(
+            need(input$yield != input$Replication, "")
+          )
+          validate(
+            need(input$trt!=0, "")
+          )
+          validate(
+            need(input$rep!=0, "")
+          )
           d=as.data.frame(csvfile())
           r=as.numeric(input$rep)
           t=as.numeric(input$trt)
@@ -382,6 +532,21 @@ ui <- fluidPage(
           }
         }
         else if(input$req=='tukey'){
+          validate(
+            need(input$treatment != input$yield, "")
+          )
+          validate(
+            need(input$treatment != input$Replication, "")
+          )
+          validate(
+            need(input$yield != input$Replication, "")
+          )
+          validate(
+            need(input$trt!=0, "")
+          )
+          validate(
+            need(input$rep!=0, "")
+          )
           d=as.data.frame(csvfile())
           r=as.numeric(input$rep)
           t=as.numeric(input$trt)
@@ -408,6 +573,22 @@ ui <- fluidPage(
        if(is.null(input$file1$datapath)){return()}
        if(is.null(input$submit)){return()}
        if(input$submit>0){
+         validate(
+           need(input$treatment != input$yield, "Warning 1: Both input variables selected (Treatment and response) are same. Choose Treatment and response correctly for meaningful result")
+         )
+         validate(
+           need(input$treatment != input$Replication, "Warning 1: Both input variables selected (Treatment and Replication) are same. Choose Treatment and Replication correctly for meaningful result")
+         )
+         validate(
+           need(input$yield != input$Replication, "Warning 1: Both input variables selected (Replication and response) are same. Choose Replication and response correctly for meaningful result")
+         )
+         validate(
+           need(input$trt!=0, "Please enter number of treatments")
+         )
+         validate(
+           need(input$rep!=0, "Please enter number of replications")
+         )
+
          list (selectInput('plotreq', 'Please select the required plot',
                            c(
                              Boxplot= 'boxplot',
@@ -424,6 +605,21 @@ ui <- fluidPage(
        if(is.null(input$plotreq)){return()}
        if(input$plotreq=='boxplot'){
          if(input$submit > 0){
+           validate(
+             need(input$treatment != input$yield, "Warning 1: Both input variables selected (Treatment and response) are same. Choose Treatment and response correctly for meaningful result")
+           )
+           validate(
+             need(input$treatment != input$Replication, "Warning 1: Both input variables selected (Treatment and Replication) are same. Choose Treatment and Replication correctly for meaningful result")
+           )
+           validate(
+             need(input$yield != input$Replication, "Warning 1: Both input variables selected (Replication and response) are same. Choose Replication and response correctly for meaningful result")
+           )
+           validate(
+             need(input$trt!=0, "")
+           )
+           validate(
+             need(input$rep!=0, "")
+           )
            list (textInput("xlab", "Enter required x-axis label", "X-axis"),
                  textInput("ylab", "Enter required y-axis label", "Y-axis"),
                  selectInput('col1', 'Line colour pattern',
@@ -456,6 +652,21 @@ ui <- fluidPage(
        }
        else if(input$plotreq=='barchart'){
          if(input$submit > 0){
+           validate(
+             need(input$treatment != input$yield, "Warning 1: Both input variables selected (Treatment and response) are same. Choose Treatment and response correctly for meaningful result")
+           )
+           validate(
+             need(input$treatment != input$Replication, "Warning 1: Both input variables selected (Treatment and Replication) are same. Choose Treatment and Replication correctly for meaningful result")
+           )
+           validate(
+             need(input$yield != input$Replication, "Warning 1: Both input variables selected (Replication and response) are same. Choose Replication and response correctly for meaningful result")
+           )
+           validate(
+             need(input$trt!=0, "")
+           )
+           validate(
+             need(input$rep!=0, "")
+           )
            list (textInput("xlab", "Enter required x-axis label", "X-axis"),
                  textInput("ylab", "Enter required y-axis label", "Y-axis"),
                  textInput("title", "Enter required Title", "title"),
@@ -555,6 +766,21 @@ ui <- fluidPage(
 
       if(input$plotreq=='boxplot'){
         if(input$submit1 > 0){
+          validate(
+            need(input$treatment != input$yield, "")
+          )
+          validate(
+            need(input$treatment != input$Replication, "")
+          )
+          validate(
+            need(input$yield != input$Replication, "")
+          )
+          validate(
+            need(input$trt!=0, "")
+          )
+          validate(
+            need(input$rep!=0, "")
+          )
 
           nb.cols <- as.numeric(input$trt+2)
           mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
@@ -577,6 +803,21 @@ ui <- fluidPage(
 
       else if(input$plotreq=='barchart'){
         if(input$submit1 > 0){
+          validate(
+            need(input$treatment != input$yield, "")
+          )
+          validate(
+            need(input$treatment != input$Replication, "")
+          )
+          validate(
+            need(input$yield != input$Replication, "")
+          )
+          validate(
+            need(input$trt!=0, "")
+          )
+          validate(
+            need(input$rep!=0, "")
+          )
 
           d=as.data.frame(csvfile())
           treatment<-as.factor(d[,input$treatment])

@@ -1,6 +1,5 @@
 library(shiny)
 library(shinyWidgets)
-library(shinycssloaders)
 library(rmarkdown)
 library(dplyr)
 library(ggplot2)
@@ -105,7 +104,7 @@ ui <- fluidPage(
         tags$br(),
         tags$br(),
         uiOutput("start_note3"),
-        plotOutput("boxplot") %>% withSpinner(color = "#0dc5c1"),
+        plotOutput("boxplot"),
         tags$br(),
         tags$br(),
         uiOutput("image_down"), # image to download
