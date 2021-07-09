@@ -20,11 +20,9 @@ is calculated using \code{rcorr} function in \code{Hmisc} package. Correlogram
 is obtained using \code{corrplot} function in \code{corrplot} package.
 }
 \examples{
-if(interactive()){
-corrApp()
+if (interactive()) {
+  corrApp()
 }
-
-
 }
 \references{
 \insertRef{corrplot2021}{grapesAgri1}
