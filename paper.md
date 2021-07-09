@@ -1,5 +1,5 @@
 ---
-title: 'grapesAgri1 v1.0.0: Collection of Shiny Apps for Data Analysis in Agriculture'
+title: 'grapesAgri1: Collection of Shiny Apps for Data Analysis in Agriculture'
 tags:
   - R
   - Data analysis in Agriculture
