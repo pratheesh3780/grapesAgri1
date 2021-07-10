@@ -63,16 +63,45 @@ jobs:
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
 
+      - name: Install Cairo macOS R devel dependency
+        if: runner.os == 'macOS' && matrix.config.r == 'devel'
+        run: |
+          brew install libxt
+      # xquartz and cairo are needed for Cairo package.
+      # harfbuzz and fribidi are needed for textshaping package.
+
+      - name: Mac systemdeps
+        if: runner.os == 'macOS'
+        run: |
+          brew install --cask xquartz
+          brew install cairo
+          brew install harfbuzz fribidi
+      # Use a shorter temp directory for pak installations, due to filename
+      # length issues on Windows. https://github.com/r-lib/pak/issues/252
+      - name: Windows temp dir
+        if: runner.os == 'Windows'
+        run: |
+          New-Item -Path "C:\" -Name "tmp" -ItemType Directory
+          echo "TMPDIR=c:\tmp" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Install dependencies
+        run: |
+          pak::local_install_dev_deps(upgrade = TRUE)
+          pak::pkg_install("rcmdcheck")
+        shell: Rscript {0}
+
       - name: Find PhantomJS path
         id: phantomjs
         run: |
           echo "::set-output name=path::$(Rscript -e 'cat(shinytest:::phantom_paths()[[1]])')"
+
       - name: Cache PhantomJS
         uses: actions/cache@v2
         with:
           path: ${{ steps.phantomjs.outputs.path }}
           key: ${{ matrix.config.os }}-phantomjs
           restore-keys: ${{ matrix.config.os }}-phantomjs
+
       - name: Install PhantomJS
         run: >
           Rscript
