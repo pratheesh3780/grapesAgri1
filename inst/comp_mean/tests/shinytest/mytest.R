@@ -1,4 +1,4 @@
-app <- ShinyDriver$new("../../")
+app <- ShinyDriver$new("../../", loadTimeout = 1e+05, seed =1234)
 app$snapshotInit("mytest")
 
 app$snapshot()
@@ -12,7 +12,3 @@ app$setInputs(req1 = "wttest")
 app$setInputs(submit2 = "click")
 app$setInputs(req1 = "ftest")
 app$setInputs(submit4 = "click")
-app$setInputs(req1 = "boxplot")
-app$setInputs(submit6 = "click")
-app$setInputs(req1 = "pplot")
-app$setInputs(submit7 = "click")
