@@ -57,11 +57,18 @@ jobs:
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
+        env:
+          RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+          Rscript -e "remotes::install_github('r-hub/sysreqs')"
+          sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
+          sudo -s eval "$sysreqs"
+
+      - name: Install dependencies
+        run: |
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rcmdcheck")
+        shell: Rscript {0}
 
       - name: Find PhantomJS path
         id: phantomjs
@@ -69,22 +76,16 @@ jobs:
           echo "::set-output name=path::$(Rscript -e 'cat(shinytest:::phantom_paths()[[1]])')"
 
       - name: Cache PhantomJS
-        uses: actions/cache@v2
+        uses: actions/cache@v1
         with:
           path: ${{ steps.phantomjs.outputs.path }}
-          key: ${{ matrix.config.os }}-phantomjs
-          restore-keys: ${{ matrix.config.os }}-phantomjs
+          key: ${{ runner.os }}-phantomjs
+          restore-keys: ${{ runner.os }}-phantomjs
 
       - name: Install PhantomJS
         run: >
           Rscript
           -e "if (!shinytest::dependenciesInstalled()) shinytest::installDependencies()"
-
-      - name: Install dependencies
-        run: |
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rcmdcheck")
-        shell: Rscript {0}
 
       - name: Check
         env:
