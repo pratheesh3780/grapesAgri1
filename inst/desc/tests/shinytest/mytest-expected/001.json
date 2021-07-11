@@ -1,0 +1,71 @@
+{
+  "input": {
+    "dataset": "iris",
+    "file1": {
+      "name": [
+        "iris.csv"
+      ],
+      "size": [
+        4177
+      ],
+      "type": [
+        "text/csv"
+      ],
+      "datapath": [
+        "0.csv"
+      ]
+    },
+    "header": true,
+    "req": "summary",
+    "shiny_height": 744,
+    "shiny_width": 992,
+    "submit4": 0,
+    "var": null
+  },
+  "output": {
+    "bygroup": null,
+    "data_set": null,
+    "image_down": null,
+    "nort": "",
+    "note": null,
+    "plot": null,
+    "summaryout": null,
+    "text3": null,
+    "var": {
+      "html": "<div id=\"var\" class=\"form-group shiny-input-checkboxgroup shiny-input-container\" role=\"group\" aria-labelledby=\"var-label\">\n  <label class=\"control-label\" id=\"var-label\" for=\"var\">Please select the variables <br/> (Quantitative variables only)<\/label>\n  <div class=\"shiny-options-group\">\n    <div class=\"checkbox\">\n      <label>\n        <input type=\"checkbox\" name=\"var\" value=\"Sepal.Length\"/>\n        <span>Sepal.Length<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"checkbox\">\n      <label>\n        <input type=\"checkbox\" name=\"var\" value=\"Sepal.Width\"/>\n        <span>Sepal.Width<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"checkbox\">\n      <label>\n        <input type=\"checkbox\" name=\"var\" value=\"Petal.Length\"/>\n        <span>Petal.Length<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"checkbox\">\n      <label>\n        <input type=\"checkbox\" name=\"var\" value=\"Petal.Width\"/>\n        <span>Petal.Width<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"checkbox\">\n      <label>\n        <input type=\"checkbox\" name=\"var\" value=\"Species\"/>\n        <span>Species<\/span>\n      <\/label>\n    <\/div>\n  <\/div>\n<\/div>\n<button class=\"action-button bttn bttn-jelly bttn-md bttn-danger bttn-no-outline\" id=\"submit4\" type=\"button\">SUBMIT!<\/button>",
+      "deps": [
+        {
+          "name": "shinyWidgets",
+          "version": "0.6.0",
+          "src": {
+            "href": "shinyWidgets"
+          },
+          "meta": null,
+          "script": "shinyWidgets-bindings.min.js",
+          "stylesheet": "shinyWidgets.min.css",
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "bttn",
+          "version": "0.2.4",
+          "src": {
+            "href": "shinyWidgets/bttn"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "bttn.min.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    },
+    "var1": null,
+    "var2": null
+  },
+  "export": {
+
+  }
+}

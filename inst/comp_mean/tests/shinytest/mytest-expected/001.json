@@ -1,0 +1,103 @@
+{
+  "input": {
+    "alt": "two.sided",
+    "dataset": "iris",
+    "dvar": "Sepal.Length",
+    "file1": {
+      "name": [
+        "iris.csv"
+      ],
+      "size": [
+        4177
+      ],
+      "type": [
+        "text/csv"
+      ],
+      "datapath": [
+        "0.csv"
+      ]
+    },
+    "header": true,
+    "ivar": "Sepal.Length",
+    "req1": "ttest",
+    "submit1": 0
+  },
+  "output": {
+    "data_set": null,
+    "ftest": null,
+    "image_down": null,
+    "note1": null,
+    "note2": null,
+    "note3": null,
+    "note4": null,
+    "note5": null,
+    "ottest": null,
+    "plot": null,
+    "pttest": null,
+    "slider": null,
+    "start_note": null,
+    "summary1": null,
+    "summary2": null,
+    "summary3": null,
+    "summary4": null,
+    "summary5": null,
+    "ttest": null,
+    "var": {
+      "html": "<div id=\"dvar\" class=\"form-group shiny-input-radiogroup shiny-input-container\" role=\"radiogroup\" aria-labelledby=\"dvar-label\">\n  <label class=\"control-label\" id=\"dvar-label\" for=\"dvar\">Please pick 'Group A' <\/label>\n  <div class=\"shiny-options-group\">\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"dvar\" value=\"Sepal.Length\" checked=\"checked\"/>\n        <span>Sepal.Length<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"dvar\" value=\"Sepal.Width\"/>\n        <span>Sepal.Width<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"dvar\" value=\"Petal.Length\"/>\n        <span>Petal.Length<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"dvar\" value=\"Petal.Width\"/>\n        <span>Petal.Width<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"dvar\" value=\"Species\"/>\n        <span>Species<\/span>\n      <\/label>\n    <\/div>\n  <\/div>\n<\/div>\n<div id=\"ivar\" class=\"form-group shiny-input-radiogroup shiny-input-container\" role=\"radiogroup\" aria-labelledby=\"ivar-label\">\n  <label class=\"control-label\" id=\"ivar-label\" for=\"ivar\">Please pick 'Group B'<\/label>\n  <div class=\"shiny-options-group\">\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"ivar\" value=\"Sepal.Length\" checked=\"checked\"/>\n        <span>Sepal.Length<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"ivar\" value=\"Sepal.Width\"/>\n        <span>Sepal.Width<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"ivar\" value=\"Petal.Length\"/>\n        <span>Petal.Length<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"ivar\" value=\"Petal.Width\"/>\n        <span>Petal.Width<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"ivar\" value=\"Species\"/>\n        <span>Species<\/span>\n      <\/label>\n    <\/div>\n  <\/div>\n<\/div>\n<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"alt-label\" for=\"alt\">Alternative Hypotesis<\/label>\n  <div>\n    <select id=\"alt\"><option value=\"two.sided\" selected>Two sided<\/option>\n<option value=\"less\">Less than<\/option>\n<option value=\"greater\">Greater than<\/option><\/select>\n    <script type=\"application/json\" data-for=\"alt\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>\n<button class=\"action-button bttn bttn-jelly bttn-md bttn-danger bttn-no-outline\" id=\"submit1\" type=\"button\">SUBMIT!<\/button>",
+      "deps": [
+        {
+          "name": "selectize",
+          "version": "0.12.4",
+          "src": {
+            "href": "shared/selectize"
+          },
+          "meta": null,
+          "script": [
+            "js/selectize.min.js",
+            "accessibility/js/selectize-plugin-a11y.min.js"
+          ],
+          "stylesheet": "css/selectize.bootstrap3.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "shinyWidgets",
+          "version": "0.6.0",
+          "src": {
+            "href": "shinyWidgets"
+          },
+          "meta": null,
+          "script": "shinyWidgets-bindings.min.js",
+          "stylesheet": "shinyWidgets.min.css",
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "bttn",
+          "version": "0.2.4",
+          "src": {
+            "href": "shinyWidgets/bttn"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "bttn.min.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    },
+    "var1": null,
+    "var2": null,
+    "var3": null,
+    "var4": null,
+    "var5": null,
+    "wttest": null
+  },
+  "export": {
+
+  }
+}

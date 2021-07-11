@@ -1,18 +1,43 @@
 {
   "input": {
+    "alt": "two.sided",
+    "ci": "0.95",
     "dataset": "iris",
-    "file1": null,
+    "dvar": "Sepal.Length",
+    "file1": {
+      "name": [
+        "iris.csv"
+      ],
+      "size": [
+        4177
+      ],
+      "type": [
+        "text/csv"
+      ],
+      "datapath": [
+        "0.csv"
+      ]
+    },
     "header": true,
+    "ivar": "Sepal.Length",
+    "req": "pearson",
     "req1": "correlation",
     "shiny_height": 744,
-    "shiny_width": 992
+    "shiny_width": 992,
+    "submit": 0
   },
   "output": {
     "ci": null,
     "correlation": null,
     "corrmat": null,
-    "data_set": {
-      "html": "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"dataset-label\" for=\"dataset\">Choose a dataset:<\/label>\n  <div>\n    <select id=\"dataset\"><option value=\"iris\" selected>iris<\/option>\n<option value=\"rock\">rock<\/option>\n<option value=\"cars\">cars<\/option><\/select>\n    <script type=\"application/json\" data-for=\"dataset\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>\n<a id=\"downloadData\" class=\"btn btn-default shiny-download-link butt1\" href=\"\" target=\"_blank\" download>\n  <i class=\"fa fa-download\" role=\"presentation\" aria-label=\"download icon\"><\/i>\n  Download csv file to test\n<\/a>",
+    "data_set": null,
+    "image_down": null,
+    "note": null,
+    "note1": null,
+    "plot": null,
+    "sigmat": null,
+    "var": {
+      "html": "<div id=\"dvar\" class=\"form-group shiny-input-radiogroup shiny-input-container\" role=\"radiogroup\" aria-labelledby=\"dvar-label\">\n  <label class=\"control-label\" id=\"dvar-label\" for=\"dvar\">Please pick 'X' Variable<\/label>\n  <div class=\"shiny-options-group\">\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"dvar\" value=\"Sepal.Length\" checked=\"checked\"/>\n        <span>Sepal.Length<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"dvar\" value=\"Sepal.Width\"/>\n        <span>Sepal.Width<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"dvar\" value=\"Petal.Length\"/>\n        <span>Petal.Length<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"dvar\" value=\"Petal.Width\"/>\n        <span>Petal.Width<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"dvar\" value=\"Species\"/>\n        <span>Species<\/span>\n      <\/label>\n    <\/div>\n  <\/div>\n<\/div>\n<div id=\"ivar\" class=\"form-group shiny-input-radiogroup shiny-input-container\" role=\"radiogroup\" aria-labelledby=\"ivar-label\">\n  <label class=\"control-label\" id=\"ivar-label\" for=\"ivar\">Please pick 'Y' Variable<\/label>\n  <div class=\"shiny-options-group\">\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"ivar\" value=\"Sepal.Length\" checked=\"checked\"/>\n        <span>Sepal.Length<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"ivar\" value=\"Sepal.Width\"/>\n        <span>Sepal.Width<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"ivar\" value=\"Petal.Length\"/>\n        <span>Petal.Length<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"ivar\" value=\"Petal.Width\"/>\n        <span>Petal.Width<\/span>\n      <\/label>\n    <\/div>\n    <div class=\"radio\">\n      <label>\n        <input type=\"radio\" name=\"ivar\" value=\"Species\"/>\n        <span>Species<\/span>\n      <\/label>\n    <\/div>\n  <\/div>\n<\/div>\n<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"req-label\" for=\"req\">Please select the method<\/label>\n  <div>\n    <select id=\"req\"><option value=\"pearson\" selected>PEARSON<\/option>\n<option value=\"kendall\">KENDALL<\/option>\n<option value=\"spearman\">SPEARMAN<\/option><\/select>\n    <script type=\"application/json\" data-for=\"req\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>\n<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"ci-label\" for=\"ci\">Level of Significance<\/label>\n  <div>\n    <select id=\"ci\"><option value=\"0.95\" selected>Five_percent<\/option>\n<option value=\"0.99\">One_percent<\/option>\n<option value=\"0.9\">Ten_percent<\/option><\/select>\n    <script type=\"application/json\" data-for=\"ci\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>\n<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"alt-label\" for=\"alt\">Alternative Hypotesis<\/label>\n  <div>\n    <select id=\"alt\"><option value=\"two.sided\" selected>Two_sided<\/option>\n<option value=\"less\">Less_than_Zero<\/option>\n<option value=\"greater\">Greater_than_Zero<\/option><\/select>\n    <script type=\"application/json\" data-for=\"alt\" data-nonempty=\"\">{\"plugins\":[\"selectize-plugin-a11y\"]}<\/script>\n  <\/div>\n<\/div>\n<button class=\"action-button bttn bttn-jelly bttn-md bttn-danger bttn-no-outline\" id=\"submit\" type=\"button\">SUBMIT!<\/button>",
       "deps": [
         {
           "name": "selectize",
@@ -32,34 +57,33 @@
           "all_files": true
         },
         {
-          "name": "font-awesome",
-          "version": "5.13.0",
+          "name": "shinyWidgets",
+          "version": "0.6.0",
           "src": {
-            "href": "font-awesome-5.13.0"
+            "href": "shinyWidgets"
+          },
+          "meta": null,
+          "script": "shinyWidgets-bindings.min.js",
+          "stylesheet": "shinyWidgets.min.css",
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "bttn",
+          "version": "0.2.4",
+          "src": {
+            "href": "shinyWidgets/bttn"
           },
           "meta": null,
           "script": null,
-          "stylesheet": [
-            "css/all.min.css",
-            "css/v4-shims.min.css"
-          ],
+          "stylesheet": "bttn.min.css",
           "head": null,
           "attachment": null,
           "all_files": true
         }
       ]
     },
-    "image_down": null,
-    "note": null,
-    "note1": {
-      "html": " <h4> To perform analysis using your own dataset, prepare excel file in csv format by reading instruction below  <\/h4>\n<p>\n<ui>\n<li>Open a new blank excel file<\/li>\n<li>Copy and paste observations into a new sheet (use only one sheet) of a new excel file<\/li>\n<li>Observations should be pasted as columns <\/li>\n<li>Don't type or delete anything on other cells without data<\/li>\n<li>You can use any names for your columns. No space is allowed in the Column name. If space is required use underscore ‘_’ or ‘.’ full stop; for example ‘Variable name’ should be written as Variable_name or Variable.name<\/li>\n<li>Data should be arranged towards upper left corner and row above the data should not be left blank <\/li>\n<li>Type 'NA' in the cell with no observation<\/li>\n<li>Don't type and delete anything on other cells without data. If so select those cells, right click and click clear contents <\/li>\n<li>Give names to all column, Don't add any unnecessary columns that is not required for analysis<\/li>\n<li>Once all these are done, your file is ready. Now save it as CSV file. <\/li>\n<li><b>Upload file by clicking browse in the app <\/b><\/li>\n<\/ui>\n<\/p>\n<h5> You can download a model data set from below and test the App  <\/h5>\n",
-      "deps": [
-
-      ]
-    },
-    "plot": null,
-    "sigmat": null,
-    "var": null,
     "var1": null
   },
   "export": {

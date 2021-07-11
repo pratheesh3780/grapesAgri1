@@ -1,7 +1,7 @@
 context("app-file")
 library(shinytest)
-test_that("crdApp_testing", {
+test_that("ttApp_testing", {
   skip_on_cran()
-  appDir <- system.file("crd", package = "grapesAgri1")
+  appDir <- system.file("comp_mean", package = "grapesAgri1")
   expect_pass(testApp(appDir, compareImages = FALSE))
 })
