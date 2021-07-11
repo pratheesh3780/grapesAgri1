@@ -64,6 +64,11 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
 
+      - name: Windows git setup
+        if: runner.os == 'Windows'
+        run:
+          git config --global core.autocrlf false
+
       - name: Install xquartz
         if: runner.os == 'macOS'
         run: brew install --cask xquartz
