@@ -68,10 +68,6 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install --cask xquartz
 
-      - name: Install xquartz
-        if: runner.os == 'windows'
-        run: brew install --cask xquartz
-
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
