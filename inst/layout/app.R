@@ -5,7 +5,6 @@ library(agricolae)
 library(dplyr)
 library(magrittr)
 library(desplot)
-library(shinycssloaders)
 library(knitr)
 
 ############################## Ui
