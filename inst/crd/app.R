@@ -382,7 +382,7 @@ server <- function(input, output, session) {
         if (input$filerepli == "equal") {
           if (input$req == "lsd") {
             validate(
-              need(input$itreatment != input$yield, "")
+              need(input$treatment != input$yield, "")
             )
             d <- as.data.frame(csvfile())
             t <- as.numeric(input$trt)

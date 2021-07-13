@@ -674,13 +674,24 @@ server <- function(input, output, session) {
   output$downloadImage3 <- downloadHandler(
     filename = "qqplot.png",
     content = function(file) {
-      png(file,
-        width = input$shiny_width,
-        height = input$shiny_height,
-        res = 150, bg = "transparent"
-      )
-      plotInput()
-      dev.off()
+      if (input$style == "Style 1" && input$submit3 > 0) {
+        png(file,
+          width = input$shiny_width,
+          height = input$shiny_height,
+          res = 150, bg = "transparent"
+        )
+        plotInput()
+        dev.off()
+      }
+      else if (input$style == "Style 2" && input$submit3 > 0) {
+        device <- function(..., width, height) {
+          grDevices::png(...,
+            width = width, height = height,
+            res = 500, units = "in"
+          )
+        }
+        ggsave(file, plot = plotInput(), device = device)
+      }
     }
   )
 
