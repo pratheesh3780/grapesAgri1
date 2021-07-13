@@ -37,28 +37,28 @@ bibliography: paper.bib
 # Summary
 
 <p>
-Agricultural experiments demand a wide range of statistical tools for analysis, which includes from Exploratory analysis to Design of experiments and Statistical genetics. It is a challenge for the scientists and the students to find a suitable platform for data analysis and to eventually publish the research outputs in quality journals. Most of the software available for data analysis are proprietary or lack a simple user interface, for example SAS is available in ICAR (Indian Council of Agricultural Research) for data analysis, though it is a highly advanced statistical analysis platform, its complexity hold back students and researchers from using it. Some of the web applications like WASP (https://ccari.res.in/waspnew.html) and OPSTAT (http://14.139.232.166/opstat/) used by agricultural research community are user friendly but these applications don't provide options to generate plots and graphs.
+Agricultural experiments demand a wide range of statistical tools for analysis, which includes Exploratory analysis, Design of experiments, and Statistical genetics. It is a challenge for scientists and students to find a suitable platform for data analysis and publish the research outputs in quality journals. Most of the software available for data analysis are proprietary or lack a simple user interface, for example SAS&reg; is available in ICAR (Indian Council of Agricultural Research) for data analysis, though it is a highly advanced statistical analysis platform, its complexity hold back students and researchers from using it. Some web applications like WASP (https://ccari.res.in/waspnew.html) and OPSTAT (http://14.139.232.166/opstat/) used by the agricultural research community are user friendly but these applications don't provide options to generate plots and graphs.
 </p>
 <p>
 R, which is an open source software, provides an excellent platform for data analysis. This powerful computation platform is not much utilised by researchers in the agricultural field. Programming and computational knowledge hinders agricultural researchers from using R for analysis. Also, researchers in Agriculture prefer a graphical user interface.
 </p>
 <p>
-Efforts should be made to develop a high quality, reliable open-source platform with a simple interactive user interface for data analysis in agriculture. In this light utilising the features of shiny package in R, we have developed a collection of shiny apps for agricultural research called `grapesAgri1` (General R-shiny based Analysis Platform Empowered by Statistics for data analysis in Agriculture-part1). It is hosted on the web (www.kaugrapes.com), downloadable as a standalone application and now we have realised it in to an R package.
+Efforts should be made to develop a high quality, reliable open-source platform with a simple interactive user interface for data analysis in agriculture. In this light utilising the features of shiny package in R, we have developed a collection of shiny apps for agricultural research called `grapesAgri1` (General R-shiny based Analysis Platform Empowered by Statistics for data analysis in Agriculture-part1). It is hosted on the web (www.kaugrapes.com), downloadable as a standalone application and now we have released it into an R package.
 </p>
 <p>
-On using the functions in `grapesAgri1` package a Graphical User Interface will pop up. Apps are self-explanatory and works by simple upload of files in CSV format. Results can be downloaded in HTML format. Plots and Graphs can be generated, which are also downloadable as .png file.
+By calling the functions in the `grapesAgri1` package, a Graphical User Interface will open. Apps are self-explanatory and work by the simple upload of files in a CSV format. Results can be downloaded in a HTML format. Plots and Graphs can be generated, which are also downloadable as .png files.
 </p>
 
 # Statement of need
 <p>
-India has one of the world's largest agricultural education systems. According to the Indian Council of Agricultural Research (ICAR), the main regulator of agricultural education in India, there are 63 State Agricultural Universities, 4 deemed universities and 3 Central Agricultural Universities. These institutions enrol on an annual basis about 15,000 students at Undergraduate and over 7,000 students at Post Graduate and more than 2000 at PhD level. At any point, there are over 75,000 students studying in these institutions. Research activities are performed actively in all these universities. `grapesAgri1` not only serves as a platform for data analysis but also can be used as a teaching tool in Agricultural Statistics. `grapesAgri1` includes some basic statistical tools which were covered in the syllabus of Undergraduate as well as in Post Graduate programmes.
+India has one of the world's largest agricultural education systems. According to the Indian Council of Agricultural Research (ICAR), the main regulator of agricultural education in India, there are 63 State Agricultural Universities, 4 deemed universities, and 3 Central Agricultural Universities. These institutions enroll annually about 15,000 students in undergraduate programs and over 7,000 students in post graduate programs and more than 2000 at PhD level. At any point, there are over 75,000 students studying in these institutions. Research activities are performed actively in all these universities. `grapesAgri1` not only serves as a platform for data analysis but also can be used as a teaching tool in Agricultural Statistics. `grapesAgri1` includes some basic statistical tools which were covered in the syllabus of undergraduate programs as well as in post graduate programs.
 
 </p>
 
 # Information for Users
 
 <p>
-`grapesAgri1` is a collection of six shiny applications. Details of six applications are given below. Model dataset for testing can be downloaded from the main window of the application. Details for preparing CSV file is also included in the main window. Users just need to click on the browse and upload the CSV file for analysis.
+`grapesAgri1` is a collection of six shiny applications. Details of six applications are given below. Model dataset for testing can be downloaded from the main window of the application. Details for preparing CSV files is also included in the main window. Users just need to click on the browse button and upload the CSV file for analysis.
 </p>
 ## Apps included in the package
 
