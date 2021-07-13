@@ -8,13 +8,16 @@ library(rmarkdown)
 library(RColorBrewer)
 library(ggpubr)
 
-ui = fluidPage(
+ui <- fluidPage(
   setBackgroundColor(
     color = c("#ffb9b3", "#ffffff"),
     gradient = "radial",
     direction = c("bottom", "right")
   ),
-  titlePanel(tags$div(tags$b("Two-way Analysis of Variance", style = "color:#000000"))),
+  titlePanel(
+    title = tags$div(tags$b("Two-way Analysis of Variance", style = "color:#000000")),
+    windowTitle = "Randomized Block Design"
+  ),
   sidebarPanel(
     fileInput("file1", "CSV File (upload in csv format)", accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
     checkboxInput("header", "Header", TRUE),
@@ -106,17 +109,17 @@ ui = fluidPage(
   )
 )
 ####################
-server = function(input, output, session) {
-  csvfile = reactive({
-    csvfile = input$file1
+server <- function(input, output, session) {
+  csvfile <- reactive({
+    csvfile <- input$file1
     if (is.null(csvfile)) {
       return(NULL)
     }
-    dt = read.csv(csvfile$datapath, header = input$header, sep = ",")
+    dt <- read.csv(csvfile$datapath, header = input$header, sep = ",")
     dt
   })
 
-  output$var = renderUI({
+  output$var <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -138,7 +141,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$var1 = renderUI({
+  output$var1 <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -156,7 +159,7 @@ server = function(input, output, session) {
   })
 
   ##################################### TRT means
-  output$trtmeans = renderTable(
+  output$trtmeans <- renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -182,20 +185,20 @@ server = function(input, output, session) {
         )
         input$reload
         Sys.sleep(2)
-        d = as.data.frame(csvfile())
-        r = as.numeric(input$rep)
-        t = as.numeric(input$trt)
-        response = d[, input$yield]
-        treatment = d[, input$treatment]
-        replication = d[, input$Replication]
-        treatment = factor(treatment)
-        replication = factor(replication)
-        anvaTable = lm(response ~ treatment + replication)
-        result = as.data.frame(anova(anvaTable))
-        out = agricolae::LSD.test(csvfile()[, input$yield], csvfile()[, input$treatment], result[3, 1], result[3, 3])
-        trtmeans = out$means
-        colnames(trtmeans)[1] = "Treatment_means"
-        drops = c("r", "Q25", "Q50", "Q75")
+        d <- as.data.frame(csvfile())
+        r <- as.numeric(input$rep)
+        t <- as.numeric(input$trt)
+        response <- d[, input$yield]
+        treatment <- d[, input$treatment]
+        replication <- d[, input$Replication]
+        treatment <- factor(treatment)
+        replication <- factor(replication)
+        anvaTable <- lm(response ~ treatment + replication)
+        result <- as.data.frame(anova(anvaTable))
+        out <- agricolae::LSD.test(csvfile()[, input$yield], csvfile()[, input$treatment], result[3, 1], result[3, 3])
+        trtmeans <- out$means
+        colnames(trtmeans)[1] <- "Treatment_means"
+        drops <- c("r", "Q25", "Q50", "Q75")
         trtmeans[, !(names(trtmeans) %in% drops)]
       }
     },
@@ -208,7 +211,7 @@ server = function(input, output, session) {
   )
 
   ################################## ANOVA
-  output$aovSummary = renderTable(
+  output$aovSummary <- renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -232,18 +235,18 @@ server = function(input, output, session) {
         validate(
           need(input$rep != 0, "")
         )
-        d = as.data.frame(csvfile())
-        r = as.numeric(input$rep)
-        t = as.numeric(input$trt)
-        response = d[, input$yield]
-        treatment = d[, input$treatment]
-        replication = d[, input$Replication]
-        treatment = factor(treatment)
-        replication = factor(replication)
-        anvaTable = lm(response ~ treatment + replication)
-        result = as.data.frame(anova(anvaTable))
-        SoV = c("Treatment", "Replication", "Error")
-        final = cbind(SoV, result)
+        d <- as.data.frame(csvfile())
+        r <- as.numeric(input$rep)
+        t <- as.numeric(input$trt)
+        response <- d[, input$yield]
+        treatment <- d[, input$treatment]
+        replication <- d[, input$Replication]
+        treatment <- factor(treatment)
+        replication <- factor(replication)
+        anvaTable <- lm(response ~ treatment + replication)
+        result <- as.data.frame(anova(anvaTable))
+        SoV <- c("Treatment", "Replication", "Error")
+        final <- cbind(SoV, result)
         final
       }
     },
@@ -256,7 +259,7 @@ server = function(input, output, session) {
 
 
   ######################## SEM & other values
-  output$SEM = renderTable(
+  output$SEM <- renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -280,25 +283,25 @@ server = function(input, output, session) {
         validate(
           need(input$rep != 0, "")
         )
-        d = as.data.frame(csvfile())
-        r = as.numeric(input$rep)
-        t = as.numeric(input$trt)
-        response = d[, input$yield]
-        treatment = d[, input$treatment]
-        replication = d[, input$Replication]
-        treatment = factor(treatment)
-        replication = factor(replication)
-        anvaTable = lm(response ~ treatment + replication)
-        result = as.data.frame(anova(anvaTable))
-        out = agricolae::LSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3])
-        colnam = c("MSE", "SE(d)", "SE(m)", "CV(%)")
-        stat = out$statistics
-        MSE = stat[1, 1]
-        SED = sqrt((2 * MSE) / r)
-        SEM = sqrt(MSE / r)
-        CV = stat[1, 4]
-        Result = cbind(MSE, SED, SEM, CV)
-        colnames(Result) = colnam
+        d <- as.data.frame(csvfile())
+        r <- as.numeric(input$rep)
+        t <- as.numeric(input$trt)
+        response <- d[, input$yield]
+        treatment <- d[, input$treatment]
+        replication <- d[, input$Replication]
+        treatment <- factor(treatment)
+        replication <- factor(replication)
+        anvaTable <- lm(response ~ treatment + replication)
+        result <- as.data.frame(anova(anvaTable))
+        out <- agricolae::LSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3])
+        colnam <- c("MSE", "SE(d)", "SE(m)", "CV(%)")
+        stat <- out$statistics
+        MSE <- stat[1, 1]
+        SED <- sqrt((2 * MSE) / r)
+        SEM <- sqrt(MSE / r)
+        CV <- stat[1, 4]
+        Result <- cbind(MSE, SED, SEM, CV)
+        colnames(Result) <- colnam
         Result
       }
     },
@@ -310,7 +313,7 @@ server = function(input, output, session) {
   )
 
   ################################## Inference on p value text
-  output$text = renderUI({
+  output$text <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -333,16 +336,16 @@ server = function(input, output, session) {
       validate(
         need(input$rep != 0, "")
       )
-      d = as.data.frame(csvfile())
-      r = as.numeric(input$rep)
-      t = as.numeric(input$trt)
-      response = d[, input$yield]
-      treatment = d[, input$treatment]
-      replication = d[, input$Replication]
-      treatment = factor(treatment)
-      replication = factor(replication)
-      anvaTable = lm(response ~ treatment + replication)
-      result = as.data.frame(anova(anvaTable))
+      d <- as.data.frame(csvfile())
+      r <- as.numeric(input$rep)
+      t <- as.numeric(input$trt)
+      response <- d[, input$yield]
+      treatment <- d[, input$treatment]
+      replication <- d[, input$Replication]
+      treatment <- factor(treatment)
+      replication <- factor(replication)
+      anvaTable <- lm(response ~ treatment + replication)
+      result <- as.data.frame(anova(anvaTable))
       if (result[1, 5] <= 0.05) {
         HTML(paste0("<b>", "Since the P-value in ANOVA table is < 0.05, there is a significant difference between atleast
                     a pair of treatments, so multiple comparison is required to identify best treatment(s) ", "</b>"))
@@ -354,7 +357,7 @@ server = function(input, output, session) {
   })
 
   ################# Multiple comparison options
-  output$inference = renderUI({
+  output$inference <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -377,16 +380,16 @@ server = function(input, output, session) {
       validate(
         need(input$rep != 0, "")
       )
-      d = as.data.frame(csvfile())
-      r = as.numeric(input$rep)
-      t = as.numeric(input$trt)
-      response = d[, input$yield]
-      treatment = d[, input$treatment]
-      replication = d[, input$Replication]
-      treatment = factor(treatment)
-      replication = factor(replication)
-      anvaTable = lm(response ~ treatment + replication)
-      result = as.data.frame(anova(anvaTable))
+      d <- as.data.frame(csvfile())
+      r <- as.numeric(input$rep)
+      t <- as.numeric(input$trt)
+      response <- d[, input$yield]
+      treatment <- d[, input$treatment]
+      replication <- d[, input$Replication]
+      treatment <- factor(treatment)
+      replication <- factor(replication)
+      anvaTable <- lm(response ~ treatment + replication)
+      result <- as.data.frame(anova(anvaTable))
       if (result[1, 5] <= 0.05) {
         list(selectInput(
           "req", "Please select multiple comparison method (alpha =0.05)",
@@ -405,7 +408,7 @@ server = function(input, output, session) {
   })
 
   ################## SEM, CD, CV etc
-  output$multi = renderTable(
+  output$multi <- renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -433,28 +436,28 @@ server = function(input, output, session) {
           validate(
             need(input$rep != 0, "")
           )
-          d = as.data.frame(csvfile())
-          r = as.numeric(input$rep)
-          t = as.numeric(input$trt)
-          response = d[, input$yield]
-          treatment = d[, input$treatment]
-          replication = d[, input$Replication]
-          treatment = factor(treatment)
-          replication = factor(replication)
-          anvaTable = lm(response ~ treatment + replication)
-          result = as.data.frame(anova(anvaTable))
+          d <- as.data.frame(csvfile())
+          r <- as.numeric(input$rep)
+          t <- as.numeric(input$trt)
+          response <- d[, input$yield]
+          treatment <- d[, input$treatment]
+          replication <- d[, input$Replication]
+          treatment <- factor(treatment)
+          replication <- factor(replication)
+          anvaTable <- lm(response ~ treatment + replication)
+          result <- as.data.frame(anova(anvaTable))
           if (result[1, 5] <= 0.05) {
-            out = agricolae::LSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3])
-            colnam = c("MSE", "SE(d)", "SE(m)", "CD", "t value", "CV(%)")
-            stat = out$statistics
-            MSE = stat[1, 1]
-            SED = sqrt((2 * MSE) / r)
-            SEM = sqrt(MSE / r)
-            CD = stat[1, 6]
-            t = stat[1, 5]
-            CV = stat[1, 4]
-            Result = cbind(MSE, SED, SEM, CD, t, CV)
-            colnames(Result) = colnam
+            out <- agricolae::LSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3])
+            colnam <- c("MSE", "SE(d)", "SE(m)", "CD", "t value", "CV(%)")
+            stat <- out$statistics
+            MSE <- stat[1, 1]
+            SED <- sqrt((2 * MSE) / r)
+            SEM <- sqrt(MSE / r)
+            CD <- stat[1, 6]
+            t <- stat[1, 5]
+            CV <- stat[1, 4]
+            Result <- cbind(MSE, SED, SEM, CD, t, CV)
+            colnames(Result) <- colnam
             Result
           }
         }
@@ -474,18 +477,18 @@ server = function(input, output, session) {
           validate(
             need(input$rep != 0, "")
           )
-          d = as.data.frame(csvfile())
-          r = as.numeric(input$rep)
-          t = as.numeric(input$trt)
-          response = d[, input$yield]
-          treatment = d[, input$treatment]
-          replication = d[, input$Replication]
-          treatment = factor(treatment)
-          replication = factor(replication)
-          anvaTable = lm(response ~ treatment + replication)
-          result = as.data.frame(anova(anvaTable))
+          d <- as.data.frame(csvfile())
+          r <- as.numeric(input$rep)
+          t <- as.numeric(input$trt)
+          response <- d[, input$yield]
+          treatment <- d[, input$treatment]
+          replication <- d[, input$Replication]
+          treatment <- factor(treatment)
+          replication <- factor(replication)
+          anvaTable <- lm(response ~ treatment + replication)
+          result <- as.data.frame(anova(anvaTable))
           if (result[1, 5] <= 0.05) {
-            out = agricolae::duncan.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, console = FALSE)
+            out <- agricolae::duncan.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, console = FALSE)
             out$duncan
           }
         }
@@ -505,18 +508,18 @@ server = function(input, output, session) {
           validate(
             need(input$rep != 0, "")
           )
-          d = as.data.frame(csvfile())
-          r = as.numeric(input$rep)
-          t = as.numeric(input$trt)
-          response = d[, input$yield]
-          treatment = d[, input$treatment]
-          replication = d[, input$Replication]
-          treatment = factor(treatment)
-          replication = factor(replication)
-          anvaTable = lm(response ~ treatment + replication)
-          result = as.data.frame(anova(anvaTable))
+          d <- as.data.frame(csvfile())
+          r <- as.numeric(input$rep)
+          t <- as.numeric(input$trt)
+          response <- d[, input$yield]
+          treatment <- d[, input$treatment]
+          replication <- d[, input$Replication]
+          treatment <- factor(treatment)
+          replication <- factor(replication)
+          anvaTable <- lm(response ~ treatment + replication)
+          result <- as.data.frame(anova(anvaTable))
           if (result[1, 5] <= 0.05) {
-            out = agricolae::HSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, unbalanced = FALSE, console = FALSE)
+            out <- agricolae::HSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, unbalanced = FALSE, console = FALSE)
             out$statistics
           }
         }
@@ -530,7 +533,7 @@ server = function(input, output, session) {
   )
 
   ############################# grouping
-  output$group = renderTable(
+  output$group <- renderTable(
     {
       if (is.null(input$file1$datapath)) {
         return()
@@ -558,20 +561,20 @@ server = function(input, output, session) {
           validate(
             need(input$rep != 0, "")
           )
-          d = as.data.frame(csvfile())
-          r = as.numeric(input$rep)
-          t = as.numeric(input$trt)
-          response = d[, input$yield]
-          treatment = d[, input$treatment]
-          replication = d[, input$Replication]
-          treatment = factor(treatment)
-          replication = factor(replication)
-          anvaTable = lm(response ~ treatment + replication)
-          result = as.data.frame(anova(anvaTable))
+          d <- as.data.frame(csvfile())
+          r <- as.numeric(input$rep)
+          t <- as.numeric(input$trt)
+          response <- d[, input$yield]
+          treatment <- d[, input$treatment]
+          replication <- d[, input$Replication]
+          treatment <- factor(treatment)
+          replication <- factor(replication)
+          anvaTable <- lm(response ~ treatment + replication)
+          result <- as.data.frame(anova(anvaTable))
           if (result[1, 5] <= 0.05) {
-            out = agricolae::LSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3])
-            outgroup = out$groups
-            colnames(outgroup) = c("trt_mean", "grouping")
+            out <- agricolae::LSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3])
+            outgroup <- out$groups
+            colnames(outgroup) <- c("trt_mean", "grouping")
             outgroup
           }
         }
@@ -591,20 +594,20 @@ server = function(input, output, session) {
           validate(
             need(input$rep != 0, "")
           )
-          d = as.data.frame(csvfile())
-          r = as.numeric(input$rep)
-          t = as.numeric(input$trt)
-          response = d[, input$yield]
-          treatment = d[, input$treatment]
-          replication = d[, input$Replication]
-          treatment = factor(treatment)
-          replication = factor(replication)
-          anvaTable = lm(response ~ treatment + replication)
-          result = as.data.frame(anova(anvaTable))
+          d <- as.data.frame(csvfile())
+          r <- as.numeric(input$rep)
+          t <- as.numeric(input$trt)
+          response <- d[, input$yield]
+          treatment <- d[, input$treatment]
+          replication <- d[, input$Replication]
+          treatment <- factor(treatment)
+          replication <- factor(replication)
+          anvaTable <- lm(response ~ treatment + replication)
+          result <- as.data.frame(anova(anvaTable))
           if (result[1, 5] <= 0.05) {
-            out = agricolae::duncan.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, console = FALSE)
-            outgroup = out$groups
-            colnames(outgroup) = c("trt_mean", "grouping")
+            out <- agricolae::duncan.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, console = FALSE)
+            outgroup <- out$groups
+            colnames(outgroup) <- c("trt_mean", "grouping")
             outgroup
           }
         }
@@ -624,20 +627,20 @@ server = function(input, output, session) {
           validate(
             need(input$rep != 0, "")
           )
-          d = as.data.frame(csvfile())
-          r = as.numeric(input$rep)
-          t = as.numeric(input$trt)
-          response = d[, input$yield]
-          treatment = d[, input$treatment]
-          replication = d[, input$Replication]
-          treatment = factor(treatment)
-          replication = factor(replication)
-          anvaTable = lm(response ~ treatment + replication)
-          result = as.data.frame(anova(anvaTable))
+          d <- as.data.frame(csvfile())
+          r <- as.numeric(input$rep)
+          t <- as.numeric(input$trt)
+          response <- d[, input$yield]
+          treatment <- d[, input$treatment]
+          replication <- d[, input$Replication]
+          treatment <- factor(treatment)
+          replication <- factor(replication)
+          anvaTable <- lm(response ~ treatment + replication)
+          result <- as.data.frame(anova(anvaTable))
           if (result[1, 5] <= 0.05) {
-            out = agricolae::HSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, unbalanced = FALSE, console = FALSE)
-            outgroup = out$groups
-            colnames(outgroup) = c("trt_mean", "grouping")
+            out <- agricolae::HSD.test(d[, input$yield], d[, input$treatment], result[3, 1], result[3, 3], alpha = 0.05, group = TRUE, main = NULL, unbalanced = FALSE, console = FALSE)
+            outgroup <- out$groups
+            colnames(outgroup) <- c("trt_mean", "grouping")
             outgroup
           }
         }
@@ -653,7 +656,7 @@ server = function(input, output, session) {
 
 
   ######################### Interactive for plots
-  output$varplot = renderUI({
+  output$varplot <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -688,7 +691,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$varboxplot = renderUI({
+  output$varboxplot <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -803,7 +806,7 @@ server = function(input, output, session) {
   })
 
   ####################################### PLots and Graphs
-  output$boxplot = renderPlot(
+  output$boxplot <- renderPlot(
     {
       plotInput()
     },
@@ -814,18 +817,18 @@ server = function(input, output, session) {
   ############################# Download Report
 
 
-  output$downloadReport = downloadHandler(
+  output$downloadReport <- downloadHandler(
     filename = function() {
       paste("my-report", sep = ".", switch(input$format,
-      HTML = "html"
+        HTML = "html"
       ))
     },
     content = function(file) {
-      src = normalizePath("report.Rmd")
-      owd = setwd(tempdir())
+      src <- normalizePath("report.Rmd")
+      owd <- setwd(tempdir())
       on.exit(setwd(owd))
       file.copy(src, "report.Rmd", overwrite = TRUE)
-      out = render("report.Rmd", switch(input$format,
+      out <- render("report.Rmd", switch(input$format,
         HTML = html_document()
       ))
       file.rename(out, file)
@@ -834,7 +837,7 @@ server = function(input, output, session) {
 
 
   ######################## Download Image
-  output$image_down = renderUI({
+  output$image_down <- renderUI({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -863,7 +866,7 @@ server = function(input, output, session) {
 
 
   ### plotting
-  plotInput = reactive({
+  plotInput <- reactive({
     if (is.null(input$file1$datapath)) {
       return()
     }
@@ -895,17 +898,17 @@ server = function(input, output, session) {
           need(input$rep != 0, "")
         )
 
-        nb.cols = as.numeric(input$trt + 2)
-        mycolors = colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
+        nb.cols <- as.numeric(input$trt + 2)
+        mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
 
-        x = as.matrix(csvfile()[, input$treatment])
-        y = as.matrix(csvfile()[, input$yield])
-        my_data = data.frame(
+        x <- as.matrix(csvfile()[, input$treatment])
+        y <- as.matrix(csvfile()[, input$yield])
+        my_data <- data.frame(
           group = x,
           obs = y
         )
 
-        colnames(my_data) = c("Treatments", "obs")
+        colnames(my_data) <- c("Treatments", "obs")
         ggpubr::ggboxplot(my_data,
           x = "Treatments", y = "obs",
           color = "Treatments", palette = mycolors,
@@ -935,12 +938,12 @@ server = function(input, output, session) {
           need(input$rep != 0, "")
         )
 
-        d = as.data.frame(csvfile())
-        treatment = as.factor(d[, input$treatment])
+        d <- as.data.frame(csvfile())
+        treatment <- as.factor(d[, input$treatment])
 
-        nb.cols = as.numeric(input$trt + 2)
-        mycolors = colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
-        p = ggplot2::ggplot(data = d, aes(
+        nb.cols <- as.numeric(input$trt + 2)
+        mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
+        p <- ggplot2::ggplot(data = d, aes(
           x = d[, input$treatment],
           y = d[, input$yield], fill = treatment
         )) +
@@ -963,10 +966,10 @@ server = function(input, output, session) {
   })
 
   ###
-  output$downloadImage1 = downloadHandler(
+  output$downloadImage1 <- downloadHandler(
     filename = "boxplot.png",
     content = function(file) {
-      device = function(..., width, height) {
+      device <- function(..., width, height) {
         grDevices::png(...,
           width = width, height = height,
           res = 500, units = "in"
@@ -976,10 +979,10 @@ server = function(input, output, session) {
     }
   )
 
-  output$downloadImage2 = downloadHandler(
+  output$downloadImage2 <- downloadHandler(
     filename = "barchart.png",
     content = function(file) {
-      device = function(..., width, height) {
+      device <- function(..., width, height) {
         grDevices::png(...,
           width = width, height = height,
           res = 500, units = "in"
@@ -992,7 +995,7 @@ server = function(input, output, session) {
   ########################### end image download
 
   ############################## download data set
-  output$data_set = renderUI({
+  output$data_set <- renderUI({
     if (is.null(input$file1$datapath)) {
       list(
         selectInput("dataset", "Choose a dataset:",
@@ -1006,16 +1009,16 @@ server = function(input, output, session) {
       return()
     }
   })
-  datasetInput = reactive({
-    mango = read.csv(system.file("extdata/rbd_data",
+  datasetInput <- reactive({
+    mango <- read.csv(system.file("extdata/rbd_data",
       "mango_rbd.csv",
       package = "grapesAgri1"
     ))
-    feed = read.csv(system.file("extdata/rbd_data",
+    feed <- read.csv(system.file("extdata/rbd_data",
       "feed_rbd.csv",
       package = "grapesAgri1"
     ))
-    sample1 = read.csv(system.file("extdata/rbd_data",
+    sample1 <- read.csv(system.file("extdata/rbd_data",
       "sample_rbd.csv",
       package = "grapesAgri1"
     ))
@@ -1026,7 +1029,7 @@ server = function(input, output, session) {
     )
   })
 
-  output$downloadData = downloadHandler(
+  output$downloadData <- downloadHandler(
     filename = function() {
       paste(input$dataset, ".csv", sep = "")
     },
@@ -1036,7 +1039,7 @@ server = function(input, output, session) {
   )
   ######################### end data set download
   ############################### this note appear on opening
-  output$start_note = renderUI({
+  output$start_note <- renderUI({
     if (is.null(input$file1$datapath)) {
       return(
         HTML(paste0(
@@ -1069,7 +1072,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$start_note2 = renderUI({
+  output$start_note2 <- renderUI({
     if (is.null(input$file1$datapath)) {
       return(
         HTML(paste0(
@@ -1085,7 +1088,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$start_note3 = renderUI({
+  output$start_note3 <- renderUI({
     if (is.null(input$file1$datapath)) {
       return(
         HTML(paste0(

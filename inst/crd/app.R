@@ -20,7 +20,10 @@ ui <- fluidPage(
   ),
 
   ########
-  titlePanel(tags$div(tags$b("Completely Randomized Design (One-way ANOVA)", style = "color:#000000"))),
+  titlePanel(
+    title = tags$div(tags$b("Completely Randomized Design (One-way ANOVA)", style = "color:#000000")),
+    windowTitle = "Completely Randomized Design"
+  ),
   sidebarPanel(
     fileInput("file1", "CSV File (upload in csv format)", accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
     checkboxInput("header", "Header", TRUE),

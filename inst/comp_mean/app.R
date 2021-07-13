@@ -15,9 +15,9 @@ ui <- fluidPage(
     gradient = "radial",
     direction = c("bottom", "right")
   ),
-  titlePanel(tags$div(
+  titlePanel(title = tags$div(
     tags$b("Compare means: Small sample tests", style = "color:#000000")
-  )),
+  ), windowTitle = "Compare means"),
   sidebarPanel(
     fileInput(
       "file1",

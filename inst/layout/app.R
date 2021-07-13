@@ -8,13 +8,16 @@ library(desplot)
 library(knitr)
 
 ############################## Ui
-ui = fluidPage(
+ui <- fluidPage(
   setBackgroundColor(
     color = c("#fff291", "#ffffff"),
     gradient = "radial",
     direction = c("bottom", "right")
   ),
-  titlePanel(tags$div(tags$b("Field Layout of experiments"), style = "color:#000000")),
+  titlePanel(
+    title = tags$div(tags$b("Field Layout of experiments"), style = "color:#000000"),
+    windowTitle = "Field Layout"
+  ),
   sidebarPanel(
     selectInput(
       "design", tags$div(tags$b("Select the design for your experiment"),
@@ -151,10 +154,10 @@ ui = fluidPage(
   )
 )
 
-server = function(input, output, session) {
+server <- function(input, output, session) {
 
   ################### CRD
-  output$var_crd = renderUI({
+  output$var_crd <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -163,7 +166,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$text_crd1 = renderUI({
+  output$text_crd1 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -172,8 +175,8 @@ server = function(input, output, session) {
     }
     if (input$design == "crd") {
       if (input$trt_crd >= 2) {
-        t = input$trt_crd
-        minrep.req = ((12 + t) / t)
+        t <- input$trt_crd
+        minrep.req <- ((12 + t) / t)
         HTML(paste0(tags$b(" minimum number of replication
                             required is:", ceiling(minrep.req))))
       }
@@ -183,7 +186,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$var_crd1 = renderUI({
+  output$var_crd1 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -215,7 +218,7 @@ server = function(input, output, session) {
   })
 
 
-  output$details_crd = renderTable(
+  output$details_crd <- renderTable(
     {
       if (is.null(input$rep_crd)) {
         return()
@@ -231,11 +234,11 @@ server = function(input, output, session) {
       }
       if (input$design == "crd") {
         if (input$rep_crd > 0 && input$submit1 > 0) {
-          Treatments = input$trt_crd
-          Replication = input$rep_crd
-          Experimental.units = Treatments * Replication
-          det = cbind(Treatments, Replication, Experimental.units)
-          det = as.data.frame(det)
+          Treatments <- input$trt_crd
+          Replication <- input$rep_crd
+          Experimental.units <- Treatments * Replication
+          det <- cbind(Treatments, Replication, Experimental.units)
+          det <- as.data.frame(det)
           det
         }
         else {
@@ -250,7 +253,7 @@ server = function(input, output, session) {
     rownames = FALSE
   )
 
-  output$text_crd2 = renderUI({
+  output$text_crd2 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -271,7 +274,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$text_crd3 = renderUI({
+  output$text_crd3 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -298,7 +301,7 @@ server = function(input, output, session) {
   ############################# END CRD
 
   ################### RBD
-  output$var_rbd = renderUI({
+  output$var_rbd <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -307,7 +310,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$text_rbd1 = renderUI({
+  output$text_rbd1 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -316,8 +319,8 @@ server = function(input, output, session) {
     }
     if (input$design == "rbd") {
       if (input$trt_rbd >= 2) {
-        t = input$trt_rbd
-        minrep.req = ((12 / (t - 1)) + 1)
+        t <- input$trt_rbd
+        minrep.req <- ((12 / (t - 1)) + 1)
         HTML(paste0(tags$b(" minimum number of blocks (replication) required is:", ceiling(minrep.req))))
       }
     }
@@ -326,7 +329,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$var_rbd1 = renderUI({
+  output$var_rbd1 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -357,7 +360,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$details_rbd = renderTable(
+  output$details_rbd <- renderTable(
     {
       if (is.null(input$design)) {
         return()
@@ -373,11 +376,11 @@ server = function(input, output, session) {
       }
       if (input$design == "rbd") {
         if (input$rep_rbd > 0 && input$submit2 > 0) {
-          Treatments = input$trt_rbd
-          Blocks = input$rep_rbd
-          Experimental.units = Treatments * Blocks
-          det = cbind(Treatments, Blocks, Experimental.units)
-          det = as.data.frame(det)
+          Treatments <- input$trt_rbd
+          Blocks <- input$rep_rbd
+          Experimental.units <- Treatments * Blocks
+          det <- cbind(Treatments, Blocks, Experimental.units)
+          det <- as.data.frame(det)
           det
         }
         else {
@@ -392,7 +395,7 @@ server = function(input, output, session) {
     rownames = FALSE
   )
 
-  output$text_rbd2 = renderUI({
+  output$text_rbd2 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -413,7 +416,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$text_rbd3 = renderUI({
+  output$text_rbd3 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -440,7 +443,7 @@ server = function(input, output, session) {
   ############################# END RBD
 
   ############################# AUGMENTED RCBD
-  output$var_aug = renderUI({
+  output$var_aug <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -463,7 +466,7 @@ server = function(input, output, session) {
   })
 
 
-  output$text_aug1 = renderUI({
+  output$text_aug1 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -472,8 +475,8 @@ server = function(input, output, session) {
     }
     if (input$design == "aug") {
       if (input$check_aug >= 2) {
-        t = input$check_aug
-        minrep.req = ((12 / (t - 1)) + 1)
+        t <- input$check_aug
+        minrep.req <- ((12 / (t - 1)) + 1)
         HTML(paste0(tags$b(" You should enter sufficiently large number of blocks below
                             . Number of blocks should be greater than:", ceiling(minrep.req))))
       }
@@ -483,7 +486,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$var_aug1 = renderUI({
+  output$var_aug1 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -514,7 +517,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$text_aug2 = renderUI({
+  output$text_aug2 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -536,7 +539,7 @@ server = function(input, output, session) {
   })
 
 
-  output$details_aug = renderTable(
+  output$details_aug <- renderTable(
     {
       if (is.null(input$design)) {
         return()
@@ -555,12 +558,12 @@ server = function(input, output, session) {
       }
       if (input$design == "aug") {
         if (input$check_aug > 0 && input$trt_aug && input$rep_aug > 0 && input$submit3 > 0) {
-          Check = input$check_aug
-          Treatments = input$trt_aug
-          Blocks = input$rep_aug
-          Plots = Check * Blocks + Treatments
-          det = cbind(Check, Treatments, Blocks, Plots)
-          det = as.data.frame(det)
+          Check <- input$check_aug
+          Treatments <- input$trt_aug
+          Blocks <- input$rep_aug
+          Plots <- Check * Blocks + Treatments
+          det <- cbind(Check, Treatments, Blocks, Plots)
+          det <- as.data.frame(det)
           det
         }
         else {
@@ -575,7 +578,7 @@ server = function(input, output, session) {
     rownames = FALSE
   )
 
-  output$text_aug3 = renderUI({
+  output$text_aug3 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -606,7 +609,7 @@ server = function(input, output, session) {
   })
 
   ############################################ SPLIT PLOT
-  output$var_split = renderUI({
+  output$var_split <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -629,7 +632,7 @@ server = function(input, output, session) {
   })
 
 
-  output$text_split1 = renderUI({
+  output$text_split1 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -641,9 +644,9 @@ server = function(input, output, session) {
     }
     if (input$design == "split") {
       if (input$maintrt_split >= 2 && input$subtrt_split >= 2) {
-        a = input$maintrt_split
-        b = input$subtrt_split
-        minrep.req = ((12 / ((b - 1) * a)) + 1)
+        a <- input$maintrt_split
+        b <- input$subtrt_split
+        minrep.req <- ((12 / ((b - 1) * a)) + 1)
         HTML(paste0(tags$b(" minimum number of replication required is:", ceiling(minrep.req))))
       }
     }
@@ -652,7 +655,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$text_split2 = renderUI({
+  output$text_split2 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -672,7 +675,7 @@ server = function(input, output, session) {
       return()
     }
   })
-  output$var_split1 = renderUI({
+  output$var_split1 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -706,7 +709,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$text_split3 = renderUI({
+  output$text_split3 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -738,7 +741,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$details_split = renderTable(
+  output$details_split <- renderTable(
     {
       if (is.null(input$design)) {
         return()
@@ -758,12 +761,12 @@ server = function(input, output, session) {
       if (input$design == "split") {
         if (input$maintrt_split > 0 && input$subtrt_split && input$rep_split > 0 &&
           input$submit4 > 0) {
-          Main_plot_trt = input$maintrt_split
-          Sub_plot_trt = input$subtrt_split
-          Replications = input$rep_split
-          No_of_Plots = Main_plot_trt * Sub_plot_trt * Replications
-          det = cbind(Main_plot_trt, Sub_plot_trt, Replications, No_of_Plots)
-          det = as.data.frame(det)
+          Main_plot_trt <- input$maintrt_split
+          Sub_plot_trt <- input$subtrt_split
+          Replications <- input$rep_split
+          No_of_Plots <- Main_plot_trt * Sub_plot_trt * Replications
+          det <- cbind(Main_plot_trt, Sub_plot_trt, Replications, No_of_Plots)
+          det <- as.data.frame(det)
           det
         }
         else {
@@ -779,7 +782,7 @@ server = function(input, output, session) {
   )
 
   ############################################ STRIP PLOT
-  output$var_strip = renderUI({
+  output$var_strip <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -802,7 +805,7 @@ server = function(input, output, session) {
   })
 
 
-  output$text_strip1 = renderUI({
+  output$text_strip1 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -814,9 +817,9 @@ server = function(input, output, session) {
     }
     if (input$design == "strip") {
       if (input$maintrt_strip >= 2 && input$subtrt_strip >= 2) {
-        a = input$maintrt_strip
-        b = input$subtrt_strip
-        minrep.req = ((12 / ((b - 1) * (a - 1))) + 1)
+        a <- input$maintrt_strip
+        b <- input$subtrt_strip
+        minrep.req <- ((12 / ((b - 1) * (a - 1))) + 1)
         HTML(paste0(tags$b(" minimum number of replication required is:", ceiling(minrep.req))))
       }
     }
@@ -825,7 +828,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$text_strip2 = renderUI({
+  output$text_strip2 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -845,7 +848,7 @@ server = function(input, output, session) {
       return()
     }
   })
-  output$var_strip1 = renderUI({
+  output$var_strip1 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -879,7 +882,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$text_strip3 = renderUI({
+  output$text_strip3 <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -900,7 +903,7 @@ server = function(input, output, session) {
         if (input$rep_strip > 0) {
           if (input$subtrt_strip > 0) {
             if (input$submit5 > 0) {
-              rep = input$rep_strip
+              rep <- input$rep_strip
               HTML(paste0(tags$b("Main Plot treatment A is applied in rows (shown by corresponding colour) and
                                   Main Plot treatment B is applied in columns (shown by letters).
                                   Replications are shown seperately (diagonally)")))
@@ -911,7 +914,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$details_strip = renderTable(
+  output$details_strip <- renderTable(
     {
       if (is.null(input$design)) {
         return()
@@ -931,12 +934,12 @@ server = function(input, output, session) {
       if (input$design == "strip") {
         if (input$maintrt_strip > 0 && input$subtrt_strip && input$rep_strip > 0 &&
           input$submit5 > 0) {
-          Main_plot_A = input$maintrt_strip
-          Main_plot_B = input$subtrt_strip
-          Replications = input$rep_strip
-          No_of_Plots = Main_plot_A * Main_plot_B * Replications
-          det = cbind(Main_plot_A, Main_plot_B, Replications, No_of_Plots)
-          det = as.data.frame(det)
+          Main_plot_A <- input$maintrt_strip
+          Main_plot_B <- input$subtrt_strip
+          Replications <- input$rep_strip
+          No_of_Plots <- Main_plot_A * Main_plot_B * Replications
+          det <- cbind(Main_plot_A, Main_plot_B, Replications, No_of_Plots)
+          det <- as.data.frame(det)
           det
         }
         else {
@@ -953,7 +956,7 @@ server = function(input, output, session) {
 
 
   ################################## Layout plots
-  output$plot = renderUI({
+  output$plot <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -971,19 +974,19 @@ server = function(input, output, session) {
 
       if (input$trt_crd > 0) {
         if (input$rep_crd > 0) {
-          output$crd_layout = renderPlot(
+          output$crd_layout <- renderPlot(
             {
               if (input$submit1 > 0) {
-                t = input$trt_crd
-                r = input$rep_crd
-                s = input$size
-                rand = input$rand
-                trtname = sprintf("T%d", 1:t)
-                outdesign = agricolae::design.crd(trtname, r = r, seed = rand, serie = 0, kinds = "Super-Duper", randomization = TRUE)
-                CRD = outdesign$book
-                CRD = CRD[order(CRD$r), ]
-                CRD$col = CRD$r
-                CRD$row = rep(1:t, r)
+                t <- input$trt_crd
+                r <- input$rep_crd
+                s <- input$size
+                rand <- input$rand
+                trtname <- sprintf("T%d", 1:t)
+                outdesign <- agricolae::design.crd(trtname, r = r, seed = rand, serie = 0, kinds = "Super-Duper", randomization = TRUE)
+                CRD <- outdesign$book
+                CRD <- CRD[order(CRD$r), ]
+                CRD$col <- CRD$r
+                CRD$row <- rep(1:t, r)
                 desplot::desplot(
                   form = trtname ~ col + row, data = CRD, text = trtname, out1 = col,
                   out2 = row, out2.gpar = list(col = "black", lwd = 3),
@@ -993,8 +996,8 @@ server = function(input, output, session) {
             },
             bg = "transparent"
           )
-          h = input$trt_crd * 50
-          w = input$rep_crd * 100
+          h <- input$trt_crd * 50
+          w <- input$rep_crd * 100
           plotOutput("crd_layout", width = w, height = h)
         }
       }
@@ -1012,20 +1015,20 @@ server = function(input, output, session) {
 
       if (input$trt_rbd > 0) {
         if (input$rep_rbd > 0) {
-          output$rbd_layout = renderPlot(
+          output$rbd_layout <- renderPlot(
             {
               if (input$submit2 > 0) {
-                t = input$trt_rbd
-                rep = input$rep_rbd
-                s = input$size_rbd
-                rand = input$rand2
-                trtname = sprintf("T%d", 1:t)
-                n = t * rep
-                outdesign = agricolae::design.rcbd(trt = trtname, r = rep, seed = rand, serie = 0, kinds = "Super-Duper", randomization = TRUE)
-                RBD = outdesign$book
-                RBD = RBD[order(RBD$block), ]
-                RBD$blocks = as.numeric(RBD$block)
-                RBD$plots = rep(1:t, rep)
+                t <- input$trt_rbd
+                rep <- input$rep_rbd
+                s <- input$size_rbd
+                rand <- input$rand2
+                trtname <- sprintf("T%d", 1:t)
+                n <- t * rep
+                outdesign <- agricolae::design.rcbd(trt = trtname, r = rep, seed = rand, serie = 0, kinds = "Super-Duper", randomization = TRUE)
+                RBD <- outdesign$book
+                RBD <- RBD[order(RBD$block), ]
+                RBD$blocks <- as.numeric(RBD$block)
+                RBD$plots <- rep(1:t, rep)
                 desplot::desplot(
                   form = block ~ blocks + plots, data = RBD, text = trtname, out1 = blocks,
                   out2 = plots, out2.gpar = list(col = "green"),
@@ -1036,8 +1039,8 @@ server = function(input, output, session) {
             bg = "transparent"
           )
 
-          h = input$trt_rbd * 80
-          w = input$rep_rbd * 100
+          h <- input$trt_rbd * 80
+          w <- input$rep_rbd * 100
           plotOutput("rbd_layout", width = w, height = h)
         }
       }
@@ -1060,24 +1063,24 @@ server = function(input, output, session) {
       if (input$check_aug > 0) {
         if (input$trt_aug > 0) {
           if (input$rep_aug > 0) {
-            output$aug_layout = renderPlot(
+            output$aug_layout <- renderPlot(
               {
                 if (input$submit3 > 0) {
-                  NC = input$check_aug # no. of check
-                  blk = input$rep_aug # no: of Blocks
-                  trt = input$trt_aug # no.of trt
-                  s = input$size_aug
-                  rand = input$rand3
-                  T1 = sprintf("C%d", 1:NC) # checks
-                  T2 = sprintf("T%d", 1:trt) # treatments
-                  outdesign = agricolae::design.dau(T1, T2, r = blk, seed = rand, serie = 0, randomization = TRUE)
-                  aug = outdesign$book
-                  aug = aug[order(aug$block), ]
-                  aug$blocks = as.numeric(aug$block)
-                  x = aug %>%
+                  NC <- input$check_aug # no. of check
+                  blk <- input$rep_aug # no: of Blocks
+                  trt <- input$trt_aug # no.of trt
+                  s <- input$size_aug
+                  rand <- input$rand3
+                  T1 <- sprintf("C%d", 1:NC) # checks
+                  T2 <- sprintf("T%d", 1:trt) # treatments
+                  outdesign <- agricolae::design.dau(T1, T2, r = blk, seed = rand, serie = 0, randomization = TRUE)
+                  aug <- outdesign$book
+                  aug <- aug[order(aug$block), ]
+                  aug$blocks <- as.numeric(aug$block)
+                  x <- aug %>%
                     group_by(block) %>%
                     mutate(row = row_number())
-                  aug1 = as.data.frame(cbind(aug, row = x$row))
+                  aug1 <- as.data.frame(cbind(aug, row = x$row))
                   desplot::desplot(
                     form = block ~ blocks + row, data = aug1, text = trt, out1 = blocks, out2 = row,
                     cex = s, main = "Layout of Augmented Randomized Block Design", show.key = FALSE
@@ -1087,8 +1090,8 @@ server = function(input, output, session) {
               bg = "transparent"
             )
 
-            h = ((input$trt_aug / input$rep_aug) * 80)
-            w = input$rep_aug * 70
+            h <- ((input$trt_aug / input$rep_aug) * 80)
+            w <- input$rep_aug * 70
             plotOutput("aug_layout", width = w, height = h)
           }
         }
@@ -1112,23 +1115,23 @@ server = function(input, output, session) {
       if (input$maintrt_strip > 0) {
         if (input$subtrt_strip > 0) {
           if (input$rep_strip > 0) {
-            output$strip_layout = renderPlot(
+            output$strip_layout <- renderPlot(
               {
                 if (input$submit5 > 0) {
-                  a = input$maintrt_strip
-                  b = input$subtrt_strip
-                  rep = input$rep_strip
-                  s = input$size_strip
-                  rand = input$rand5
-                  main1 = sprintf("A%d", 1:a)
-                  main2 = sprintf("B%d", 1:b)
-                  outdesign = agricolae::design.strip(main1, main2, r = rep, serie = 0, seed = rand, kinds = "Super-Duper", randomization = TRUE)
-                  strip = outdesign$book
-                  strip$block2 = strip$block
-                  v1 = do.call(paste, as.data.frame(t(apply(strip[4:5], 1, sort))))
-                  strip$row = match(v1, unique(v1))
-                  v2 = do.call(paste, as.data.frame(t(apply(strip[2:3], 1, sort))))
-                  strip$column = match(v2, unique(v2))
+                  a <- input$maintrt_strip
+                  b <- input$subtrt_strip
+                  rep <- input$rep_strip
+                  s <- input$size_strip
+                  rand <- input$rand5
+                  main1 <- sprintf("A%d", 1:a)
+                  main2 <- sprintf("B%d", 1:b)
+                  outdesign <- agricolae::design.strip(main1, main2, r = rep, serie = 0, seed = rand, kinds = "Super-Duper", randomization = TRUE)
+                  strip <- outdesign$book
+                  strip$block2 <- strip$block
+                  v1 <- do.call(paste, as.data.frame(t(apply(strip[4:5], 1, sort))))
+                  strip$row <- match(v1, unique(v1))
+                  v2 <- do.call(paste, as.data.frame(t(apply(strip[2:3], 1, sort))))
+                  strip$column <- match(v2, unique(v2))
                   desplot::desplot(
                     form = main1 ~ row + column, data = strip, text = main2, out1 = column,
                     out2 = row, out2.gpar = list(col = "#a83232"),
@@ -1162,22 +1165,22 @@ server = function(input, output, session) {
       if (input$maintrt_split > 0) {
         if (input$subtrt_split > 0) {
           if (input$rep_split > 0) {
-            output$split_layout = renderPlot(
+            output$split_layout <- renderPlot(
               {
                 if (input$submit4 > 0) {
-                  a = input$maintrt_split
-                  b = input$subtrt_split
-                  rep = input$rep_split
-                  s = input$size_split
-                  rand = input$rand4
-                  main = sprintf("A%d", 1:a)
-                  sub = sprintf("b%d", 1:b)
-                  outdesign = agricolae::design.split(main, sub, r = rep, serie = 0, seed = rand, kinds = "Super-Duper", randomization = TRUE)
-                  split = outdesign$book
-                  split = split[order(split$plots), ]
-                  split$plots = split$plots
-                  split$plots = as.numeric(split$plots)
-                  split$splots = as.numeric(split$splots)
+                  a <- input$maintrt_split
+                  b <- input$subtrt_split
+                  rep <- input$rep_split
+                  s <- input$size_split
+                  rand <- input$rand4
+                  main <- sprintf("A%d", 1:a)
+                  sub <- sprintf("b%d", 1:b)
+                  outdesign <- agricolae::design.split(main, sub, r = rep, serie = 0, seed = rand, kinds = "Super-Duper", randomization = TRUE)
+                  split <- outdesign$book
+                  split <- split[order(split$plots), ]
+                  split$plots <- split$plots
+                  split$plots <- as.numeric(split$plots)
+                  split$splots <- as.numeric(split$splots)
                   desplot::desplot(
                     form = main ~ plots + splots, data = split, col = main, text = sub, out1 = plots, out2 = splots,
                     cex = s, main = "Layout of Split-Plot Design", show.key = TRUE
@@ -1197,7 +1200,7 @@ server = function(input, output, session) {
 
   ############################# table output
   #### tab
-  output$tab_crd = renderUI({
+  output$tab_crd <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -1216,7 +1219,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$tab_rbd = renderUI({
+  output$tab_rbd <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -1236,7 +1239,7 @@ server = function(input, output, session) {
   })
 
 
-  output$tab_aug = renderUI({
+  output$tab_aug <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -1255,7 +1258,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$tab_split = renderUI({
+  output$tab_split <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -1274,7 +1277,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$tab_strip = renderUI({
+  output$tab_strip <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -1295,7 +1298,7 @@ server = function(input, output, session) {
 
   ##### table layout
 
-  output$table_crd = renderTable(
+  output$table_crd <- renderTable(
     {
       if (is.null(input$design)) {
         return()
@@ -1311,15 +1314,15 @@ server = function(input, output, session) {
       }
       if (input$design == "crd") {
         if (input$table_butt1 > 0) {
-          t = input$trt_crd
-          r = input$rep_crd
-          n = t * r
-          trtname = sprintf("T%d", 1:t)
-          outdesign = agricolae::design.crd(trtname, r = r, seed = input$rand, serie = 0, kinds = "Super-Duper", randomization = TRUE)
-          CRD = outdesign$book
-          CRD = CRD[order(CRD$r), ]
-          CRD$exp = rep(1:n)
-          final = as.data.frame(cbind(Experimental.Unit = CRD$exp, Treatments = as.character(CRD$trtname)))
+          t <- input$trt_crd
+          r <- input$rep_crd
+          n <- t * r
+          trtname <- sprintf("T%d", 1:t)
+          outdesign <- agricolae::design.crd(trtname, r = r, seed = input$rand, serie = 0, kinds = "Super-Duper", randomization = TRUE)
+          CRD <- outdesign$book
+          CRD <- CRD[order(CRD$r), ]
+          CRD$exp <- rep(1:n)
+          final <- as.data.frame(cbind(Experimental.Unit = CRD$exp, Treatments = as.character(CRD$trtname)))
           final
         }
       }
@@ -1331,7 +1334,7 @@ server = function(input, output, session) {
     rownames = FALSE
   )
 
-  output$table_rbd = renderTable(
+  output$table_rbd <- renderTable(
     {
       if (is.null(input$design)) {
         return()
@@ -1347,15 +1350,15 @@ server = function(input, output, session) {
       }
       if (input$design == "rbd") {
         if (input$table_butt2 > 0) {
-          t = input$trt_rbd
-          rep = input$rep_rbd
-          trtname = sprintf("T%d", 1:t)
-          n = t * rep
-          outdesign = agricolae::design.rcbd(trt = trtname, r = rep, seed = input$rand2, serie = 0, kinds = "Super-Duper", randomization = TRUE)
-          RBD = outdesign$book
-          RBD = RBD[order(RBD$block), ]
-          RBD$plot = rep(1:t, rep)
-          final = as.data.frame(cbind(Block = RBD$block, Plot = RBD$plot, Treatment = as.character(RBD$trtname)))
+          t <- input$trt_rbd
+          rep <- input$rep_rbd
+          trtname <- sprintf("T%d", 1:t)
+          n <- t * rep
+          outdesign <- agricolae::design.rcbd(trt = trtname, r = rep, seed = input$rand2, serie = 0, kinds = "Super-Duper", randomization = TRUE)
+          RBD <- outdesign$book
+          RBD <- RBD[order(RBD$block), ]
+          RBD$plot <- rep(1:t, rep)
+          final <- as.data.frame(cbind(Block = RBD$block, Plot = RBD$plot, Treatment = as.character(RBD$trtname)))
           final
         }
       }
@@ -1367,7 +1370,7 @@ server = function(input, output, session) {
     rownames = FALSE
   )
 
-  output$table_aug = renderTable(
+  output$table_aug <- renderTable(
     {
       if (is.null(input$trt_aug)) {
         return()
@@ -1386,19 +1389,19 @@ server = function(input, output, session) {
       }
       if (input$design == "aug") {
         if (input$table_butt3 > 0) {
-          NC = input$check_aug # no. of check
-          blk = input$rep_aug # no: of Blocks
-          trt = input$trt_aug # no.of trt
-          s = input$size_aug
-          T1 = sprintf("C%d", 1:NC) # checks
-          T2 = sprintf("T%d", 1:trt) # treatments
-          outdesign = agricolae::design.dau(T1, T2, r = blk, seed = input$rand3, serie = 0, randomization = TRUE)
-          aug = outdesign$book
-          aug = aug[order(aug$block), ]
-          x1 = aug %>%
+          NC <- input$check_aug # no. of check
+          blk <- input$rep_aug # no: of Blocks
+          trt <- input$trt_aug # no.of trt
+          s <- input$size_aug
+          T1 <- sprintf("C%d", 1:NC) # checks
+          T2 <- sprintf("T%d", 1:trt) # treatments
+          outdesign <- agricolae::design.dau(T1, T2, r = blk, seed = input$rand3, serie = 0, randomization = TRUE)
+          aug <- outdesign$book
+          aug <- aug[order(aug$block), ]
+          x1 <- aug %>%
             group_by(block) %>%
             mutate(Plot = row_number())
-          final = as.data.frame(cbind(Block = x1$block, Plot = x1$Plot, Treatment = as.character(x1$trt)))
+          final <- as.data.frame(cbind(Block = x1$block, Plot = x1$Plot, Treatment = as.character(x1$trt)))
           final
         }
       }
@@ -1410,7 +1413,7 @@ server = function(input, output, session) {
     rownames = FALSE
   )
 
-  output$table_split = renderTable(
+  output$table_split <- renderTable(
     {
       if (is.null(input$design)) {
         return()
@@ -1432,16 +1435,16 @@ server = function(input, output, session) {
       }
       if (input$design == "split") {
         if (input$table_butt4 > 0) {
-          a = input$maintrt_split
-          b = input$subtrt_split
-          rep = input$rep_split
-          s = input$size_split
-          main = sprintf("A%d", 1:a)
-          sub = sprintf("b%d", 1:b)
-          outdesign = agricolae::design.split(main, sub, r = rep, serie = 0, seed = input$rand4, kinds = "Super-Duper", randomization = TRUE)
-          split = outdesign$book
-          split = split[order(split$plots), ]
-          final = as.data.frame(cbind(
+          a <- input$maintrt_split
+          b <- input$subtrt_split
+          rep <- input$rep_split
+          s <- input$size_split
+          main <- sprintf("A%d", 1:a)
+          sub <- sprintf("b%d", 1:b)
+          outdesign <- agricolae::design.split(main, sub, r = rep, serie = 0, seed = input$rand4, kinds = "Super-Duper", randomization = TRUE)
+          split <- outdesign$book
+          split <- split[order(split$plots), ]
+          final <- as.data.frame(cbind(
             Main_plot = split$plots, Sub_plot = split$splots,
             Replication = split$block, Main_treatment = as.character(split$main), Sub_treatment = as.character(split$sub)
           ))
@@ -1456,7 +1459,7 @@ server = function(input, output, session) {
     rownames = FALSE
   )
 
-  output$table_strip = renderTable(
+  output$table_strip <- renderTable(
     {
       if (is.null(input$design)) {
         return()
@@ -1478,20 +1481,20 @@ server = function(input, output, session) {
       }
       if (input$design == "strip") {
         if (input$table_butt5 > 0) {
-          a = input$maintrt_strip
-          b = input$subtrt_strip
-          rep = input$rep_strip
-          s = input$size_strip
-          main1 = sprintf("A%d", 1:a)
-          main2 = sprintf("B%d", 1:b)
-          outdesign = agricolae::design.strip(main1, main2, r = rep, serie = 0, seed = input$rand5, kinds = "Super-Duper", randomization = TRUE)
-          strip = outdesign$book
-          strip$block2 = strip$block
-          v1 = do.call(paste, as.data.frame(t(apply(strip[4:5], 1, sort))))
-          strip$row = match(v1, unique(v1))
-          v2 = do.call(paste, as.data.frame(t(apply(strip[2:3], 1, sort))))
-          strip$column = match(v2, unique(v2))
-          final = as.data.frame(cbind(
+          a <- input$maintrt_strip
+          b <- input$subtrt_strip
+          rep <- input$rep_strip
+          s <- input$size_strip
+          main1 <- sprintf("A%d", 1:a)
+          main2 <- sprintf("B%d", 1:b)
+          outdesign <- agricolae::design.strip(main1, main2, r = rep, serie = 0, seed = input$rand5, kinds = "Super-Duper", randomization = TRUE)
+          strip <- outdesign$book
+          strip$block2 <- strip$block
+          v1 <- do.call(paste, as.data.frame(t(apply(strip[4:5], 1, sort))))
+          strip$row <- match(v1, unique(v1))
+          v2 <- do.call(paste, as.data.frame(t(apply(strip[2:3], 1, sort))))
+          strip$column <- match(v2, unique(v2))
+          final <- as.data.frame(cbind(
             Replication = strip$block, Horizontal_row_No. = strip$row,
             Treatment_A = as.character(strip$main1),
             Vertical_row_No. = strip$column,
@@ -1510,7 +1513,7 @@ server = function(input, output, session) {
   ############ table end
 
   ####################### download Report
-  output$download_crd = renderUI({
+  output$download_crd <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -1539,7 +1542,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$download_rbd = renderUI({
+  output$download_rbd <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -1568,7 +1571,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$download_aug = renderUI({
+  output$download_aug <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -1602,7 +1605,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$download_split = renderUI({
+  output$download_split <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -1636,7 +1639,7 @@ server = function(input, output, session) {
     }
   })
 
-  output$download_strip = renderUI({
+  output$download_strip <- renderUI({
     if (is.null(input$design)) {
       return()
     }
@@ -1670,18 +1673,18 @@ server = function(input, output, session) {
     }
   })
 
-  output$downloadReport = downloadHandler(
+  output$downloadReport <- downloadHandler(
     filename = function() {
       paste("my-report", sep = ".", switch(input$format,
         HTML = "html"
       ))
     },
     content = function(file) {
-      src = normalizePath("report.Rmd")
-      owd = setwd(tempdir())
+      src <- normalizePath("report.Rmd")
+      owd <- setwd(tempdir())
       on.exit(setwd(owd))
       file.copy(src, "report.Rmd", overwrite = TRUE)
-      out = render("report.Rmd", switch(input$format,
+      out <- render("report.Rmd", switch(input$format,
         HTML = html_document()
       ))
       file.rename(out, file)

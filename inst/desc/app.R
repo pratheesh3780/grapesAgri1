@@ -29,7 +29,10 @@ var myHeight = $(window).height();
 Shiny.onInputChange('shiny_height',myHeight)
 
 });"),
-  titlePanel(tags$b("Descriptive Statistics & Visualization")),
+  titlePanel(
+    title = tags$b("Descriptive Statistics & Visualization"),
+    windowTitle = "Descriptive Statistics"
+  ),
   sidebarPanel(
     fileInput("file1", "CSV File (upload in csv format)",
       accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
