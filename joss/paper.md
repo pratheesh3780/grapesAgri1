@@ -36,40 +36,40 @@ bibliography: paper.bib
 
 # Summary
 
-<p>
-Agricultural experiments demand a wide range of statistical tools for analysis, which includes Exploratory analysis, Design of experiments, and Statistical genetics. It is a challenge for scientists and students to find a suitable platform for data analysis and publish the research outputs in quality journals. Most of the software available for data analysis are proprietary or lack a simple user interface, for example SAS&reg; is available in ICAR (Indian Council of Agricultural Research) for data analysis, though it is a highly advanced statistical analysis platform, its complexity hold back students and researchers from using it. Some web applications like WASP (https://ccari.res.in/waspnew.html) and OPSTAT (http://14.139.232.166/opstat/) used by the agricultural research community are user friendly but these applications don't provide options to generate plots and graphs.
+<
+Agricultural experiments demand a wide range of statistical tools for analysis, which includes exploratory analysis, design of experiments, and statistical genetics. It is a challenge for scientists and students to find a suitable platform for data analysis and publish the research outputs in quality journals. Most of the software available for data analysis are proprietary or lack a simple user interface, for example SAS&reg; is available in ICAR (Indian Council of Agricultural Research) for data analysis, though it is a highly advanced statistical analysis platform, its complexity holds back students and researchers from using it. Some web applications like WASP (https://ccari.res.in/waspnew.html) and OPSTAT (http://14.139.232.166/opstat/) used by the agricultural research community are user friendly but these applications don't provide options to generate plots and graphs.
 </p>
 <p>
-R, which is an open source software, provides an excellent platform for data analysis. This powerful computation platform is not much utilised by researchers in the agricultural field. Programming and computational knowledge hinders agricultural researchers from using R for analysis. Also, researchers in Agriculture prefer a graphical user interface.
+R, which is an open source software, provides an excellent platform for data analysis. This powerful computation platform is not much utilised by researchers in the agricultural field. Insufficient programming and computational knowledge hinders agricultural researchers from using R for analysis. Also, researchers in Agriculture prefer a graphical user interface.
 </p>
 <p>
-Efforts should be made to develop a high quality, reliable open-source platform with a simple interactive user interface for data analysis in agriculture. In this light utilising the features of shiny package in R, we have developed a collection of shiny apps for agricultural research called `grapesAgri1` (General R-shiny based Analysis Platform Empowered by Statistics for data analysis in Agriculture-part1). It is hosted on the web (www.kaugrapes.com), downloadable as a standalone application and now we have released it into an R package.
+Efforts should be made to develop a high quality, reliable open-source platform with a simple interactive user interface for data analysis in agriculture. In this light utilising the features of `shiny` package in R, we have developed a collection of `shiny` apps for agricultural research called `grapesAgri1` (General R `shiny` based Analysis Platform Empowered by Statistics for data analysis in Agriculture-part1). It is hosted on the web (www.kaugrapes.com), downloadable as a standalone application and now we have released it into an R package.
 </p>
 <p>
-By calling the functions in the `grapesAgri1` package, a Graphical User Interface will open. Apps are self-explanatory and work by the simple upload of files in a CSV format. Results can be downloaded in a HTML format. Plots and Graphs can be generated, which are also downloadable as .png files.
+By calling the functions in the `grapesAgri1` package, a graphical user interface will open. Apps are self-explanatory and work by uploading files in  CSV format. Results can be downloaded in a HTML format. Plots and graphs can be generated, which are also downloadable as .png files.
 </p>
 
 # Statement of need
 <p>
-India has one of the world's largest agricultural education systems. According to the Indian Council of Agricultural Research (ICAR), the main regulator of agricultural education in India, there are 63 State Agricultural Universities, 4 deemed universities, and 3 Central Agricultural Universities. These institutions enroll annually about 15,000 students in undergraduate programs and over 7,000 students in post graduate programs and more than 2000 at PhD level. At any point, there are over 75,000 students studying in these institutions. Research activities are performed actively in all these universities. `grapesAgri1` not only serves as a platform for data analysis but also can be used as a teaching tool in Agricultural Statistics. `grapesAgri1` includes some basic statistical tools which were covered in the syllabus of undergraduate programs as well as in post graduate programs.
+India has one of the world's largest agricultural education systems. According to the Indian Council of Agricultural Research (ICAR), the main regulator of agricultural education in India, there are 63 State Agricultural Universities, 4 deemed universities, and 3 Central Agricultural Universities. These institutions enroll annually about 15,000 students in undergraduate programs and over 7,000 students in post graduate programs and more than 2000 at PhD level. At any point, there are over 75,000 students studying in these institutions. Research activities are performed actively in all these universities. `grapesAgri1` not only serves as a platform for data analysis but also can be used as a teaching tool in agricultural statistics. `grapesAgri1` includes some basic statistical tools which were covered in the syllabus of undergraduate programs as well as in post graduate programs.
 
 </p>
 
 # Information for Users
 
 <p>
-`grapesAgri1` is a collection of six shiny applications. Details of six applications are given below. Model dataset for testing can be downloaded from the main window of the application. Details for preparing CSV files is also included in the main window. Users just need to click on the browse button and upload the CSV file for analysis.
+`grapesAgri1` is a collection of six `shiny` applications. Details of six applications are given below. Model dataset for testing can be downloaded from the main window of the application. Details for preparing CSV files is also included in the main window. Users just need to click on the browse button and upload the CSV file for analysis.
 </p>
 ## Apps included in the package
 
 |Sl. No.| App Title | Function to call |Utility|
 |:-----:| :----------- | :-----------:|:----------------|
-|1|Descriptive Statistics and Visualization   | descApp()      |Summary Statistics, Summary Statistics by Group, Box plot, Histogram, Q-Q plot and Shapiro-Wilk's test|
-|2|Correlation Analysis   | corrApp()      | Simple correlation, Correlation Matrix, correlogram and scatterplot|
-|3|Compare Means: Small samle tests  | ttApp()      | One sample t-test, Two sample unpaired t-test, paired t-test, Two sample unpaired Welch t-test, F test, Box plot, Paired Plot|
-|4|Completely Randomized Design  | crdApp()      |One-way Analysis of variance (equal and unequal replication), Multiple comparison test, boxplot and barchart with confidence interval|
-|5|Field layout of experiments | layoutApp()      |Field layout of following designs can be obtained: Completely Randomized Design (CRD), Randomized Complete Block Design (RCBD), Split-plot design, Strip-plot design, Augmented RCBD|
-|6|Randomized Block Design  | rbdApp()      |Two-way Analysis of variance, Multiple comparison test, boxplot and barchart with confidence interval|
+|1|Descriptive Statistics and Visualization   | descApp()      |Summary statistics, summary statistics by group, box plot, histogram, Q-Q plot and Shapiro-Wilk's test|
+|2|Correlation Analysis   | corrApp()      | Simple correlation, correlation Matrix, correlogram and scatterplot|
+|3|Compare Means: Small samle tests  | ttApp()      | One sample t-test, two sample unpaired t-test, paired t-test, two sample unpaired Welch t-test, F test, box plot, paired Plot|
+|4|Completely Randomized Design  | crdApp()      |One-way ANOVA (equal or unequal replications), multiple comparison test, boxplot and barchart with confidence interval|
+|5|Field layout of experiments | layoutApp()      |Field layouts of following designs can be obtained: completely randomized design (CRD), randomized complete block design (RCBD), split-plot design, strip-plot design, augmented RCBD|
+|6|Randomized Block Design  | rbdApp()      |Two-way ANOVA, multiple comparison test, boxplot and barchart with confidence interval|
 
 The package can be installed from CRAN as follows:
 
@@ -100,7 +100,7 @@ layoutApp() uses `design.crd`, `design.rcbd`, `design.dau`, `design.strip`, `des
 
 rbdApp() uses `anova` function of `stats` package to obtain two-way ANOVA. `LSD.test`,`duncan.test` and `HSD.test` functions of `agricolae` package [@agricolae_2020] is used for multiple comparison test like LSD,DMRT and Tukey respectively. `ggboxplot` function of `ggpubr` package [@ggpubr_2020] is used for boxplot. `ggplot` function of `ggplot2` [@ggplot_2016]is used for barchart with confidence interval.
 
-# usage
+# Usage
 ``` r
 grapesAgri1::descApp() # descriptive Statistics and Visualization 
 grapesAgri1::corrApp() # Correlation Analysis
