@@ -254,8 +254,11 @@ server <- function(input, output, session) {
           "remove_corr",
           "Don't show correlation coefficient", FALSE
         ),
-        sliderInput("cex", "Required size of coefficient:",
+        sliderInput("cex", "Required Font size of coefficient:",
           min = 0.5, max = 3, value = 1
+        ),
+        sliderInput("tlcex", "Required Font size of axis label:",
+                    min = 0.5, max = 3, value = 1
         ),
         selectInput(
           "txcol", "Please select correlation coefficient colour",
@@ -468,7 +471,6 @@ server <- function(input, output, session) {
     if (is.null(input$req1)) {
       return()
     }
-
     if (input$req1 == "scatplot") {
       if (is.null(input$submit1)) {
         return()
@@ -486,6 +488,7 @@ server <- function(input, output, session) {
           }
         },
         bg = "transparent"
+
       )
       plotOutput("scatplot")
     }
@@ -504,8 +507,13 @@ server <- function(input, output, session) {
             corrplot::corrplot(cormat1,
               method = input$shape,
               type = input$layout, tl.col = "#000000",
-              col = brewer.pal(n = 8, name = input$style), addCoef.col = input$txcol, number.cex = input$cex
+              col = brewer.pal(n = 8, name = input$style),
+              addCoef.col = input$txcol, number.cex = input$cex,
+              tl.cex = input$tlcex
+
+
             )
+
             if (input$significance > 0) {
               validate(
                 need(input$selvar, "No input selected, supply me some variables to draw!")
@@ -516,7 +524,8 @@ server <- function(input, output, session) {
               corrplot::corrplot(cormat1,
                 method = input$shape,
                 type = input$layout, tl.col = "#000000",
-                col = brewer.pal(n = 8, name = input$style), addCoef.col = input$txcol,
+                col = brewer.pal(n = 8, name = input$style),
+                addCoef.col = input$txcol,tl.cex = input$tlcex,
                 p.mat = res1$p, sig.level = as.numeric(input$sig)
               )
             }
@@ -530,6 +539,7 @@ server <- function(input, output, session) {
               corrplot::corrplot(cormat1,
                 method = input$shape,
                 type = input$layout, tl.col = "#000000",
+                tl.cex = input$tlcex,
                 col = brewer.pal(n = 8, name = input$style)
               )
             }
@@ -545,7 +555,8 @@ server <- function(input, output, session) {
                 method = input$shape,
                 type = input$layout, tl.col = "#000000",
                 col = brewer.pal(n = 8, name = input$style),
-                p.mat = res1$p, sig.level = as.numeric(input$sig)
+                p.mat = res1$p, sig.level = as.numeric(input$sig),
+                tl.cex = input$tlcex
               )
             }
           }
@@ -736,7 +747,9 @@ server <- function(input, output, session) {
         corrplot::corrplot(cormat1,
           method = input$shape,
           type = input$layout, tl.col = "#000000",
-          col = brewer.pal(n = 8, name = input$style), addCoef.col = input$txcol, number.cex = input$cex
+          col = brewer.pal(n = 8, name = input$style),
+          addCoef.col = input$txcol, number.cex = input$cex,
+          tl.cex = input$tlcex
         )
         if (input$significance > 0) {
           x <- as.data.frame(subset(csvfile(), select = input$selvar))
@@ -746,7 +759,7 @@ server <- function(input, output, session) {
             method = input$shape,
             type = input$layout, tl.col = "#000000",
             col = brewer.pal(n = 8, name = input$style), addCoef.col = input$txcol,
-            p.mat = res1$p, sig.level = as.numeric(input$sig)
+            p.mat = res1$p, sig.level = as.numeric(input$sig),tl.cex = input$tlcex
           )
         }
         if (input$remove_corr > 0) {
@@ -756,7 +769,8 @@ server <- function(input, output, session) {
           corrplot::corrplot(cormat1,
             method = input$shape,
             type = input$layout, tl.col = "#000000",
-            col = brewer.pal(n = 8, name = input$style)
+            col = brewer.pal(n = 8, name = input$style),
+            tl.cex = input$tlcex
           )
         }
 
@@ -768,7 +782,8 @@ server <- function(input, output, session) {
             method = input$shape,
             type = input$layout, tl.col = "#000000",
             col = brewer.pal(n = 8, name = input$style),
-            p.mat = res1$p, sig.level = as.numeric(input$sig)
+            p.mat = res1$p, sig.level = as.numeric(input$sig),
+            tl.cex = input$tlcex
           )
         }
 
@@ -789,7 +804,7 @@ server <- function(input, output, session) {
       png(file,
         width = input$shiny_width,
         height = input$shiny_height,
-        res = 150, bg = "transparent"
+        res = 150
       )
       plotInput()
       dev.off()
@@ -802,7 +817,7 @@ server <- function(input, output, session) {
       png(file,
         width = input$shiny_width,
         height = input$shiny_height,
-        res = 150, bg = "transparent"
+        res = 150
       )
       plotInput()
       dev.off()

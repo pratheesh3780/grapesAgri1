@@ -132,12 +132,10 @@ server <- function(input, output, session) {
     dt
   })
 
-  ################ appear after uploading file
-  output$var <- renderUI({
-    if (is.null(input$file1$datapath)) {
-      return()
-    }
-    else {
+  # reactive value based on file input
+  reactive_var <- eventReactive(
+    input$file1$datapath,
+    {
       list(
         selectInput(
           "filerepli", "Replication",
@@ -157,55 +155,55 @@ server <- function(input, output, session) {
           style = "jelly"
         )
       )
-    }
-  })
-  ################################### Download Button
 
-  output$var1 <- renderUI({
-    if (is.null(input$file1$datapath)) {
-      return()
-    }
-    if (is.null(input$submit)) {
-      return()
-    }
-    if (input$submit > 0) {
+    })
+
+  output$var <- renderUI({
+   reactive_var()
+  })
+# Download Buttons appear
+  reactive_var1 <- eventReactive(
+    input$submit,
+    {
       list(
         radioButtons("format", "Download report (Note: if you are changing the file name after download give '.html' extension):", c("HTML"),
-          inline = TRUE
+                     inline = TRUE
         ),
         downloadButton("downloadReport")
       )
-    }
+    })
+
+  output$var1 <- renderUI({
+    reactive_var1()
   })
 
-  ################### Trt means
+# Trt means
+  reactive_trtmean <- eventReactive(
+    input$submit,
+    {
+      validate(
+        need(input$treatment != input$yield, "Warning 1: Both input variables selected (Treatment and response) are same. Choose Treatment and response correctly for meaningful result")
+      )
+      input$reload
+      Sys.sleep(2)
+      d <- as.data.frame(csvfile())
+      t <- as.numeric(input$trt)
+      response <- d[, input$yield]
+      treatment <- d[, input$treatment]
+      treatment <- factor(treatment)
+      anvaTable <- lm(response ~ treatment)
+      result <- as.data.frame(stats::anova(anvaTable))
+      out <- agricolae::LSD.test(csvfile()[, input$yield], csvfile()[, input$treatment], result[2, 1], result[2, 3])
+      trtmeans <- out$means
+      colnames(trtmeans)[1] <- "Treatment_means"
+      drops <- c("r", "Q25", "Q50", "Q75")
+      trtmeans[, !(names(trtmeans) %in% drops)]
+
+    })
+
   output$trtmeans <- renderTable(
     {
-      if (is.null(input$file1$datapath)) {
-        return()
-      }
-      if (is.null(input$submit)) {
-        return()
-      }
-      if (input$submit > 0) {
-        validate(
-          need(input$treatment != input$yield, "Warning 1: Both input variables selected (Treatment and response) are same. Choose Treatment and response correctly for meaningful result")
-        )
-        input$reload
-        Sys.sleep(2)
-        d <- as.data.frame(csvfile())
-        t <- as.numeric(input$trt)
-        response <- d[, input$yield]
-        treatment <- d[, input$treatment]
-        treatment <- factor(treatment)
-        anvaTable <- lm(response ~ treatment)
-        result <- as.data.frame(stats::anova(anvaTable))
-        out <- agricolae::LSD.test(csvfile()[, input$yield], csvfile()[, input$treatment], result[2, 1], result[2, 3])
-        trtmeans <- out$means
-        colnames(trtmeans)[1] <- "Treatment_means"
-        drops <- c("r", "Q25", "Q50", "Q75")
-        trtmeans[, !(names(trtmeans) %in% drops)]
-      }
+      reactive_trtmean()
     },
     digits = 3,
     caption = ("<b> Treatment means & other statistics </b>"),
@@ -215,19 +213,47 @@ server <- function(input, output, session) {
     rownames = TRUE
   )
 
-  ##################################### ANOVA TABLE
+  # ANOVA TABLE
+  reactive_anvtable <- eventReactive(
+    input$submit,
+    {
+      validate(
+        need(input$trt != 0, "Warning 2: Please enter the number of treatments correctly")
+      )
+      validate(
+        need(input$treatment != input$yield, "")
+      )
+      d <- as.data.frame(csvfile())
+      t <- as.numeric(input$trt)
+      response <- d[, input$yield]
+      treatment <- d[, input$treatment]
+      treatment <- factor(treatment)
+      anvaTable <- lm(response ~ treatment)
+      result <- as.data.frame(stats::anova(anvaTable))
+      SoV <- c("Treatment", "Error")
+      final <- cbind(SoV, result)
+      final
+    })
+
   output$aovSummary <- renderTable(
     {
-      if (is.null(input$file1$datapath)) {
-        return()
-      }
-      if (is.null(input$submit)) {
-        return()
-      }
-      if (input$submit > 0) {
-        validate(
-          need(input$trt != 0, "Warning 2: Please enter the number of treatments correctly")
-        )
+      reactive_anvtable()
+    },
+    digits = 3,
+    caption = ("<b> ANOVA TABLE </b>"),
+    bordered = TRUE,
+    align = "c",
+    caption.placement = getOption("xtable.caption.placement", "top")
+  )
+
+  # SEM CD CV etc
+  reactive_SEM <- eventReactive(
+    input$submit,
+    {
+      if (is.null(input$filerepli)) {
+      return()
+    }
+      if (input$filerepli == "equal") {
         validate(
           need(input$treatment != input$yield, "")
         )
@@ -238,59 +264,27 @@ server <- function(input, output, session) {
         treatment <- factor(treatment)
         anvaTable <- lm(response ~ treatment)
         result <- as.data.frame(stats::anova(anvaTable))
-        SoV <- c("Treatment", "Error")
-        final <- cbind(SoV, result)
-        final
+        out <- agricolae::LSD.test(csvfile()[, input$yield], csvfile()[, input$treatment], result[2, 1], result[2, 3])
+        colnam <- c("MSE", "SE(d)", "SE(m)", "CV(%)")
+        stat <- out$statistics
+        repl <- out$means
+        r <- repl[1, 3]
+        MSE <- stat[1, 1]
+        SED <- sqrt((2 * MSE) / r)
+        SEM <- sqrt(MSE / r)
+        CV <- stat[1, 4]
+        Result <- cbind(MSE, SED, SEM, CV)
+        colnames(Result) <- colnam
+        Result
       }
-    },
-    digits = 3,
-    caption = ("<b> ANOVA TABLE </b>"),
-    bordered = TRUE,
-    align = "c",
-    caption.placement = getOption("xtable.caption.placement", "top")
-  )
+      else {
+        return()
+      }
+    })
 
-  ########################################## SEM CD CV etc
   output$SEM <- renderTable(
     {
-      if (is.null(input$file1$datapath)) {
-        return()
-      }
-      if (is.null(input$submit)) {
-        return()
-      }
-      if (is.null(input$filerepli)) {
-        return()
-      }
-      if (input$submit > 0) {
-        if (input$filerepli == "equal") {
-          validate(
-            need(input$treatment != input$yield, "")
-          )
-          d <- as.data.frame(csvfile())
-          t <- as.numeric(input$trt)
-          response <- d[, input$yield]
-          treatment <- d[, input$treatment]
-          treatment <- factor(treatment)
-          anvaTable <- lm(response ~ treatment)
-          result <- as.data.frame(stats::anova(anvaTable))
-          out <- agricolae::LSD.test(csvfile()[, input$yield], csvfile()[, input$treatment], result[2, 1], result[2, 3])
-          colnam <- c("MSE", "SE(d)", "SE(m)", "CV(%)")
-          stat <- out$statistics
-          repl <- out$means
-          r <- repl[1, 3]
-          MSE <- stat[1, 1]
-          SED <- sqrt((2 * MSE) / r)
-          SEM <- sqrt(MSE / r)
-          CV <- stat[1, 4]
-          Result <- cbind(MSE, SED, SEM, CV)
-          colnames(Result) <- colnam
-          Result
-        }
-        else {
-          return()
-        }
-      }
+      reactive_SEM()
     },
     digits = 3,
     caption = ("<b> Other important statistics </b>"),
@@ -300,15 +294,10 @@ server <- function(input, output, session) {
     rownames = FALSE
   )
 
-  ####################################
-  output$text <- renderUI({
-    if (is.null(input$file1$datapath)) {
-      return()
-    }
-    if (is.null(input$submit)) {
-      return()
-    }
-    if (input$submit > 0) {
+  #text inference
+  reactive_text <- eventReactive(
+    input$submit,
+    {
       validate(
         need(input$treatment != input$yield, "")
       )
@@ -326,17 +315,16 @@ server <- function(input, output, session) {
       else {
         HTML(paste0("<b>", "Treatment means are not significantly different"))
       }
-    }
+    })
+
+  output$text <- renderUI({
+   reactive_text()
   })
-  #####################################
-  output$inference <- renderUI({
-    if (is.null(input$file1$datapath)) {
-      return()
-    }
-    if (is.null(input$submit)) {
-      return()
-    }
-    if (input$submit > 0) {
+
+  #Select multiple comparison method
+  reactive_mct <- eventReactive(
+    input$submit,
+    {
       validate(
         need(input$treatment != input$yield, "")
       )
@@ -361,7 +349,10 @@ server <- function(input, output, session) {
       else {
         return()
       }
-    }
+    })
+
+  output$inference <- renderUI({
+   reactive_mct()
   })
   ################################## MUlTIPLE COMPARISON
   output$multi <- renderTable(
@@ -485,7 +476,7 @@ server <- function(input, output, session) {
               colnam <- c("Treatment", "mean", "std")
               colnames(finalmean) <- colnam
               b <- matrix(0, t, t)
-              b[upper.tri(b, diag = FALSE)] <- CD
+              b[upper.tri(b, diag = FALSE)]<-CD
               name <- finalmean$Treatment
               colnames(b) <- name
               row.names(b) <- name
