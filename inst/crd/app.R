@@ -263,7 +263,6 @@ server <- function(input, output, session) {
         return()
       }
       if (input$submit > 0) {
-        if (input$filerepli == "equal") {
           validate(
             need(input$treatment != input$yield, "")
           )
@@ -290,7 +289,6 @@ server <- function(input, output, session) {
         else {
           return()
         }
-      }
     },
     digits = 3,
     caption = ("<b> Other important statistics </b>"),
@@ -429,6 +427,24 @@ server <- function(input, output, session) {
             }
           }
         }
+        else if(input$filerepli=="unequal"){
+          if (input$req == "lsd") {
+            validate(
+              need(input$treatment != input$yield, "")
+            )
+            d <- as.data.frame(csvfile())
+            t <- as.numeric(input$trt)
+            response <- d[, input$yield]
+            treatment <- d[, input$treatment]
+            treatment <- factor(treatment)
+            anvaTable <- lm(response ~ treatment)
+            result <- as.data.frame(stats::anova(anvaTable))
+            if (result[1, 5] <= 0.05) {
+              out <- agricolae::LSD.test(d[, input$yield], d[, input$treatment], result[2, 1], result[2, 3])
+              out$statistics
+            }
+          }
+        }
       }
     },
     digits = 3,
@@ -486,6 +502,7 @@ server <- function(input, output, session) {
               colnames(finalmean) <- colnam
               b <- matrix(0, t, t)
               b[upper.tri(b, diag = FALSE)]<-CD
+              b[lower.tri(b, diag = FALSE)]<-CD
               name <- finalmean$Treatment
               colnames(b) <- name
               row.names(b) <- name
