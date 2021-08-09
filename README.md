@@ -85,27 +85,27 @@ Thank You
 
 See below for some random images of GUI of grapesAgri1
 
-![Correlation Analysis](man/figures/Corr.png) 
+(man/figures/Corr.png) 
 
-![Correlation Analysis 2](man/figures/Corr1.png)
+(man/figures/Corr1.png)
 
-![CRD 1 ](man/figures/crd.png)  
+(man/figures/crd.png)  
 
-![CRD 2](man/figures/crd2.png)
+(man/figures/crd2.png)
 
-![CRD 3 ](man/figures/crd3.PNG)
+(man/figures/crd3.PNG)
 
-![ CRD 4](man/figures/crd4.png)
+(man/figures/crd4.png)
 
-![descApp](man/figures/desc.png)
+(man/figures/desc.png)
 
-![layout](man/figures/layout.png)
+(man/figures/layout.png)
 
-![RBD](man/figures/rbd.png)
+(man/figures/rbd.png)
 
-![RBD 1](man/figures/rbd1.png)
+(man/figures/rbd1.png)
 
-![RBD 2](man/figures/rbd2.png)
+(man/figures/rbd2.png)
 
 # Community guidelines
 
