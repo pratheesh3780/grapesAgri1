@@ -6,7 +6,6 @@ library(shinyWidgets)
 library(dplyr)
 library(rmarkdown)
 library(RColorBrewer)
-library(ggpubr)
 
 ui <- fluidPage(
   setBackgroundColor(

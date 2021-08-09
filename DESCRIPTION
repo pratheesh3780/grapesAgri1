@@ -1,7 +1,7 @@
 Package: grapesAgri1
 Type: Package
 Title: Collection of Shiny Apps for Agricultural Research Data Analysis
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: c(
     person(given = "Pratheesh P.", family = "Gopinath",
            email = "grapescoa@gmail.com",

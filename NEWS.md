@@ -1,3 +1,6 @@
 # grapesAgri1 1.1.0
 
-* Added a `NEWS.md` file to track changes to the package.
+* Grey scale plots added in RCBD and CRD analysis  
+* Bar charts with letter grouping added in RCBD and CRD  
+* Download Files issue resolved  
+

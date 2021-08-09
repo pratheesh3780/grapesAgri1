@@ -1,0 +1,48 @@
+citHeader("To cite the R package 'grapesAgri1' in publications use:")
+
+if (!exists("meta") || is.null(meta)) meta <- packageDescription("grapesAgri1")
+year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date)
+if (!length(year)) {
+  year <- format(packageDate("grapesAgri1"), "%Y")
+}
+vers <- paste("R package version", meta$Version)
+
+citEntry(
+  entry = "Manual",
+  title = "grapesAgri1: Collection of shiny applications for data analysis in Agriculture-Part 1",
+  author = personList(
+    person(
+      given = c("Pratheesh", "P"), family = c("Gopinath"),
+      email = "grapescoa@gmail.com",
+      role = c("aut", "cre"),
+      comment = c(ORCID = " 0000-0003-3290-0436")
+    ),
+    person(
+      given = "Rajender", family = c("Parsad"),
+      email = "Rajender.Parsad@icar.gov.in",
+      role = "aut"
+    ),
+    person(
+      given = "Brigit", family = "Joseph",
+      email = "brigitstat@gmail.com",
+      role = "aut"
+    ),
+    person(
+      given = c("V", "S"), family = "Adarsh",
+      email = "adarshvs0007@gmail.com",
+      role = "aut"
+    )
+  ),
+  year = year,
+  textVersion = paste(
+    "Gopinath, P.P., Parsad, R., Joseph, B., and Adarsh, V.S.(", year, "). grapesAgri1: Collection of shiny applications for data analysis in Agriculture-Part 1. ",
+    vers, ", ", "https://cran.r-project.org/package=grapesAgri1",
+    ".",
+    sep = ""
+  ),
+  note = {
+    c(paste(vers), "https://cran.r-project.org/package=grapesAgri1")
+  }
+)
+
+citFooter("This free and open-source software is intended to aid agricultural researchers and scientist in doing basic statistical analysis.")
