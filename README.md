@@ -85,21 +85,27 @@ Thank You
 
 See below for some random images of GUI of grapesAgri1
 
-![Correlation Analysis](man/figures/corr.PNG) 
+![Correlation Analysis](man/figures/Corr.png) 
 
-![Correlation Matrix](man/figures/corr2.PNG)
+![Correlation Analysis 2](man/figures/Corr1.png)
 
-![Correlogram 1 ](man/figures/corr3.PNG)  
+![CRD 1 ](man/figures/crd.png)  
 
-![Correlogram 2](man/figures/corr4.PNG)
+![CRD 2](man/figures/crd2.png)
 
-![Completely Randomized Design ](man/figures/crd.PNG)
+![CRD 3 ](man/figures/crd3.PNG)
 
-![ Barchart with confidence Interval](man/figures/plot.PNG)
+![ CRD 4](man/figures/crd4.png)
 
-![Detailed analysis and multiple comparison](man/figures/results.PNG)
+![descApp](man/figures/desc.png)
 
-![Field Layout of designs](man/figures/layout.PNG)
+![layout](man/figures/layout.png)
+
+![RBD](man/figures/rbd.png)
+
+![RBD 1](man/figures/rbd1.png)
+
+![RBD 2](man/figures/rbd2.png)
 
 # Community guidelines
 
