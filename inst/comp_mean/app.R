@@ -237,28 +237,6 @@ server <- function(input, output, session) {
         )
       )
     }
-    else if (input$req1 == "wttest") {
-      list(
-        radioButtons("dvar", "Please pick 'Group A' ", choices = names(csvfile())),
-        radioButtons("ivar", "Please pick 'Group B'", choices = names(csvfile())),
-        selectInput(
-          "alt",
-          "Alternative Hypotesis",
-          c(
-            "Two sided" = "two.sided",
-            "Less than" = "less",
-            "Greater than" = "greater"
-          ),
-          "two.sided"
-        ),
-        actionBttn(
-          inputId = "submit2",
-          label = "SUBMIT!",
-          color = "danger",
-          style = "jelly"
-        )
-      )
-    }
     else if (input$req1 == "ottest") {
       list(
         radioButtons("dvar", "Please pick 'Group' ",
@@ -321,6 +299,28 @@ server <- function(input, output, session) {
         ),
         actionBttn(
           inputId = "submit5",
+          label = "SUBMIT!",
+          color = "danger",
+          style = "jelly"
+        )
+      )
+    }
+    else if (input$req1 == "wttest") {
+      list(
+        radioButtons("dvar", "Please pick 'Group A' ", choices = names(csvfile())),
+        radioButtons("ivar", "Please pick 'Group B'", choices = names(csvfile())),
+        selectInput(
+          "alt",
+          "Alternative Hypotesis",
+          c(
+            "Two sided" = "two.sided",
+            "Less than" = "less",
+            "Greater than" = "greater"
+          ),
+          "two.sided"
+        ),
+        actionBttn(
+          inputId = "submit2",
           label = "SUBMIT!",
           color = "danger",
           style = "jelly"
@@ -402,7 +402,7 @@ server <- function(input, output, session) {
           )
           t_value <- round(t$statistic, 3)
           df <- t$parameter
-          Pvalue <- round(t$p.value, 3)
+          Pvalue <- round(t$p.value, 6)
           alt.Hypothesis <- t$alternative
           result <- cbind(t_value, df, Pvalue, alt.Hypothesis)
           result <- as.data.frame(result)
@@ -521,7 +521,7 @@ server <- function(input, output, session) {
           )
           t_value <- round(t$statistic, 3)
           df <- round(t$parameter, 2)
-          Pvalue <- round(t$p.value, 3)
+          Pvalue <- round(t$p.value, 6)
           alt.Hypothesis <- t$alternative
           result <- cbind(t_value, df, Pvalue, alt.Hypothesis)
           result <- as.data.frame(result)
@@ -636,7 +636,7 @@ server <- function(input, output, session) {
           )
           t_value <- round(t$statistic, 3)
           df <- round(t$parameter, 2)
-          Pvalue <- round(t$p.value, 3)
+          Pvalue <- round(t$p.value, 6)
           alt.Hypothesis <- t$alternative
           result <- cbind(t_value, df, Pvalue, alt.Hypothesis)
           result <- as.data.frame(result)
@@ -751,7 +751,7 @@ server <- function(input, output, session) {
           )
           F_value <- round(f$statistic, 3)
           df <- as.data.frame(f$parameter)
-          Pvalue <- round(f$p.value, 3)
+          Pvalue <- round(f$p.value, 6)
           alt.Hypothesis <- f$alternative
           result <- cbind(F_value, t(df), Pvalue, alt.Hypothesis)
           result <- as.data.frame(result)
@@ -864,7 +864,7 @@ server <- function(input, output, session) {
             )
           tvalue <- round(ttest$statistic, 3)
           df <- ttest$parameter
-          pvalue <- round(ttest$p.value, 3)
+          pvalue <- round(ttest$p.value, 6)
           meandiff <- round(ttest$estimate, 3)
           result1 <- cbind(tvalue, df, pvalue, meandiff)
           row.names(result1) <- NULL

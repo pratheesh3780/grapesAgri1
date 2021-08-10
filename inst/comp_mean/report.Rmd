@@ -26,9 +26,24 @@ csvfile <- reactive({
     dt <- read.csv(csvfile$datapath, header=input$header, sep=",",check.names = FALSE)
     dt
   })
+
+################## summary one sample ttest
+if(input$req1=='ottest'){
+      if(input$submit3 > 0){
+      grp1<- subset(csvfile(),select=input$dvar)
+      final<-grp1
+      res <- stat.desc(final)
+      result<-as.data.frame(res)
+      rownames(result)[rownames(result) == "nbr.val"] <- "Number of Obs."
+      rownames(result)[rownames(result) == "nbr.null"] <- "null values"
+      rownames(result)[rownames(result) == "nbr.na"] <- "NA"
+      round(result,3)
+      kable(result,caption = "Summary Statistics",digits=3) %>% kable_styling() %>% kable_paper("hover", full_width = F)
+      }
+    }
 ################# summary
-if(input$req1 == 'ttest'||input$req1 == 'wttest'||input$req1=='ottest'||input$req1=='ftest'||input$req1=='pttest'){
-      if(input$submit1 > 0||input$submit2 > 0||input$submit3 > 0||input$submit4 > 0||input$submit5 > 0){
+if(input$req1 == 'ttest'||input$req1 == 'wttest'||input$req1=='ftest'||input$req1=='pttest'){
+      if(input$submit1 > 0||input$submit2 > 0||input$submit4 > 0||input$submit5 > 0){
       grp1<- subset(csvfile(),select=input$dvar)
       grp2<- subset(csvfile(),select=input$ivar)
       final<-cbind(grp1,grp2)
@@ -50,7 +65,7 @@ if(input$req1 == 'ttest'||input$req1 == 'wttest'||input$req1=='ottest'||input$re
                   var.equal = TRUE,paired = FALSE,na.omit=TRUE)
         t_value<-round(t$statistic,3)
         df<-t$parameter
-        Pvalue<-round(t$p.value,3)
+        Pvalue<-round(t$p.value,6)
         alt.Hypothesis<-t$alternative
         result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
@@ -87,7 +102,7 @@ h3("")
                   var.equal = FALSE,paired = FALSE,na.omit=TRUE)
         t_value<-round(t$statistic,3)
         df<-round(t$parameter,2)
-        Pvalue<-round(t$p.value,3)
+        Pvalue<-round(t$p.value,6)
         alt.Hypothesis<-t$alternative
         result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
@@ -122,7 +137,7 @@ if(input$req1 == 'ottest'){
                   mu = input$mu, na.omit=TRUE)
         t_value<-round(t$statistic,3)
         df<-round(t$parameter,2)
-        Pvalue<-round(t$p.value,3)
+        Pvalue<-round(t$p.value,6)
         alt.Hypothesis<-t$alternative
         result<-cbind(t_value,df,Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
@@ -156,7 +171,7 @@ if(input$req1 == 'ftest'){
                  alternative = input$alt)
         F_value<-round(f$statistic,3)
         df<-as.data.frame(f$parameter)
-        Pvalue<-round(f$p.value,3)
+        Pvalue<-round(f$p.value,6)
         alt.Hypothesis<-f$alternative
         result<-cbind(F_value,t(df),Pvalue,alt.Hypothesis)
         result<-as.data.frame(result)
@@ -188,13 +203,13 @@ if(input$req1 == 'pttest'){
       grp2<- subset(csvfile(),select=input$ivar)
       final<-cbind(grp1,grp2)
       ttest <- t.test(final[,1], final[,2], paired = TRUE, alternative = input$alt)
-      tvalue<-ttest$statistic
+      tvalue<-round(ttest$statistic,3)
       df<-ttest$parameter
-      pvalue<-ttest$p.value
-      meandiff<-ttest$estimate
+      pvalue<-round(ttest$p.value,6)
+      meandiff<-round(ttest$estimate,3)
       result1<-cbind(tvalue,df,pvalue,meandiff)
       row.names(result1)<-NULL
-       kable(round(result1,3),caption = "Paired t test",row.names = FALSE) %>% kable_styling() %>% kable_paper("hover", full_width = F)
+       kable(result1,caption = "Paired t test",row.names = FALSE) %>% kable_styling() %>% kable_paper("hover", full_width = F)
       }
 }
 h3("")
