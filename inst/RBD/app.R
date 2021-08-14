@@ -6,6 +6,7 @@ library(shinyWidgets)
 library(dplyr)
 library(rmarkdown)
 library(RColorBrewer)
+library(gtools)
 
 ui <- fluidPage(
   setBackgroundColor(
@@ -196,6 +197,7 @@ server <- function(input, output, session) {
         result <- as.data.frame(anova(anvaTable))
         out <- agricolae::LSD.test(csvfile()[, input$yield], csvfile()[, input$treatment], result[3, 1], result[3, 3])
         trtmeans <- out$means
+        trtmeans <- trtmeans[gtools::mixedsort(row.names(trtmeans)), ]
         colnames(trtmeans)[1] <- "Treatment_means"
         drops <- c("r", "Q25", "Q50", "Q75")
         trtmeans[, !(names(trtmeans) %in% drops)]
@@ -703,21 +705,6 @@ server <- function(input, output, session) {
     }
     if (input$plotreq == "boxplot") {
       if (input$submit > 0) {
-        validate(
-          need(input$treatment != input$yield, "Warning 1: Both input variables selected (Treatment and response) are same. Choose Treatment and response correctly for meaningful result")
-        )
-        validate(
-          need(input$treatment != input$Replication, "Warning 1: Both input variables selected (Treatment and Replication) are same. Choose Treatment and Replication correctly for meaningful result")
-        )
-        validate(
-          need(input$yield != input$Replication, "Warning 1: Both input variables selected (Replication and response) are same. Choose Replication and response correctly for meaningful result")
-        )
-        validate(
-          need(input$trt != 0, "")
-        )
-        validate(
-          need(input$rep != 0, "")
-        )
         list(
           textInput("xlab", "Enter required x-axis label", "X-axis"),
           textInput("ylab", "Enter required y-axis label", "Y-axis"),
@@ -754,23 +741,8 @@ server <- function(input, output, session) {
         )
       }
     }
-    else if (input$plotreq == "barchart"|| input$plotreq == "bcg") {
+    else if (input$plotreq == "barchart") {
       if (input$submit > 0) {
-        validate(
-          need(input$treatment != input$yield, "Warning 1: Both input variables selected (Treatment and response) are same. Choose Treatment and response correctly for meaningful result")
-        )
-        validate(
-          need(input$treatment != input$Replication, "Warning 1: Both input variables selected (Treatment and Replication) are same. Choose Treatment and Replication correctly for meaningful result")
-        )
-        validate(
-          need(input$yield != input$Replication, "Warning 1: Both input variables selected (Replication and response) are same. Choose Replication and response correctly for meaningful result")
-        )
-        validate(
-          need(input$trt != 0, "")
-        )
-        validate(
-          need(input$rep != 0, "")
-        )
         list(
           textInput("xlab", "Enter required x-axis label", "X-axis"),
           textInput("ylab", "Enter required y-axis label", "Y-axis"),
@@ -799,10 +771,61 @@ server <- function(input, output, session) {
             min = 10, max = 20, value = 10
           ),
           sliderInput("trans", "colour Transparency of bar:",
-                      min = 0.1, max = 1, value = 1
+            min = 0.1, max = 1, value = 1
           ),
           sliderInput("trans1", "colour Transparency of error bar:",
-                      min = 0, max = 1, value = 1
+            min = 0, max = 1, value = 1
+          ),
+          checkboxInput(
+            "grey",
+            "Convert the plot to grey scale", FALSE
+          ),
+          actionBttn(
+            inputId = "submit1",
+            label = "Click here to draw",
+            color = "success",
+            style = "stretch"
+          )
+        )
+      }
+    }
+    else if (input$plotreq == "bcg") {
+      if (input$submit > 0) {
+        list(
+          textInput("xlab", "Enter required x-axis label", "X-axis"),
+          textInput("ylab", "Enter required y-axis label", "Y-axis"),
+          textInput("title", "Enter required Title", "title"),
+          selectInput(
+            "col1", "Select colour pattern",
+            c(
+              "Pattern 1" = "Dark2",
+              "Pattern 2" = "Set2",
+              "Pattern 3" = "Set3",
+              "Pattern 4" = "Accent",
+              "Pattern 5" = "Set1"
+            ),
+            "Dark2"
+          ),
+          sliderInput("width1", "Required width of the bar:",
+            min = 0.1, max = 1, value = 0.5
+          ),
+          sliderInput("width2", "Required width of error bar:",
+            min = 0.1, max = 1, value = 0.2
+          ),
+          sliderInput("width3", "X-axis label size:",
+            min = 10, max = 20, value = 10
+          ),
+          sliderInput("width4", "Y-axis label size:",
+            min = 10, max = 20, value = 10
+          ),
+          sliderInput("trans", "colour Transparency of bar:",
+            min = 0.1, max = 1, value = 1
+          ),
+          sliderInput("trans1", "colour Transparency of error bar:",
+            min = 0, max = 1, value = 1
+          ),
+          sliderInput("width5", "Font label size of grouping letters:",
+            min = 1.5, max = 6.5, value = 3.5
           ),
           checkboxInput(
             "grey",
@@ -869,7 +892,7 @@ server <- function(input, output, session) {
       }
     }
 
-    else if (input$plotreq == "barchart"|| input$plotreq == "bcg") {
+    else if (input$plotreq == "barchart" || input$plotreq == "bcg") {
       if (input$submit1 > 0) {
         list(downloadButton("downloadImage2",
           label = "Download Barchart", class = "butt1"
@@ -952,15 +975,15 @@ server <- function(input, output, session) {
 
     else if (input$plotreq == "barchart") {
       if (input$submit1 > 0) {
-        d=as.data.frame(csvfile())
-        r=as.numeric(input$rep)
-        t=as.numeric(input$trt)
-        response=d[,input$yield]
-        treatment=d[,input$treatment]
-        replication=d[,input$Replication]
-        treatment=factor(treatment)
-        replication=factor(replication)
-        anvaTable=lm(response~treatment+replication)
+        d <- as.data.frame(csvfile())
+        r <- as.numeric(input$rep)
+        t <- as.numeric(input$trt)
+        response <- d[, input$yield]
+        treatment <- d[, input$treatment]
+        replication <- d[, input$Replication]
+        treatment <- factor(treatment)
+        replication <- factor(replication)
+        anvaTable <- lm(response ~ treatment + replication)
         result <- as.data.frame(stats::anova(anvaTable))
         out <- agricolae::LSD.test(
           d[, input$yield],
@@ -984,7 +1007,9 @@ server <- function(input, output, session) {
           "treatment", "Response", "std.er",
           "group", "ic"
         )
-        Treatments <- as.factor(d$treatment)
+        # arrange treatments inorder during plotting
+        d <- d[gtools::mixedorder(d$treatment), ]
+        Treatments <- factor(d$treatment, levels = d$treatment)
         nb.cols <- as.numeric(input$trt + 2)
         mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
 
@@ -997,9 +1022,10 @@ server <- function(input, output, session) {
               alpha = input$trans, width = input$width1
             ) +
             geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
-                          width = input$width2, colour = "black", alpha = input$trans1,
-                          size = 0.5
+              width = input$width2, colour = "black", alpha = input$trans1,
+              size = 0.5
             ) +
+            scale_x_discrete(labels=unique(d$treatment))+
             ggtitle(input$title) +
             scale_fill_grey(start = 0.3, end = .9) +
             scale_y_continuous(expand = expansion(mult = c(0, .3))) +
@@ -1020,9 +1046,10 @@ server <- function(input, output, session) {
               position = position_dodge(width = 1),
               alpha = input$trans, width = input$width1
             ) +
+            scale_x_discrete(labels=unique(d$treatment))+
             geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
-                          width = input$width2, colour = "black", alpha = input$trans1,
-                          size = 0.5
+              width = input$width2, colour = "black", alpha = input$trans1,
+              size = 0.5
             ) +
             labs(x = input$xlab, y = input$ylab) +
             ggtitle(input$title) +
@@ -1042,15 +1069,15 @@ server <- function(input, output, session) {
     }
     else if (input$plotreq == "bcg") {
       if (input$submit1 > 0) {
-        d=as.data.frame(csvfile())
-        r=as.numeric(input$rep)
-        t=as.numeric(input$trt)
-        response=d[,input$yield]
-        treatment=d[,input$treatment]
-        replication=d[,input$Replication]
-        treatment=factor(treatment)
-        replication=factor(replication)
-        anvaTable=lm(response~treatment+replication)
+        d <- as.data.frame(csvfile())
+        r <- as.numeric(input$rep)
+        t <- as.numeric(input$trt)
+        response <- d[, input$yield]
+        treatment <- d[, input$treatment]
+        replication <- d[, input$Replication]
+        treatment <- factor(treatment)
+        replication <- factor(replication)
+        anvaTable <- lm(response ~ treatment + replication)
         result <- as.data.frame(stats::anova(anvaTable))
         out <- agricolae::LSD.test(
           d[, input$yield],
@@ -1074,7 +1101,8 @@ server <- function(input, output, session) {
           "treatment", "Response", "std.er",
           "group", "ic"
         )
-        Treatments <- as.factor(d$treatment)
+        d <- d[gtools::mixedorder(d$treatment), ]
+        Treatments <- factor(d$treatment, levels = d$treatment)
         nb.cols <- as.numeric(input$trt + 2)
         mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
 
@@ -1087,10 +1115,12 @@ server <- function(input, output, session) {
               alpha = input$trans, width = input$width1
             ) +
             geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
-                          width = input$width2, colour = "black", alpha = input$trans1,
-                          size = 0.5
+              width = input$width2, colour = "black", alpha = input$trans1,
+              size = 0.5
             ) +
-            geom_text(aes(label = group, y = Response + ic), vjust = -0.5) +
+            scale_x_discrete(labels = unique(d$treatment))+
+            geom_text(aes(label = group, y = Response + ic), vjust = -0.5,
+                      size=input$width5) +
             labs(x = input$xlab, y = input$ylab) +
             ggtitle(input$title) +
             scale_fill_grey(start = 0.3, end = .9) +
@@ -1114,10 +1144,12 @@ server <- function(input, output, session) {
               alpha = input$trans, width = input$width1
             ) +
             geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
-                          width = input$width2, colour = "black", alpha = input$trans1,
-                          size = 0.5
+              width = input$width2, colour = "black", alpha = input$trans1,
+              size = 0.5
             ) +
-            geom_text(aes(label = group, y = Response + ic), vjust = -0.5) +
+            scale_x_discrete(labels = unique(d$treatment))+
+            geom_text(aes(label = group, y = Response + ic), vjust = -0.5,
+                      size=input$width5) +
             labs(x = input$xlab, y = input$ylab) +
             ggtitle(input$title) +
             scale_fill_manual(values = mycolors) +

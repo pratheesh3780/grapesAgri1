@@ -8,6 +8,7 @@ library(Hmisc)
 library(agricolae)
 library(RColorBrewer)
 library(ggpubr)
+library(gtools)
 
 
 ui <- fluidPage(
@@ -108,6 +109,7 @@ ui <- fluidPage(
         tags$br(),
         uiOutput("start_note3"),
         plotOutput("boxplot"),
+        uiOutput("plot_note3"),
         tags$br(),
         tags$br(),
         uiOutput("image_down"), # image to download
@@ -202,6 +204,7 @@ server <- function(input, output, session) {
         result <- as.data.frame(stats::anova(anvaTable))
         out <- agricolae::LSD.test(csvfile()[, input$yield], csvfile()[, input$treatment], result[2, 1], result[2, 3])
         trtmeans <- out$means
+        trtmeans <- trtmeans[ gtools::mixedsort(row.names(trtmeans)), ]
         colnames(trtmeans)[1] <- "Treatment_means"
         drops <- c("r", "Q25", "Q50", "Q75")
         trtmeans[, !(names(trtmeans) %in% drops)]
@@ -677,7 +680,7 @@ server <- function(input, output, session) {
         )
       }
     }
-    else if (input$plotreq == "barchart" || input$plotreq == "bcg") {
+    else if (input$plotreq == "barchart" ) {
       if (input$submit > 0) {
         list(
           textInput("xlab", "Enter required x-axis label", "X-axis"),
@@ -695,22 +698,73 @@ server <- function(input, output, session) {
             "Dark2"
           ),
           sliderInput("width1", "Required width of the bar:",
-            min = 0.1, max = 1, value = 0.5
+                      min = 0.1, max = 1, value = 0.5
           ),
           sliderInput("width2", "Required width of error bar:",
-            min = 0.1, max = 1, value = 0.2
+                      min = 0.1, max = 1, value = 0.2
           ),
           sliderInput("width3", "X-axis label size:",
-            min = 10, max = 20, value = 10
+                      min = 10, max = 20, value = 10
           ),
           sliderInput("width4", "Y-axis label size:",
-            min = 10, max = 20, value = 10
+                      min = 10, max = 20, value = 10
           ),
           sliderInput("trans", "colour Transparency of bar:",
-            min = 0.1, max = 1, value = 1
+                      min = 0.1, max = 1, value = 1
           ),
           sliderInput("trans1", "colour Transparency of error bar:",
-            min = 0, max = 1, value = 1
+                      min = 0, max = 1, value = 1
+          ),
+          checkboxInput(
+            "grey",
+            "Convert the plot to grey scale", FALSE
+          ),
+          actionBttn(
+            inputId = "submit1",
+            label = "Click here to draw",
+            color = "success",
+            style = "stretch"
+          )
+        )
+      }
+    }
+    else if (input$plotreq == "bcg") {
+      if (input$submit > 0) {
+        list(
+          textInput("xlab", "Enter required x-axis label", "X-axis"),
+          textInput("ylab", "Enter required y-axis label", "Y-axis"),
+          textInput("title", "Enter required Title", "title"),
+          selectInput(
+            "col1", "Select colour pattern",
+            c(
+              "Pattern 1" = "Dark2",
+              "Pattern 2" = "Set2",
+              "Pattern 3" = "Set3",
+              "Pattern 4" = "Accent",
+              "Pattern 5" = "Set1"
+            ),
+            "Dark2"
+          ),
+          sliderInput("width1", "Required width of the bar:",
+                      min = 0.1, max = 1, value = 0.5
+          ),
+          sliderInput("width2", "Required width of error bar:",
+                      min = 0.1, max = 1, value = 0.2
+          ),
+          sliderInput("width3", "X-axis label size:",
+                      min = 10, max = 20, value = 10
+          ),
+          sliderInput("width4", "Y-axis label size:",
+                      min = 10, max = 20, value = 10
+          ),
+          sliderInput("trans", "colour Transparency of bar:",
+                      min = 0.1, max = 1, value = 1
+          ),
+          sliderInput("trans1", "colour Transparency of error bar:",
+                      min = 0, max = 1, value = 1
+          ),
+          sliderInput("width5", "Font label size of grouping letters:",
+                      min = 1.5, max = 6.5, value = 3.5
           ),
           checkboxInput(
             "grey",
@@ -789,212 +843,246 @@ server <- function(input, output, session) {
       return()
     }
 
-    if (input$plotreq == "boxplot") {
-      if (input$submit1 > 0) {
-        nb.cols <- as.numeric(input$trt + 2)
-        x <- as.matrix(csvfile()[, input$treatment])
-        y <- as.matrix(csvfile()[, input$yield])
-        my_data <- data.frame(
-          group = x,
-          obs = y
-        )
+    if (input$plotreq == "boxplot" && input$submit1 > 0) {
+      nb.cols <- as.numeric(input$trt + 2)
+      x <- as.matrix(csvfile()[, input$treatment])
+      y <- as.matrix(csvfile()[, input$yield])
+      my_data <- data.frame(
+        group = x,
+        obs = y
+      )
 
-        colnames(my_data) <- c("Treatments", "obs")
-        mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
-        if (input$grey_box > 0) {
-          p <- ggplot2::ggplot(
-            my_data,
-            aes(
-              x = Treatments, y = obs,
-              fill = Treatments
-            )
-          ) +
-            geom_boxplot(lwd = input$size) +
-            scale_fill_grey(start = 0.3, end = .9) +
-            theme_bw() +
-            labs(x = input$xlab, y = input$ylab) +
-            theme(
-              axis.text.x = element_text(
-                angle = 90,
-                size = input$size1,
-                hjust = 1
-              ),
-              axis.text.y = element_text(size = input$size2)
-            )
-          p
-        }
-        else {
-          p <- ggplot2::ggplot(
-            my_data,
-            aes(
-              x = Treatments, y = obs,
-              fill = Treatments
-            )
-          ) +
-            geom_boxplot(lwd = input$size) +
-            scale_fill_manual(values = mycolors) +
-            theme_bw() +
-            labs(x = input$xlab, y = input$ylab) +
-            theme(
-              axis.text.x = element_text(
-                angle = 90,
-                size = input$size1,
-                hjust = 1
-              ),
-              axis.text.y = element_text(size = input$size2)
-            )
-          p
-        }
+      colnames(my_data) <- c("Treatments", "obs")
+      #sorting x label
+      my_data$Treatments<-factor(my_data$Treatments, levels = unique(my_data$Treatments))
+      mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
+      if (input$grey_box > 0) {
+        p <- ggplot2::ggplot(
+          my_data,
+          aes(
+            x = Treatments, y = obs,
+            fill = Treatments
+          )
+        ) +
+          scale_x_discrete(labels=unique(my_data$Treatments))+
+          geom_boxplot(lwd = input$size) +
+          scale_fill_grey(start = 0.3, end = .9) +
+          theme_bw() +
+          labs(x = input$xlab, y = input$ylab) +
+          theme(
+            axis.text.x = element_text(
+              angle = 90,
+              size = input$size1,
+              hjust = 1
+            ),
+            axis.text.y = element_text(size = input$size2)
+          )
+        p
+      }
+      else {
+        p <- ggplot2::ggplot(
+          my_data,
+          aes(
+            x = Treatments, y = obs,
+            fill = Treatments
+          )
+        ) +
+          scale_x_discrete(labels=unique(my_data$Treatments))+
+          geom_boxplot(lwd = input$size) +
+          scale_fill_manual(values = mycolors) +
+          theme_bw() +
+          labs(x = input$xlab, y = input$ylab) +
+          theme(
+            axis.text.x = element_text(
+              angle = 90,
+              size = input$size1,
+              hjust = 1
+            ),
+            axis.text.y = element_text(size = input$size2)
+          )
+        p
       }
     }
 
-    else if (input$plotreq == "barchart") {
-      if (input$submit1 > 0) {
-        d <- as.data.frame(csvfile())
-        treatment <- as.factor(d[, input$treatment])
+    else if (input$plotreq == "barchart" && input$submit1 > 0) {
 
-        nb.cols <- as.numeric(input$trt + 2)
-        mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
+      d <- as.data.frame(csvfile())
+      t <- as.numeric(input$trt)
+      response <- d[, input$yield]
+      treatment <- d[, input$treatment]
+      treatment <- factor(treatment)
+      anvaTable <- lm(response ~ treatment)
+      result <- as.data.frame(stats::anova(anvaTable))
+      out <- agricolae::LSD.test(
+        d[, input$yield],
+        d[, input$treatment],
+        result[2, 1], result[2, 3]
+      )
+      d1 <- out$means
+      alpha <- 0.05
+      t <- qt(alpha / 2, result[2, 1], lower.tail = FALSE) # tvalue
+      d1$std_er <- d1$std / (sqrt(d1$r))
+      drops <- c(
+        "r", "Q25", "Q50", "Q75",
+        "Max", "Min", "LCL", "UCL", "r", "std"
+      )
+      d1 <- d1[, !(names(d1) %in% drops)]
+      d2 <- out$groups
+      d <- merge(d1, d2, by = 0, all = TRUE)
+      d <- d[-4]
+      d$ic <- t * d$std_er
+      colnames(d) <- c(
+        "treatment", "Response", "std.er",
+        "group", "ic"
+      )
+      # arrange treatments inorder during plotting
+      d <- d[gtools::mixedorder(d$treatment), ]
+      Treatments <- factor(d$treatment, levels = d$treatment)
+      nb.cols <- as.numeric(input$trt + 2)
+      mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
 
-        if (input$grey > 0) {
-          p <- ggplot2::ggplot(data = d, aes(
-            x = d[, input$treatment],
-            y = d[, input$yield], fill = treatment
-          )) +
-            stat_summary(
-              fun = mean, geom = "bar", width = input$width1,
-              alpha = input$trans
-            ) +
-            stat_summary(
-              fun.data = mean_cl_normal,
-              geom = "errorbar", width = input$width2,
-              alpha = input$trans1
-            ) +
-            labs(x = input$xlab, y = input$ylab) +
-            ggtitle(input$title) +
-            scale_fill_grey(start = 0.3, end = .9) +
-            theme_bw() +
-            theme(
-              plot.title = element_text(size = 22, hjust = 0.5), axis.text.x = element_text(angle = 90, size = input$width3, hjust = 1),
-              axis.text.y = element_text(size = input$width4)
-            )
-          p
-        }
-        else {
-          p <- ggplot2::ggplot(data = d, aes(
-            x = d[, input$treatment],
-            y = d[, input$yield], fill = treatment
-          )) +
-            stat_summary(
-              fun = mean, geom = "bar", width = input$width1,
-              alpha = input$trans
-            ) +
-            stat_summary(
-              fun.data = mean_cl_normal,
-              geom = "errorbar", width = input$width2,
-              alpha = input$trans1
-            ) +
-            labs(x = input$xlab, y = input$ylab) +
-            ggtitle(input$title) +
-            scale_fill_manual(values = mycolors) +
-            theme_bw() +
-            theme(
-              plot.title = element_text(size = 22, hjust = 0.5), axis.text.x = element_text(angle = 90, size = input$width3, hjust = 1),
-              axis.text.y = element_text(size = input$width4)
-            )
-          p
-        }
+      if (input$grey > 0) {
+        p <- ggplot(d, aes(x = as.factor(treatment), y = Response, fill = Treatments)) +
+          geom_bar(
+            stat = "identity",
+            position = position_dodge(width = 1),
+            alpha = input$trans, width = input$width1
+          ) +
+          geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
+                        width = input$width2, colour = "black", alpha = input$trans1,
+                        size = 0.5
+          ) + scale_x_discrete(labels=unique(d$treatment))+
+          labs(x = input$xlab, y = input$ylab) +
+          ggtitle(input$title) +
+          scale_fill_grey(start = 0.3, end = .9) +
+          scale_y_continuous(expand = expansion(mult = c(0, .3))) +
+          theme_bw() +
+          theme(
+            plot.title = element_text(size = 22, hjust = 0.5),
+            axis.text.x = element_text(angle = 90, hjust = 1, size = input$width3),
+            axis.text.y = element_text(size = input$width4)
+          )
+        p
+      }
+      else {
+
+        p <- ggplot(d, aes(x = as.factor(treatment), y = Response, fill = Treatments)) +
+          geom_bar(
+            stat = "identity",
+            position = position_dodge(width = 1),
+            alpha = input$trans, width = input$width1
+          ) +
+          geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
+                        width = input$width2, colour = "black", alpha = input$trans1,
+                        size = 0.5
+          ) +  scale_x_discrete(labels = unique(d$treatment))+
+          labs(x = input$xlab, y = input$ylab) +
+          ggtitle(input$title) +
+          scale_fill_manual(values = mycolors) +
+          scale_y_continuous(expand = expansion(mult = c(0, .3))) +
+          theme_bw() +
+          theme(
+            plot.title = element_text(size = 22, hjust = 0.5),
+            axis.text.x = element_text(angle = 90, hjust = 1, size = input$width3),
+            axis.text.y = element_text(size = input$width4)
+          )
+
+
+        p
       }
     }
-    else if (input$plotreq == "bcg") {
-      if (input$submit1 > 0) {
-        d <- as.data.frame(csvfile())
-        t <- as.numeric(input$trt)
-        response <- d[, input$yield]
-        treatment <- d[, input$treatment]
-        treatment <- factor(treatment)
-        anvaTable <- lm(response ~ treatment)
-        result <- as.data.frame(stats::anova(anvaTable))
-        out <- agricolae::LSD.test(
-          d[, input$yield],
-          d[, input$treatment],
-          result[2, 1], result[2, 3]
-        )
-        d1 <- out$means
-        alpha <- 0.05
-        t <- qt(alpha / 2, result[2, 1], lower.tail = FALSE) # tvalue
-        d1$std_er <- d1$std / (sqrt(d1$r))
-        drops <- c(
-          "r", "Q25", "Q50", "Q75",
-          "Max", "Min", "LCL", "UCL", "r", "std"
-        )
-        d1 <- d1[, !(names(d1) %in% drops)]
-        d2 <- out$groups
-        d <- merge(d1, d2, by = 0, all = TRUE)
-        d <- d[-4]
-        d$ic <- t * d$std_er
-        colnames(d) <- c(
-          "treatment", "Response", "std.er",
-          "group", "ic"
-        )
-        Treatments <- as.factor(d$treatment)
-        nb.cols <- as.numeric(input$trt + 2)
-        mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
+    else if (input$plotreq == "bcg" && input$submit1>0) {
+      d <- as.data.frame(csvfile())
+      t <- as.numeric(input$trt)
+      response <- d[, input$yield]
+      treatment <- d[, input$treatment]
+      treatment <- factor(treatment)
+      anvaTable <- lm(response ~ treatment)
+      result <- as.data.frame(stats::anova(anvaTable))
+      out <- agricolae::LSD.test(
+        d[, input$yield],
+        d[, input$treatment],
+        result[2, 1], result[2, 3]
+      )
+      d1 <- out$means
+      alpha <- 0.05
+      t <- qt(alpha / 2, result[2, 1], lower.tail = FALSE) # tvalue
+      d1$std_er <- d1$std / (sqrt(d1$r))
+      drops <- c(
+        "r", "Q25", "Q50", "Q75",
+        "Max", "Min", "LCL", "UCL", "r", "std"
+      )
+      d1 <- d1[, !(names(d1) %in% drops)]
+      d2 <- out$groups
+      d <- merge(d1, d2, by = 0, all = TRUE)
+      d <- d[-4]
+      d$ic <- t * d$std_er
+      colnames(d) <- c(
+        "treatment", "Response", "std.er",
+        "group", "ic"
+      )
+      d <- d[gtools::mixedorder(d$treatment), ]
+      Treatments <- factor(d$treatment, levels = d$treatment)
+      nb.cols <- as.numeric(input$trt + 2)
+      mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
 
-        # plotting
-        if (input$grey > 0) {
-          p <- ggplot(d, aes(x = as.factor(treatment), y = Response, fill = Treatments)) +
-            geom_bar(
-              stat = "identity",
-              position = position_dodge(width = 1),
-              alpha = input$trans, width = input$width1
-            ) +
-            geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
-                          width = input$width2, colour = "black", alpha = input$trans1,
-                          size = 0.5
-            ) +
-            geom_text(aes(label = group, y = Response + ic), vjust = -0.5) +
-            labs(x = input$xlab, y = input$ylab) +
-            ggtitle(input$title) +
-            scale_fill_grey(start = 0.3, end = .9) +
-            scale_y_continuous(expand = expansion(mult = c(0, .3))) +
-            theme_bw() +
-            theme(
-              plot.title = element_text(size = 22, hjust = 0.5),
-              axis.text.x = element_text(angle = 90, hjust = 1, size = input$width3),
-              axis.text.y = element_text(size = input$width4)
-            )
-
-
-          p
-        }
-
-        else {
-          p <- ggplot(d, aes(x = as.factor(treatment), y = Response, fill = Treatments)) +
-            geom_bar(
-              stat = "identity",
-              position = position_dodge(width = 1),
-              alpha = input$trans, width = input$width1
-            ) +
-            geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
-                          width = input$width2, colour = "black", alpha = input$trans1,
-                          size = 0.5
-            ) +
-            geom_text(aes(label = group, y = Response + ic), vjust = -0.5) +
-            labs(x = input$xlab, y = input$ylab) +
-            ggtitle(input$title) +
-            scale_fill_manual(values = mycolors) +
-            scale_y_continuous(expand = expansion(mult = c(0, .3))) +
-            theme_bw() +
-            theme(
-              plot.title = element_text(size = 22, hjust = 0.5),
-              axis.text.x = element_text(angle = 90, hjust = 1, size = input$width3),
-              axis.text.y = element_text(size = input$width4)
-            )
+      # plotting
+      if (input$grey > 0) {
+        p <- ggplot(d, aes(x = as.factor(treatment), y = Response, fill = Treatments)) +
+          geom_bar(
+            stat = "identity",
+            position = position_dodge(width = 1),
+            alpha = input$trans, width = input$width1
+          ) +
+          geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
+                        width = input$width2, colour = "black", alpha = input$trans1,
+                        size = 0.5
+          ) +
+          scale_x_discrete(labels = unique(d$treatment))+
+          geom_text(aes(label = group, y = Response + ic), vjust = -0.5,
+                    size=input$width5) +
+          labs(x = input$xlab, y = input$ylab) +
+          ggtitle(input$title) +
+          scale_fill_grey(start = 0.3, end = .9) +
+          scale_y_continuous(expand = expansion(mult = c(0, .3))) +
+          theme_bw() +
+          theme(
+            plot.title = element_text(size = 22, hjust = 0.5),
+            axis.text.x = element_text(angle = 90, hjust = 1, size = input$width3),
+            axis.text.y = element_text(size = input$width4)
+          )
 
 
-          p
-        }
+        p
+      }
+
+      else {
+        p <- ggplot(d, aes(x = as.factor(treatment), y = Response, fill = Treatments)) +
+          geom_bar(
+            stat = "identity",
+            position = position_dodge(width = 1),
+            alpha = input$trans, width = input$width1
+          ) +
+          geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
+                        width = input$width2, colour = "black", alpha = input$trans1,
+                        size = 0.5
+          ) +
+          scale_x_discrete(labels = unique(d$treatment))+
+          geom_text(aes(label = group, y = Response + ic), vjust = -0.5,
+                    size=input$width5) +
+          labs(x = input$xlab, y = input$ylab) +
+          ggtitle(input$title) +
+          scale_fill_manual(values = mycolors) +
+          scale_y_continuous(expand = expansion(mult = c(0, .3))) +
+          theme_bw() +
+          theme(
+            plot.title = element_text(size = 22, hjust = 0.5),
+            axis.text.x = element_text(angle = 90, hjust = 1, size = input$width3),
+            axis.text.y = element_text(size = input$width4)
+          )
+
+
+        p
       }
     }
   })
@@ -1138,6 +1226,32 @@ server <- function(input, output, session) {
       return()
     }
   })
-}
+
+
+  output$plot_note3 <- renderUI({
+    if (is.null(input$file1$datapath)) {
+      return()
+    }
+    if (is.null(input$plotreq)) {
+      return()
+    }
+    if (is.null(input$submit1)) {
+      return()
+    }
+    if (input$plotreq == "bcg") {
+      if (input$submit1 > 0) {
+        return(
+          HTML(paste0(
+            "<b>Note:</b> Grouping is based on LSD test.
+            <p>Treatments with same letters are not significantly different at 5% level.</p>
+        "
+          ))
+        )
+      }
+    }
+  })
+
+
+  }
 
 shinyApp(ui = ui, server = server)
