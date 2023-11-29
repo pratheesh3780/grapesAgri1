@@ -11,6 +11,7 @@ library(corrplot)
 library(Hmisc)
 library(magrittr)
 library(kableExtra)
+library(rmarkdown)
 ```
 ## RESULT
 CORRELATION ANALYSIS 

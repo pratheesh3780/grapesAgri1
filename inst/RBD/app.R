@@ -199,7 +199,7 @@ server <- function(input, output, session) {
         trtmeans <- out$means
         trtmeans <- trtmeans[gtools::mixedsort(row.names(trtmeans)), ]
         colnames(trtmeans)[1] <- "Treatment_means"
-        drops <- c("r", "Q25", "Q50", "Q75")
+        drops <- c("r", "Q25", "Q50", "Q75","se")
         trtmeans[, !(names(trtmeans) %in% drops)]
       }
     },
@@ -925,6 +925,8 @@ server <- function(input, output, session) {
         )
 
         colnames(my_data) <- c("Treatments", "obs")
+        #sorting x label
+        my_data$Treatments<-factor(my_data$Treatments, levels = unique(my_data$Treatments))
         mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
         if (input$grey_box > 0) {
           p <- ggplot2::ggplot(
@@ -975,15 +977,15 @@ server <- function(input, output, session) {
 
     else if (input$plotreq == "barchart") {
       if (input$submit1 > 0) {
-        d <- as.data.frame(csvfile())
-        r <- as.numeric(input$rep)
-        t <- as.numeric(input$trt)
-        response <- d[, input$yield]
-        treatment <- d[, input$treatment]
-        replication <- d[, input$Replication]
-        treatment <- factor(treatment)
-        replication <- factor(replication)
-        anvaTable <- lm(response ~ treatment + replication)
+        d=as.data.frame(csvfile())
+        r=as.numeric(input$rep)
+        t=as.numeric(input$trt)
+        response=d[,input$yield]
+        treatment=d[,input$treatment]
+        replication=d[,input$Replication]
+        treatment=factor(treatment)
+        replication=factor(replication)
+        anvaTable=lm(response~treatment+replication)
         result <- as.data.frame(stats::anova(anvaTable))
         out <- agricolae::LSD.test(
           d[, input$yield],
@@ -996,7 +998,7 @@ server <- function(input, output, session) {
         d1$std_er <- d1$std / (sqrt(d1$r))
         drops <- c(
           "r", "Q25", "Q50", "Q75",
-          "Max", "Min", "LCL", "UCL", "r", "std"
+          "Max", "Min", "LCL", "UCL", "r", "std","se"
         )
         d1 <- d1[, !(names(d1) %in% drops)]
         d2 <- out$groups
@@ -1004,28 +1006,28 @@ server <- function(input, output, session) {
         d <- d[-4]
         d$ic <- t * d$std_er
         colnames(d) <- c(
-          "treatment", "Response", "std.er",
+          "Treatments", "Response", "std.er",
           "group", "ic"
         )
         # arrange treatments inorder during plotting
-        d <- d[gtools::mixedorder(d$treatment), ]
-        Treatments <- factor(d$treatment, levels = d$treatment)
+        d <- d[gtools::mixedorder(d$Treatments), ]
+        d$Treatments<-factor(d$Treatments, levels = unique(d$Treatments))
         nb.cols <- as.numeric(input$trt + 2)
         mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
 
 
         if (input$grey > 0) {
-          p <- ggplot(d, aes(x = as.factor(treatment), y = Response, fill = Treatments)) +
+          p <- ggplot(d, aes(x = Treatments, y = Response, fill = Treatments)) +
             geom_bar(
               stat = "identity",
               position = position_dodge(width = 1),
               alpha = input$trans, width = input$width1
             ) +
             geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
-              width = input$width2, colour = "black", alpha = input$trans1,
-              size = 0.5
+                          width = input$width2, colour = "black", alpha = input$trans1,
+                          size = 0.5
             ) +
-            scale_x_discrete(labels=unique(d$treatment))+
+            scale_x_discrete(labels=unique(d$Treatments))+
             ggtitle(input$title) +
             scale_fill_grey(start = 0.3, end = .9) +
             scale_y_continuous(expand = expansion(mult = c(0, .3))) +
@@ -1040,17 +1042,17 @@ server <- function(input, output, session) {
           p
         }
         else {
-          p <- ggplot(d, aes(x = as.factor(treatment), y = Response, fill = Treatments)) +
+          p <- ggplot(d, aes(x = Treatments, y = Response, fill = Treatments)) +
             geom_bar(
               stat = "identity",
               position = position_dodge(width = 1),
               alpha = input$trans, width = input$width1
             ) +
-            scale_x_discrete(labels=unique(d$treatment))+
             geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
-              width = input$width2, colour = "black", alpha = input$trans1,
-              size = 0.5
+                          width = input$width2, colour = "black", alpha = input$trans1,
+                          size = 0.5
             ) +
+            scale_x_discrete(labels=unique(d$Treatments))+
             labs(x = input$xlab, y = input$ylab) +
             ggtitle(input$title) +
             scale_fill_manual(values = mycolors) +
@@ -1069,15 +1071,15 @@ server <- function(input, output, session) {
     }
     else if (input$plotreq == "bcg") {
       if (input$submit1 > 0) {
-        d <- as.data.frame(csvfile())
-        r <- as.numeric(input$rep)
-        t <- as.numeric(input$trt)
-        response <- d[, input$yield]
-        treatment <- d[, input$treatment]
-        replication <- d[, input$Replication]
-        treatment <- factor(treatment)
-        replication <- factor(replication)
-        anvaTable <- lm(response ~ treatment + replication)
+        d=as.data.frame(csvfile())
+        r=as.numeric(input$rep)
+        t=as.numeric(input$trt)
+        response=d[,input$yield]
+        treatment=d[,input$treatment]
+        replication=d[,input$Replication]
+        treatment=factor(treatment)
+        replication=factor(replication)
+        anvaTable=lm(response~treatment+replication)
         result <- as.data.frame(stats::anova(anvaTable))
         out <- agricolae::LSD.test(
           d[, input$yield],
@@ -1090,7 +1092,7 @@ server <- function(input, output, session) {
         d1$std_er <- d1$std / (sqrt(d1$r))
         drops <- c(
           "r", "Q25", "Q50", "Q75",
-          "Max", "Min", "LCL", "UCL", "r", "std"
+          "Max", "Min", "LCL", "UCL", "r", "std","se"
         )
         d1 <- d1[, !(names(d1) %in% drops)]
         d2 <- out$groups
@@ -1098,27 +1100,27 @@ server <- function(input, output, session) {
         d <- d[-4]
         d$ic <- t * d$std_er
         colnames(d) <- c(
-          "treatment", "Response", "std.er",
+          "Treatments", "Response", "std.er",
           "group", "ic"
         )
-        d <- d[gtools::mixedorder(d$treatment), ]
-        Treatments <- factor(d$treatment, levels = d$treatment)
+        d <- d[gtools::mixedorder(d$Treatments), ]
+        d$Treatments<-factor(d$Treatments, levels = unique(d$Treatments))
         nb.cols <- as.numeric(input$trt + 2)
         mycolors <- colorRampPalette(brewer.pal(8, input$col1))(nb.cols)
 
         # plotting
         if (input$grey > 0) {
-          p <- ggplot(d, aes(x = as.factor(treatment), y = Response, fill = Treatments)) +
+          p <- ggplot(d, aes(x = Treatments, y = Response, fill = Treatments)) +
             geom_bar(
               stat = "identity",
               position = position_dodge(width = 1),
               alpha = input$trans, width = input$width1
             ) +
             geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
-              width = input$width2, colour = "black", alpha = input$trans1,
-              size = 0.5
+                          width = input$width2, colour = "black", alpha = input$trans1,
+                          size = 0.5
             ) +
-            scale_x_discrete(labels = unique(d$treatment))+
+            scale_x_discrete(labels = unique(d$Treatments))+
             geom_text(aes(label = group, y = Response + ic), vjust = -0.5,
                       size=input$width5) +
             labs(x = input$xlab, y = input$ylab) +
@@ -1137,17 +1139,17 @@ server <- function(input, output, session) {
         }
 
         else {
-          p <- ggplot(d, aes(x = as.factor(treatment), y = Response, fill = Treatments)) +
+          p <- ggplot(d, aes(x = Treatments, y = Response, fill = Treatments)) +
             geom_bar(
               stat = "identity",
               position = position_dodge(width = 1),
               alpha = input$trans, width = input$width1
             ) +
             geom_errorbar(aes(ymin = Response - ic, ymax = Response + ic),
-              width = input$width2, colour = "black", alpha = input$trans1,
-              size = 0.5
+                          width = input$width2, colour = "black", alpha = input$trans1,
+                          size = 0.5
             ) +
-            scale_x_discrete(labels = unique(d$treatment))+
+            scale_x_discrete(labels = unique(d$Treatments))+
             geom_text(aes(label = group, y = Response + ic), vjust = -0.5,
                       size=input$width5) +
             labs(x = input$xlab, y = input$ylab) +
@@ -1167,6 +1169,7 @@ server <- function(input, output, session) {
       }
     }
   })
+
 
   ###
   output$downloadImage1 <- downloadHandler(

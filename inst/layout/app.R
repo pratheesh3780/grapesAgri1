@@ -646,8 +646,14 @@ server <- function(input, output, session) {
       if (input$maintrt_split >= 2 && input$subtrt_split >= 2) {
         a <- input$maintrt_split
         b <- input$subtrt_split
-        minrep.req <- ((12 / ((b - 1) * a)) + 1)
-        HTML(paste0(tags$b(" minimum number of replication required is:", ceiling(minrep.req))))
+        minrepmain.req<-((6/((a-1)))+1)
+        minrep.req<-((12/((b-1)*a))+1)
+        if(a< 7){
+          HTML(paste0(tags$b(' minimum number of replication required is:',ceiling(minrepmain.req) )))
+        }
+        else if (a >=7){
+          HTML(paste0(tags$b(' minimum number of replication required is:',ceiling(minrep.req) )))
+        }
       }
     }
     else {

@@ -45,7 +45,7 @@ if (input$submit > 0) {
   trtmeans <- out$means
    trtmeans <- trtmeans[ gtools::mixedsort(row.names(trtmeans)), ]
   colnames(trtmeans)[1] <- "Treatment_means"
-  drops <- c("r", "Q25", "Q50", "Q75")
+  drops <- c("r", "Q25", "Q50", "Q75","se")
   trtmeans <- trtmeans[, !(names(trtmeans) %in% drops)]
   kable(trtmeans, caption = "Treatment mean and other statistics", digits = 3, align = "c", row.names = TRUE) %>% kable_styling() %>% kable_paper("hover", full_width = F)
 }
